@@ -1,7 +1,8 @@
 /* ===================== OGÓLNE USTAWIENIA ===================== */
 * {
    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
-   text-align: center; 
+  
+   text-align: left;
  }
  
  body {
@@ -12,6 +13,7 @@
  
  h1 {
    text-align: center;
+   
  }
  
  /* ===================== NAGŁÓWEK ===================== */
