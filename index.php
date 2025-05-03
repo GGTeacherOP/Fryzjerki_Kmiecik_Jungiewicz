@@ -28,7 +28,8 @@
             <img src="logo.png" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="o_salonie">
+    <main class="main">
+      <div class="o_salonie"> 
       <h2>O naszym salonie</h2>
       <p>Nasz salon fryzjerski to miejsce, gdzie pasja do pięknych włosów spotyka się z profesjonalizmem i dbałością o klienta. Zlokalizowany w Mielcu,
          nasz salon oferuje szeroki zakres usług fryzjerskich, dostosowanych do indywidualnych potrzeb i oczekiwań.</p>
@@ -39,6 +40,7 @@
            <p>W naszym salonie panuje przyjazna i relaksująca atmosfera. Dbamy o to, aby każdy klient czuł się u nas komfortowo i wyjątkowo.
              Oferujemy kawę, herbatę i miłą rozmowę, aby wizyta w naszym salonie była prawdziwą przyjemnością.</p>
              <h3>Zapraszamy do skorzystania z naszych usług i doświadczenia profesjonalnej obsługi w miłej atmosferze!</h3>
+</div>
     </main>
     <section class="obok_main"><img src="zdjecia/main.jpg"></section>
     <section class="galeria_zdjec">

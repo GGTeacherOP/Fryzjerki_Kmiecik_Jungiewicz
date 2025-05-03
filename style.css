@@ -101,7 +101,7 @@
  }
  
  /* ===================== GŁÓWNA CZĘŚĆ STRONY ===================== */
- main {
+ .main {
    background-color: rgb(219, 205, 182); 
    float: left;
    width: 80%;
@@ -181,4 +181,42 @@
  .miejsce {
    float: right;
  }
+  /* ===================== CENNIK ===================== */
+  .cennik{
+   width: 100%;
+   height: auto;
+   float: left;
+   background-color: rgb(219, 205, 182);
+   color: #524545;
+   text-align: center;
+  }
  
+  table {
+   width: 100%;
+   border-collapse: collapse;
+   margin: 20px 0;
+ }
+ 
+ /* Styl dla nagłówków sekcji */
+ .tabelka_cennik {
+   background-color: #f3e9e2;
+   font-weight: bold;
+   font-size: 18px;
+   text-align: center;
+   padding: 12px;
+ }
+ 
+ /* Styl dla komórek tabeli */
+ td {
+   padding: 10px;
+  
+   border: 1px solid #524545;
+   font-weight: bold;
+ 
+ }
+ 
+ /* Efekt zmiany koloru na hover*/
+ tr:hover {
+   background-color: #f2f2f2;
+   color: #524545;
+ }
