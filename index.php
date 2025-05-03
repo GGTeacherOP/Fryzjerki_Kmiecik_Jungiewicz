@@ -25,7 +25,7 @@
           </nav>
       </div>
         <div class="header3">
-            <img src="logo.png" alt="Logo Salonu Fryzjerskiego SigmaHair">
+            <img src="favicon.png" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
     <main class="main">
