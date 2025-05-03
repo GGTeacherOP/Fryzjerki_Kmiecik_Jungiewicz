@@ -23,7 +23,7 @@
           </nav>
       </div>
         <div class="header3">
-            <img src="favicon.png" alt="Logo Salonu Fryzjerskiego SigmaHair">
+            <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
     <main class="main">
@@ -31,11 +31,11 @@
       <h2>Zaloguj sie!</h2>
       <form action="/logowanie" method="post">
         <label for="email">Adres e-mail:</label>
-        <input type="email" id="email" name="email" >
+        <input type="email" id="email" name="email" placeholder="podaj email" >
         <br><br>
         
         <label for="haslo">Hasło:</label>
-        <input type="password" id="haslo" name="haslo" >
+        <input type="haslo" id="haslo" name="haslo" placeholder="podaj haslo">
         <br><br>
         
         <label for="rola">kim jestes?</label>
@@ -50,20 +50,8 @@
       
       </div>
     </main>
-    <section class="obok_main"><img src="zdjecia/main.jpg"></section>
-    <section class="galeria_zdjec">
-<h1>Zdjęcia naszego salonu i stylizacji</h1>
-<div class="galeria">
-<img src="zdjecia/1.jpg" >
-<img src="zdjecia/2.jpg" >
-<img src="zdjecia/3.jpg" >
-<img src="zdjecia/4.jpg" >
-<img src="zdjecia/5.jpg" >
-<img src="zdjecia/6.jpg" >
-<img src="zdjecia/7.jpg"  alt="zdjecie salonu">
-<img src="zdjecia/8.jpg" alt="zdjecie salonu" >
-</div>
-    </section>
+    <section class="obok_main"></section>
+    
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br>

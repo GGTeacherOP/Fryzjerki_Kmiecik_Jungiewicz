@@ -229,3 +229,11 @@
    background-color: #f2f2f2;
    color: #524545;
  }
+ .main_login{
+  background-image: url('tlo.jpg'); 
+   float: left;
+   width: 80%;
+   color: #524545;
+   height: 400px;
+
+ }

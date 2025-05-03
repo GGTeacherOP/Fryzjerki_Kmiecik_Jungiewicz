@@ -25,7 +25,7 @@
           </nav>
       </div>
         <div class="header3">
-            <img src="logo.png" alt="Logo Salonu Fryzjerskiego SigmaHair">
+            <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
     <main class="cennik">
@@ -97,19 +97,7 @@
 
 
        </main>
-    <section class="galeria_zdjec">
-<h1>Zdjęcia naszego salonu i stylizacji</h1>
-<div class="galeria">
-<img src="zdjecia/1.jpg" >
-<img src="zdjecia/2.jpg" >
-<img src="zdjecia/3.jpg" >
-<img src="zdjecia/4.jpg" >
-<img src="zdjecia/5.jpg" >
-<img src="zdjecia/6.jpg" >
-<img src="zdjecia/7.jpg"  alt="zdjecie salonu">
-<img src="zdjecia/8.jpg" alt="zdjecie salonu" >
-</div>
-    </section>
+    
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br>
