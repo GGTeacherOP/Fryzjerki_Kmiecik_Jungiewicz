@@ -141,11 +141,14 @@
    border: 2px solid #524545;
    border-radius: 30px;
    margin: auto;
+   opacity: 0.5;
+
  }
  
  .galeria img:hover {
    width: 365px;
    height: 215px; /* Powiększenie przy najechaniu */
+   opacity: 1;/*zdjecie ma pelna przejrzystosc*/
  }
  
  /* ===================== STOPKA ===================== */
