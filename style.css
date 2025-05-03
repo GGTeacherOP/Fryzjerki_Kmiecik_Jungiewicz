@@ -1,0 +1,184 @@
+/* ===================== OGÓLNE USTAWIENIA ===================== */
+* {
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+   text-align: center; 
+ }
+ 
+ body {
+   width: auto;
+   height: auto;
+   background-color: #524545; 
+ }
+ 
+ h1 {
+   text-align: center;
+ }
+ 
+ /* ===================== NAGŁÓWEK ===================== */
+ header {
+   background-color: #524545; 
+   padding: 10px;
+   color: rgb(219, 205, 182); 
+   height: 75px;
+   float: left;
+   width: 100%; 
+ }
+ 
+ .nazwa_salonu {
+   font-weight: 800; 
+ }
+ 
+ .header1 {
+   float: left;
+   width: 70%; 
+ }
+ 
+ .header2 {
+   position: relative;
+   float: left;
+   width: 10%; 
+ }
+ 
+ .header3 {
+   float: right;
+   width: 20%; 
+   font-size: large;
+ }
+ 
+ /* ===================== PRZYCISK MENU ===================== */
+ .menu {
+   background-color: #524545;
+   color: rgb(219, 205, 182);
+   border: none;
+   padding: 10px;
+   cursor: pointer;
+   display: block; /* Blokowy wygląd */
+   width: 100px;
+   height: 75px;
+   font-weight: 800;
+   font-size: large;
+ }
+ 
+ /* ===================== MENU ROZWIJANE ===================== */
+ .linki {
+   display: none; /* Ukryte domyślnie */
+   background-color: #524545;
+   color: rgb(219, 205, 182);
+   width: 100%;
+   overflow: hidden; /* Ukrywa zawartość wykraczającą poza max-height */
+   max-height: 0; /* Początkowa wysokość = 0 */
+   opacity: 0; /* Niewidoczne */
+   transition: max-height 0.5s ease, opacity 0.5s ease; /* Animacja rozwijania */
+ }
+ 
+ .linki.show,
+ .linki.active {
+   display: block;
+   max-height: 500px; 
+   opacity: 1; /* Widoczne */
+ }
+ 
+ .linki ul {
+   list-style-type: none; /* Bez kropek */
+   padding: 0;
+   margin: 0;
+ }
+ 
+ .linki ul li {
+   padding: 10px;
+   text-align: center;
+ }
+ 
+ .linki ul li a {
+   color: rgb(219, 205, 182);
+   text-decoration: none;
+   display: block;
+ }
+ 
+ .linki ul li a:hover {
+   background-color: rgb(192, 180, 161);
+   color: #524545;
+ }
+ 
+ /* ===================== GŁÓWNA CZĘŚĆ STRONY ===================== */
+ main {
+   background-color: rgb(219, 205, 182); 
+   float: left;
+   width: 80%;
+   color: #524545;
+   height: 400px;
+ }
+ 
+ .obok_main {
+   float: right;
+   width: 20%; 
+   background-color: rgb(219, 205, 182);
+   color: #524545;
+   height: 400px;
+ }
+ 
+ .obok_main img {
+   border: 2px solid #524545;
+   border-radius: 30px; /* Zaokrąglenie rogów */
+   height: 350px;
+ }
+ 
+ /* ===================== GALERIA ZDJĘĆ ===================== */
+ .galeria_zdjec {
+   float: left;
+   width: 100%;
+   background-color: rgb(192, 180, 161);
+   color: #524545;
+ }
+ 
+ .galeria {
+   padding-bottom: 15px;
+ }
+ 
+ .galeria img {
+   width: 350px;
+   height: 200px;
+   border: 2px solid #524545;
+   border-radius: 30px;
+   margin: auto;
+ }
+ 
+ .galeria img:hover {
+   width: 365px;
+   height: 215px; /* Powiększenie przy najechaniu */
+ }
+ 
+ /* ===================== STOPKA ===================== */
+ footer {
+   clear: both;
+   height: 450px;
+   width: 100%;
+   background-color: #524545;
+   color: rgb(219, 205, 182);
+ }
+ 
+ .kontakt {
+   list-style: none; /* Bez kropek */
+   text-align: center;
+ }
+ 
+ .dane_kontaktowe,
+ .godziny_otwarcia,
+ .miejsce {
+   float: left;
+   height: 500px;
+ }
+ 
+ .dane_kontaktowe,
+ .miejsce {
+   width: 35%; 
+ }
+ 
+ .godziny_otwarcia {
+   width: 30%; 
+ }
+ 
+ .miejsce {
+   float: right;
+ }
+ 
