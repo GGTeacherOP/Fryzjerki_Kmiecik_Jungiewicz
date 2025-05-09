@@ -29,6 +29,30 @@
     <main class="main">
       <div class="umow"> 
       <h2>umów sie na wizyte!</h2>
+      <label for="imie">Imię i nazwisko:</label><br>
+        <input type="text" id="imie" name="imie" required><br><br>
+
+        <label for="email">Adres e-mail:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="telefon">Numer telefonu:</label><br>
+        <input type="tel" id="telefon" name="telefon" required><br><br>
+
+        <label for="data">Data wizyty:</label><br>
+        <input type="date" id="data" name="data" required><br><br>
+
+        <label for="godzina">Godzina wizyty:</label><br>
+        <input type="time" id="godzina" name="godzina" required><br><br>
+
+        <label for="usluga">Wybierz usługę:</label><br>
+        <select id="usluga" name="usluga" required>
+            <option value="">-- Wybierz --</option>
+            <option value="manicure">Manicure</option>
+            <option value="pedicure">Pedicure</option>
+            <option value="oczyszczanie-twarzy">Oczyszczanie twarzy</option>
+            <option value="masaz">Masaż</option>
+            <option value="makijaz">Makijaż</option>
+        </select><br><br>
       
         
         <button type="submit">umów się na wizyte</button>
