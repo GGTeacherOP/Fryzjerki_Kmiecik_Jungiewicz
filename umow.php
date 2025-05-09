@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salon Fryzjerski SigmaHair</title>
+    <title>Logowanie</title>
     <link rel="stylesheet"  href="style.css">
-    <link rel="icon"  href="zdjecia/favicon.png">
 </head>
-<body>
-    <header>
+<header>
         <div class="header1">
             <h1 class="nazwa_salonu">Salon Fryzjerski SigmaHair</h1>
         </div>
@@ -29,33 +27,17 @@
         </div>
     </header>
     <main class="main">
-      <div class="o_salonie"> 
-      <h2>O naszym salonie</h2>
-      <p>Nasz salon fryzjerski to miejsce, gdzie pasja do pięknych włosów spotyka się z profesjonalizmem i dbałością o klienta. Zlokalizowany w Mielcu,
-         nasz salon oferuje szeroki zakres usług fryzjerskich, dostosowanych do indywidualnych potrzeb i oczekiwań.</p>
-         <h2>Nasi Fryzjerzy</h2>
-         <p>Nasz zespół to wykwalifikowani i doświadczeni fryzjerzy, którzy nieustannie podnoszą swoje kwalifikacje, uczestnicząc w szkoleniach i śledząc najnowsze trendy.
-           Zapewniamy indywidualne podejście do każdego klienta, doradzając i pomagając w doborze idealnej fryzury i koloru.</p>
-           <h2>Atmosfera</h2>
-           <p>W naszym salonie panuje przyjazna i relaksująca atmosfera. Dbamy o to, aby każdy klient czuł się u nas komfortowo i wyjątkowo.
-             Oferujemy kawę, herbatę i miłą rozmowę, aby wizyta w naszym salonie była prawdziwą przyjemnością.</p>
-             <h3>Zapraszamy do skorzystania z naszych usług i doświadczenia profesjonalnej obsługi w miłej atmosferze!</h3>
-</div>
+      <div class="umow"> 
+      <h2>umów sie na wizyte!</h2>
+      
+        
+        <button type="submit">umów się na wizyte</button>
+    </form>
+      
+      </div>
     </main>
-    <section class="obok_main"><img src="zdjecia/main.jpg"></section>
-    <section class="galeria_zdjec">
-<h1>Zdjęcia naszego salonu i stylizacji</h1>
-<div class="galeria">
-<img src="zdjecia/1.jpg" >
-<img src="zdjecia/2.jpg" >
-<img src="zdjecia/3.jpg" >
-<img src="zdjecia/4.jpg" >
-<img src="zdjecia/5.jpg" >
-<img src="zdjecia/6.jpg" >
-<img src="zdjecia/7.jpg"  alt="zdjecie salonu">
-<img src="zdjecia/8.jpg" alt="zdjecie salonu" >
-</div>
-    </section>
+    <section class="obok_main"></section>
+    
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br>

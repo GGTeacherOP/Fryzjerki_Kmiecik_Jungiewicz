@@ -18,7 +18,7 @@
                   <li><a href="cennik.php">Cennik</a></li>
                   <li><a href="login.php">Logowanie</a></li>
                   <li><a href="rejestrowanie.php">Rejestracja</a></li>
-                  <li><a href="rejestrowanie.php">Umów swoją wizytę</a></li>
+                  <li><a href="umow.php">Umów swoją wizytę</a></li>
               </ul>
           </nav>
       </div>
@@ -27,22 +27,15 @@
         </div>
     </header>
     <main class="main">
-      <div class="logowanie"> 
-      <h2>Zaloguj sie!</h2>
-      <form action="/logowanie" method="post">
+      <div class="rejestrowanie"> 
+      <h2>zarejestruj sie!</h2>
+      <form action="/rejestrowanie" method="post">
         <label for="email">Adres e-mail:</label>
         <input type="email" id="email" name="email" placeholder="podaj email" >
         <br><br>
         
         <label for="haslo">Hasło:</label>
         <input type="haslo" id="haslo" name="haslo" placeholder="podaj haslo">
-        <br><br>
-        
-        <label for="rola">kim jestes?</label>
-        <select id="rola" name="rola" >
-            <option value="klient">Klient</option>
-            <option value="admin">Admin</option>
-        </select>
         <br><br>
         
         <button type="submit">Zarejstruj sie</button>

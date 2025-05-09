@@ -20,7 +20,7 @@
                   <li><a href="cennik.php">Cennik</a></li>
                   <li><a href="login.php">Logowanie</a></li>
                   <li><a href="rejestrowanie.php">Rejestracja</a></li>
-                  <li><a href="rejestrowanie.php">Umów swoją wizytę</a></li>
+                  <li><a href="umow.php">Umów swoją wizytę</a></li>
               </ul>
           </nav>
       </div>
