@@ -43,17 +43,32 @@
 
         <label for="godzina">Godzina wizyty:</label><br>
         <input type="time" id="godzina" name="godzina" required><br><br>
-
-        <label for="usluga">Wybierz usługę:</label><br>
+        
+        <label for="usluga">Wybierz usługę:</label>
+    
         <select id="usluga" name="usluga" required>
-            <option value="">-- Wybierz --</option>
-            <option value="manicure">Manicure</option>
-            <option value="pedicure">Pedicure</option>
-            <option value="oczyszczanie-twarzy">Oczyszczanie twarzy</option>
-            <option value="masaz">Masaż</option>
-            <option value="makijaz">Makijaż</option>
-        </select><br><br>
-      
+        <option value="">-- Wybierz usługę --</option>
+        <option value="Strzyżenie (z myciem i modelowaniem)">Strzyżenie (z myciem i modelowaniem) – 130 zł</option>
+        <option value="Modelowanie (lokówka/prostownica)">Modelowanie (lokówka/prostownica) – 90 zł</option>
+        <option value="Farbowanie odrostów">Farbowanie odrostów – 160 zł</option>
+        <option value="Koloryzacja całościowa">Koloryzacja całościowa – 220 zł</option>
+        <option value="Balayage / Ombre">Balayage / Ombre – 280 zł</option>
+        <option value="Regeneracja włosów (sauna)">Regeneracja włosów (sauna) – 120 zł</option>
+        <option value="Strzyżenie klasyczne">Strzyżenie klasyczne – 80 zł</option>
+        <option value="Strzyżenie maszynką (całość)">Strzyżenie maszynką (całość) – 50 zł</option>
+        <option value="Stylizacja brody">Stylizacja brody – 45 zł</option>
+        <option value="Pakiet: włosy + broda">Pakiet: włosy + broda – 110 zł</option>
+        <option value="Strzyżenie dziecięce">Strzyżenie dziecięce – 60 zł</option>
+        <option value="Upięcie komunijne/okazjonalne">Upięcie komunijne/okazjonalne – 100 zł</option>
+        <option value="Mycie z masażem skóry głowy">Mycie z masażem skóry głowy – 30 zł</option>
+        <option value="Upięcie okazjonalne">Upięcie okazjonalne – 180 zł</option>
+        <option value="Keratynowe prostowanie">Keratynowe prostowanie – 290 zł</option>
+        <option value="Botox na włosy">Botox na włosy – 230 zł</option>
+        <option value="Pakiet Ślubny VIP">Pakiet Ślubny VIP – 750 zł</option>
+        <option value="Voucher 100 zł">Voucher o wartości 100 zł</option>
+        <option value="Voucher 200 zł">Voucher o wartości 200 zł</option>
+        <option value="Voucher 300 zł">Voucher o wartości 300 zł (z opakowaniem)</option>
+    </select>
         
         <button type="submit">umów się na wizyte</button>
     </form>
