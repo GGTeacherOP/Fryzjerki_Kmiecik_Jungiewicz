@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
     <link rel="stylesheet"  href="style.css">
+    <link rel="icon"  href="zdjecia/favicon.png">
 </head>
 <header>
         <div class="header1">
@@ -18,7 +19,7 @@
                   <li><a href="cennik.php">Cennik</a></li>
                   <li><a href="login.php">Logowanie</a></li>
                   <li><a href="rejestrowanie.php">Rejestracja</a></li>
-                  <li><a href="rejestrowanie.php">Umów swoją wizytę</a></li>
+                  <li><a href="login.php">Umów swoją wizytę</a></li>
               </ul>
           </nav>
       </div>
@@ -35,13 +36,26 @@
         <br><br>
         
         <label for="haslo">Hasło:</label>
-        <input type="haslo" id="haslo" name="haslo" placeholder="podaj haslo">
+        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo">
         <br><br>
         
         <label for="rola">kim jestes?</label>
         <select id="rola" name="rola" >
-            <option value="klient">Klient</option>
-            <option value="admin">Admin</option>
+           <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT rola FROM `widok_logowanie`");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<option id=".$row[0]." name=".$row[0]." value=".$row[0].">".$row[0]."</option>"; 
+            }
+            mysqli_close($conn);
+            ?>
+           
         </select>
         <br><br>
         
