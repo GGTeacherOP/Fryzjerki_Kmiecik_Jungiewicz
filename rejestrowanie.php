@@ -30,17 +30,78 @@
     <main class="main">
       <div class="rejestrowanie"> 
       <h2>zarejestruj sie!</h2>
-      <form action="/rejestrowanie" method="post">
+      <form action="" method="post" onsubmit="return checkPasswords()">
+      <label for="imie">Imię:</label>
+        <input type="text" id="imie" name="imie" placeholder="podaj swoje imię"  required>
+        <br><br>
+        <label for="nazwisko">Nazwisko:</label>
+        <input type="text" id="nazwisko" name="nazwisko" placeholder="podaj swoje nazwisko"  required>
+        <br><br>
         <label for="email">Adres e-mail:</label>
-        <input type="email" id="email" name="email" placeholder="podaj email" >
+        <input type="email" id="email" name="email" placeholder="podaj email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         <br><br>
         
         <label for="haslo">Hasło:</label>
-        <input type="haslo" id="haslo" name="haslo" placeholder="podaj haslo">
+        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" required>
         <br><br>
+        <label for="phaslo">Powtórz hasło:</label>
+        <input type="password" id="phaslo" name="phaslo" placeholder="podaj haslo ponownie" required>
+        <br><br>
+       
         
-        <button type="submit">Zarejstruj sie</button>
+        <button type="submit" >Zarejstruj sie</button>
     </form>
+    <script>
+// Funkcja, która sprawdza, czy pola 'haslo' i 'phaslo' są identyczne
+function checkPasswords() {
+  
+  // Pobieramy wartości obu pól
+  var password1 = document.getElementById('haslo').value;
+  var password2 = document.getElementById('phaslo').value;
+
+  // Porównujemy hasła
+  if (password1 !== password2) {
+    // Jeśli się różnią, pokazujemy alert i zatrzymujemy wysyłanie formularza
+    alert("Hasła nie są takie same! Wprowadź takie same hasła.");
+    return false; // formularz nie zostanie wysłany
+  }
+
+  // Jeśli hasła są identyczne, formularz zostanie wysłany
+  return true;
+}
+</script>
+<?php
+// Jeśli dane zostały przesłane metodą POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+           $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+
+  // Sprawdzenie połączenia
+  if (!$conn) {
+    die("Błąd połączenia: " . mysqli_connect_error());
+  }
+  // Pobranie hasła z formularza
+  $imie=$_POST['imie'];
+  $nazwisko=$_POST['nazwisko'];
+  $email=$_POST['email'];
+  $haslo = $_POST['haslo'];
+  // Zapytanie do bazy – dodanie nowego użytkownika
+  $sql = "INSERT INTO `users`(`id`, `imie`, `nazwisko`, `email`, `haslo`, `rola`) VALUES ('','$imie','$nazwisko','$email','$haslo','klient');";
+
+  if (mysqli_query($conn, $sql)) {
+    header("Location: login.php");
+    exit();
+  } else {
+    echo "Błąd: " . mysqli_error($conn);
+  }
+
+  mysqli_close($conn); // zamknięcie połączenia
+}
+?>
       
       </div>
     </main>
