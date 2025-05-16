@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
     <link rel="stylesheet"  href="style.css">
+    <link rel="icon"  href="zdjecia/favicon.png">
 </head>
 <header>
         <div class="header1">
