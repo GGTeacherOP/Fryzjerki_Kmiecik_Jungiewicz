@@ -36,63 +36,117 @@
       <td >Usługi damskie</td>
       <td>Cena</td>
     </tr>
-    <tr><td>Strzyżenie (z myciem i modelowaniem)</td><td>130 zł</td></tr>
-    <tr><td>Modelowanie (lokówka/prostownica)</td><td>90 zł</td></tr>
-    <tr><td>Farbowanie odrostów</td><td>160 zł</td></tr>
-    <tr><td>Koloryzacja całościowa</td><td>220 zł</td></tr>
-    <tr><td>Balayage / Ombre</td><td>280 zł</td></tr>
-    <tr><td>Regeneracja włosów (sauna)</td><td>120 zł</td></tr>
-
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Usługi damskie';");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[1]."</td><td>".$row[2]."</td></tr>"; 
+            }
+            mysqli_close($conn);
+            ?>
     <!-- USŁUGI MĘSKIE -->
     <tr class="tabelka_cennik">
       <td >Usługi męskie</td>
       <td >Cena</td>
     </tr>
-    <tr><td>Strzyżenie klasyczne</td><td>80 zł</td></tr>
-    <tr><td>Strzyżenie maszynką (całość)</td><td>50 zł</td></tr>
-    <tr><td>Stylizacja brody</td><td>45 zł</td></tr>
-    <tr><td>Pakiet: włosy + broda</td><td>110 zł</td></tr>
-
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Usługi męskie';");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[1]."</td><td>".$row[2]."</td></tr>"; 
+            }
+            mysqli_close($conn);
+            ?>
     <!-- USŁUGI DLA DZIECI -->
     <tr class="tabelka_cennik">
       <td >Usługi dla dzieci (do 12 lat)</td>
       <td >Cena</td>
     </tr>
-    <tr><td>Strzyżenie dziecięce</td><td>60 zł</td></tr>
-    <tr><td>Upięcie komunijne/okazjonalne</td><td>100 zł</td></tr>
-
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Usługi dla dzieci (do 12 lat)';");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[1]."</td><td>".$row[2]."</td></tr>"; 
+            }
+            mysqli_close($conn);
+            ?>
     <!-- USŁUGI DODATKOWE -->
     <tr class="tabelka_cennik">
       <td >Usługi dodatkowe</td>
       <td >Cena</td>
     </tr>
-    <tr><td>Mycie z masażem skóry głowy</td><td>30 zł</td></tr>
-    <tr><td>Upięcie okazjonalne</td><td>180 zł</td></tr>
-    <tr><td>Keratynowe prostowanie</td><td>290 zł</td></tr>
-    <tr><td>Botox na włosy</td><td>230 zł</td></tr>
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Usługi dodatkowe';");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[1]."</td><td>".$row[2]."</td></tr>"; 
+            }
+            mysqli_close($conn);
+            ?>
 
     <!-- PAKIET ŚLUBNY -->
     <tr class="tabelka_cennik">
       <td>Pakiet całodniowy – Ślubny VIP</td>
       <td>Cena za pakiet</td>
     </tr>
-    <tr><td>
-      • Konsultacja + próbna fryzura<br>
-      • Fryzura ślubna w dniu ceremonii<br>
-      • Stylizacja dla świadkowej/mamy<br>
-      • (opcjonalnie) makijaż dzienny/ślubny<br>
-      • Obecność stylistki do 16:00
-    </td>
-    <td>750 zł</td></tr>
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Pakiet całodniowy – Ślubny VIP';");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[1]."</td><td>".$row[2]."</td></tr>"; 
+            }
+            mysqli_close($conn);
+            ?>
 
     <!-- VOUCHERY -->
     <tr class="tabelka_cennik">
       <td >Vouchery podarunkowe</td>
       <td >Cena</td>
     </tr>
-    <tr><td>Voucher o wartości 100 zł</td><td>100 zł</td></tr>
-    <tr><td>Voucher o wartości 200 zł</td><td>200 zł</td></tr>
-    <tr><td>Voucher o wartości 300 zł (z opakowaniem)</td><td>300 zł</td></tr>
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Vouchery podarunkowe';");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[1]."</td><td>".$row[2]."</td></tr>"; 
+            }
+            mysqli_close($conn);
+            ?>
   </table>
 
 
