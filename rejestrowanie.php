@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -14,12 +17,24 @@
         <div class="header2">
           <button class="menu">☰ Menu</button>
           <nav class="linki">
-              <ul>
-                  <li><a href="index.php">Strona główna</a></li>
-                  <li><a href="cennik.php">Cennik</a></li>
+          <ul>
+              <li><a href="index.php">Strona główna</a></li>
+              <li><a href="cennik.php">Cennik</a></li>
+
+              <?php
+              if (isset($_SESSION['id'])) {
+              ?>
+                  <li><a href="umow.php">Umów swoją wizytę</a></li>
+                  <li><a href="logout.php">Wyloguj się</a></li>
+              <?php
+              } else {
+              ?>
                   <li><a href="login.php">Logowanie</a></li>
                   <li><a href="rejestrowanie.php">Rejestracja</a></li>
                   <li><a href="login.php">Umów swoją wizytę</a></li>
+              <?php
+              }
+              ?>
               </ul>
           </nav>
       </div>

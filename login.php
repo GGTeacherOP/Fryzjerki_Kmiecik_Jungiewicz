@@ -1,3 +1,60 @@
+<?php
+session_start();
+
+// Jeśli już zalogowany, przekieruj do odpowiedniej strony
+if (isset($_SESSION['id'])) {
+    if ($_SESSION['rola'] == 'klient') {
+        header("Location: umow.php");
+        exit();
+    } elseif ($_SESSION['rola'] == 'fryzjer') {
+        header("Location: panel_fryzjera.php");
+        exit();
+    } elseif ($_SESSION['rola'] == 'admin') {
+        header("Location: panel_admina.php");
+        exit();
+    }elseif ($_SESSION['rola'] == 'sprzataczka') {
+      header("Location: panel_sprzataczki.php");
+      exit();
+  }
+}
+
+// Tutaj jest kod obsługujący logowanie po wysłaniu formularza
+if (isset($_POST['zaloguj'])) {
+    $email = $_POST['email'];
+    $haslo = $_POST['haslo'];
+    $rola = $_POST['rola'];
+
+    $conn = mysqli_connect("localhost", "root", "", "salon");
+    if (!$conn) {
+        die("Błąd połączenia: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
+    $wynik = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($wynik) == 1) {
+        $dane = mysqli_fetch_assoc($wynik);
+        $_SESSION['id'] = $dane['id'];
+        $_SESSION['email'] = $dane['email'];
+        $_SESSION['rola'] = $dane['rola'];
+
+        if ($rola == "klient") {
+            header("Location: umow.php");
+        } elseif ($rola == "fryzjer") {
+            header("Location: panel_fryzjera.php");
+        } elseif ($rola == "admin") {
+            header("Location: panel_admina.php");
+        }elseif ($rola == "sprzataczka") {
+          header("Location: panel_sprzataczki.php");
+      }
+        exit();
+    } else {
+        $blad = "Nieprawidłowe dane logowania.";
+    }
+
+    mysqli_close($conn);
+}
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -14,13 +71,34 @@
         <div class="header2">
           <button class="menu">☰ Menu</button>
           <nav class="linki">
-              <ul>
-                  <li><a href="index.php">Strona główna</a></li>
-                  <li><a href="cennik.php">Cennik</a></li>
-                  <li><a href="login.php">Logowanie</a></li>
-                  <li><a href="rejestrowanie.php">Rejestracja</a></li>
-                  <li><a href="login.php">Umów swoją wizytę</a></li>
-              </ul>
+          <ul>
+  <li><a href="index.php">Strona główna</a></li>
+  <li><a href="cennik.php">Cennik</a></li>
+
+  <?php
+  if (isset($_SESSION['id'])) {
+    if ($_SESSION['rola'] == "klient") {
+      ?>
+      <li><a href="umow.php">Umów swoją wizytę</a></li>
+      <li><a href="moje_wizyty.php">Moje wizyty</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    } elseif ($_SESSION['rola'] == "admin") {
+      ?>
+      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    }
+   
+  } else {
+    ?>
+    <li><a href="login.php">Logowanie</a></li>
+    <li><a href="rejestrowanie.php">Rejestracja</a></li>
+    <li><a href="login.php">Umów swoją wizytę</a></li>
+    <?php
+  }
+  ?>
+</ul>
           </nav>
       </div>
         <div class="header3">
@@ -31,13 +109,13 @@
     <main class="cennik">
       <div class="logowanie"> 
       <h1>Zaloguj sie!</h1>
-      <form action="/logowanie" method="post">
+      <form action="login.php" method="post">
         <label for="email">Adres e-mail:</label>
-        <input type="email" id="email" name="email" placeholder="podaj email" >
+        <input type="email" id="email" name="email" placeholder="podaj email"  required>
         <br><br>
         
         <label for="haslo">Hasło:</label>
-        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo">
+        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" required>
         <br><br>
         
         <label for="rola">Kim jestes?</label>
@@ -60,8 +138,10 @@
         </select>
         <br><br>
         
-        <button type="submit">Zaloguj się</button>
+        <button type="submit" name="zaloguj">Zaloguj się</button>
+        
     </form>
+    <?php if (isset($blad)) echo "<p style='color:red;'>$blad</p>"; ?>
       
       </div>
     </main>
