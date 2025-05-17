@@ -65,8 +65,8 @@ session_start();
             while($row=mysqli_fetch_row($skrypt1))
             {
                 echo "<tr><td>".$row[1]."</td><td>"
-                .$row[2]."</td><td>"
-                .$row[3]."</td><td>"
+                . substr($row[2], 0, 5) ."</td><td>"
+                . substr($row[3], 0, 5) ."</td><td>"
                 .$row[4]."</td><td>"
                 .$row[5]." ".$row[6]."</td></tr>";
 
