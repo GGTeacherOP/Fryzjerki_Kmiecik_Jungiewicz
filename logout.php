@@ -1,7 +1,7 @@
 <?php
 session_start();
-session_unset(); // usuwa wszystkie dane sesji
-session_destroy(); // kończy sesję
-header("Location: login.php"); // przekierowanie do logowania
-exit();
-?>
+session_unset();
+session_destroy();
+setcookie(session_name(), '', time() - 3600, '/'); // usuwa cookie sesji
+header("Location: login.php");
+exit();?>
