@@ -110,33 +110,24 @@
  .main {
    background-color: rgb(219, 205, 182); 
    float: left;
-   width: 80%;
+   width: 100%;
    color: black;
-   height: 400px;
+   height: auto;
  }
- 
- .obok_main {
-   float: right;
-   width: 20%; 
-   background-color: rgb(219, 205, 182);
-   color: #524545;
-   height: 400px;
- }
- 
- .obok_main img {
-   border: 2px solid #524545;
-   border-radius: 30px; /* Zaokrąglenie rogów */
-   height: 300px;
-   margin: 20px;
-  
- }
+
  /*======================OPINIE=============================*/
- .opinie{
-  float: left;
-  width: 100%;
-  height: auto;
-  background-color:rgb(219, 205, 182) ;
-  color: black;
+
+  #opinie-container {
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+  }
+
+  .autor {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #272727;
   
  }
  /* ===================== GALERIA ZDJĘĆ ===================== */

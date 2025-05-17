@@ -41,11 +41,65 @@
              Oferujemy kawę, herbatę i miłą rozmowę, aby wizyta w naszym salonie była prawdziwą przyjemnością.</p>
              <h3>Zapraszamy do skorzystania z naszych usług i doświadczenia profesjonalnej obsługi w miłej atmosferze!</h3>
 </div>
+<hr>
+<div id="opinie-container">
+  <p id="tresc-opinii"></p>
+  <p class="autor" id="autor-opinii"></p>
+</div>
+
+<?php
+// Połączenie z bazą danych
+$serwer = "localhost";
+$user = "root";
+$haslo = "";
+$baza = "salon";
+
+$conn = mysqli_connect($serwer, $user, $haslo, $baza);
+
+if (!$conn) {
+  die("Błąd połączenia: " . mysqli_connect_error());
+}
+
+// Pobieranie opinii z bazy
+$komentarz = array();
+$sql = "SELECT imie, komentarz FROM `widok_opinie`";
+$wynik = mysqli_query($conn, $sql);
+
+while ($row = mysqli_fetch_assoc($wynik)) {
+  $komentarz[] = $row;
+}
+
+mysqli_close($conn);
+
+// Przekazanie opinii do JavaScript w formacie JSON
+echo "<script>
+var wszystkieOpinie = " . json_encode($komentarz) . ";
+</script>";
+?>
+
+<script>
+// Prosty skrypt do zmieniania opinii co 5 sekund
+var indeks = 0;
+
+function pokazOpinie() {
+  if (wszystkieOpinie.length === 0) return;
+
+  var opinia = wszystkieOpinie[indeks];
+  document.getElementById('tresc-opinii').innerText = opinia.komentarz;
+  document.getElementById('autor-opinii').innerText = '– ' + opinia.imie;
+
+  // Przechodzimy do następnej opinii (w pętli)
+  indeks = (indeks + 1) % wszystkieOpinie.length;
+}
+
+// Pokazujemy pierwszą opinię od razu
+pokazOpinie();
+
+// Co 5 sekund zmieniamy opinię
+setInterval(pokazOpinie, 5000);
+</script>
     </main>
-    <section class="obok_main"><img src="zdjecia/main.jpg"></section>
-    <section class="opinie">
-      
-    </section>
+    
     <section class="galeria_zdjec">
 <h1>Zdjęcia naszego salonu i stylizacji</h1>
 <div class="galeria">
