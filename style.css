@@ -245,10 +245,14 @@
  /* Styl dla komórek tabeli */
  td {
    padding: 10px;
-  
    border: 1px solid #524545;
    font-weight: bold;
- 
+   
+ }
+ th{
+  padding: 10px;
+  border: 1px solid #524545;
+  font-weight: bold;
  }
  
  /* Efekt zmiany koloru na hover*/

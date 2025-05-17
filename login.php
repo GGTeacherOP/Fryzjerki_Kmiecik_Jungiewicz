@@ -69,7 +69,7 @@ if (isset($_POST['zaloguj'])) {
 </head>
 <header>
         <div class="header1">
-            <h1 class="nazwa_salonu">Salon   Fryzjerski   SigmaHair</h1>
+            <h1 class="nazwa_salonu">Salon Fryzjerski SigmaHair</h1>
         </div>
         <div class="header2">
           <button class="menu">☰ Menu</button>
@@ -77,12 +77,12 @@ if (isset($_POST['zaloguj'])) {
           <ul>
   <li><a href="index.php">Strona główna</a></li>
   <li><a href="cennik.php">Cennik</a></li>
+  <li><a href="umow.php">Umów swoją wizytę</a></li>
 
   <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
       ?>
-      <li><a href="umow.php">Umów swoją wizytę</a></li>
       <li><a href="moje_wizyty.php">Moje wizyty</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
