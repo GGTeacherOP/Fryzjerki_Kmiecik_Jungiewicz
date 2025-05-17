@@ -89,12 +89,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $nazwisko=$_POST['nazwisko'];
   $email=$_POST['email'];
   $haslo = $_POST['haslo'];
+  // Sprawdzamy czy e-mail już istnieje
+  $sql_sprawdz = "SELECT * FROM users WHERE email = '$email'";
+  $wynik = mysqli_query($conn, $sql_sprawdz);
+
+  if (mysqli_num_rows($wynik) > 0) {
+    echo "Ten e-mail jest już zarejestrowany. Zaloguj się!";
+    header("Location: login.php");
+  exit();
+  }
   // Zapytanie do bazy – dodanie nowego użytkownika
   $sql = "INSERT INTO `users`(`id`, `imie`, `nazwisko`, `email`, `haslo`, `rola`) VALUES ('','$imie','$nazwisko','$email','$haslo','klient');";
 
   if (mysqli_query($conn, $sql)) {
-    header("Location: login.php");
-    exit();
+      // Komunikat o sukcesie i przekierowanie po 3 sekundach
+  echo "<!DOCTYPE html>
+  <html lang='pl'>
+  <head>
+    <meta charset='UTF-8'>
+    <title>Sukces</title>
+    <script>
+      // Przekierowanie po 3 sekundach
+      setTimeout(function() {
+        window.location.href = 'login.php';
+      }, 3000);
+    </script>
+  </head>
+  <body>
+    <h2>Rejestracja zakończona sukcesem!</h2>
+    <p>Za chwilę zostaniesz przekierowany do strony logowania...</p>
+  </body>
+  </html>";
+
   } else {
     echo "Błąd: " . mysqli_error($conn);
   }
