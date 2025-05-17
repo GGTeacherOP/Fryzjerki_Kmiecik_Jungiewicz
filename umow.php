@@ -27,9 +27,10 @@
             <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="main">
+    <main class="cennik">
       <div class="umow"> 
       <h2>umów sie na wizyte!</h2>
+      <form>
       <label for="imie">Imię i nazwisko:</label><br>
         <input type="text" id="imie" name="imie" required><br><br>
 
@@ -76,7 +77,6 @@
       
       </div>
     </main>
-    <section class="obok_main"></section>
     
     <footer>
         <div class="dane_kontaktowe">

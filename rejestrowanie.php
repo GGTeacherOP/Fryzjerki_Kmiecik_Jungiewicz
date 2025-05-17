@@ -27,9 +27,9 @@
             <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="main">
+    <main class="cennik">
       <div class="rejestrowanie"> 
-      <h2>zarejestruj sie!</h2>
+      <h1>Zarejestruj sie!</h1>
       <form action="" method="post" onsubmit="return checkPasswords()">
       <label for="imie">Imię:</label>
         <input type="text" id="imie" name="imie" placeholder="podaj swoje imię"  required>
@@ -45,7 +45,7 @@
         <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" required>
         <br><br>
         <label for="phaslo">Powtórz hasło:</label>
-        <input type="password" id="phaslo" name="phaslo" placeholder="podaj haslo ponownie" required>
+        <input type="password" id="phaslo" name="phaslo" placeholder="powtórz hasło" required>
         <br><br>
        
         
@@ -131,8 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       
       </div>
     </main>
-    <section class="obok_main"></section>
-    
+  
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br>

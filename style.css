@@ -33,6 +33,8 @@
  .header1 {
    float: left;
    width: 70%; 
+   letter-spacing: 8px;
+   word-spacing: 15px;
  }
  
  .header2 {
@@ -230,10 +232,85 @@
    color: #524545;
  }
  .main_login{
-  background-image: url('tlo.jpg'); 
    float: left;
    width: 80%;
    color: #524545;
    height: 400px;
 
  }
+ /* Styl ogólny formularza */
+form {
+  max-width: 400px;            /* maksymalna szerokość */
+  margin: 0 auto;              /* wyśrodkowanie */
+  padding: 20px;               /* przestrzeń wewnątrz */
+}
+label{
+  font-size: 20px;
+}
+/* Styl dla wszystkich pól tekstowych i haseł */
+input[type="text"],
+input[type="email"],
+input[type="password"] ,
+input[type="tel"],
+input[type="time"],
+input[type="date"]{
+  width: 100%;                 /* szerokość 100% kontenera */
+  padding: 8px;                /* przestrzeń wewnątrz */
+  margin-bottom: 12px;         /* odstęp między polami */
+  border: 1px solid #ccc;      /* cienka ramka */
+  border-radius: 4px;          /* zaokrąglone rogi */
+  box-sizing: border-box;      /* uwzględnij padding w szerokości */
+  font-size: 16px;
+}
+
+/* Styl dla <select> */
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Styl dla <textarea> */
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;           /* tylko pionowe rozwijanie */
+  box-sizing: border-box;
+}
+
+/* Styl dla checkboxa */
+input[type="checkbox"] {
+  margin-right: 8px;          /* odstęp od tekstu */
+  transform: scale(1.2);      /* trochę większy checkbox */
+}
+
+/* Styl przycisku */
+button, input[type="submit"] {
+  padding: 8px 16px;
+  font-size: 16px;
+  color: white;
+  background-color: #ff709d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Efekt po najechaniu */
+button:hover, input[type="submit"]:hover {
+  background-color: #fc437d;
+}
+
+/* Efekt po kliknięciu */
+button:active, input[type="submit"]:active {
+  background-color: #fc437d;
+}

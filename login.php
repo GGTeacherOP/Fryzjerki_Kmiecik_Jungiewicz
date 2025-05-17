@@ -9,7 +9,7 @@
 </head>
 <header>
         <div class="header1">
-            <h1 class="nazwa_salonu">Salon Fryzjerski SigmaHair</h1>
+            <h1 class="nazwa_salonu">Salon   Fryzjerski   SigmaHair</h1>
         </div>
         <div class="header2">
           <button class="menu">☰ Menu</button>
@@ -27,9 +27,10 @@
             <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="main">
+  
+    <main class="cennik">
       <div class="logowanie"> 
-      <h2>Zaloguj sie!</h2>
+      <h1>Zaloguj sie!</h1>
       <form action="/logowanie" method="post">
         <label for="email">Adres e-mail:</label>
         <input type="email" id="email" name="email" placeholder="podaj email" >
@@ -39,7 +40,7 @@
         <input type="password" id="haslo" name="haslo" placeholder="podaj haslo">
         <br><br>
         
-        <label for="rola">kim jestes?</label>
+        <label for="rola">Kim jestes?</label>
         <select id="rola" name="rola" >
            <?php
             $serwer="localhost";
@@ -64,8 +65,7 @@
       
       </div>
     </main>
-    <section class="obok_main"></section>
-    
+   
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br>
