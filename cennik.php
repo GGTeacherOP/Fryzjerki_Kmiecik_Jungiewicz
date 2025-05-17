@@ -119,7 +119,7 @@
             $haslo="";
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Pakiet całodniowy – Ślubny VIP';");
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Pakiet ślubny';");
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
@@ -139,7 +139,7 @@
             $haslo="";
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Vouchery podarunkowe';");
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie` where nazwa_kategorii='Vouchery';");
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
