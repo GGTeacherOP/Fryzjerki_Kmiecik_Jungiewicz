@@ -18,7 +18,7 @@ if (isset($_SESSION['id'])) {
   }
 }
 
-// Tutaj jest kod obsługujący logowanie po wysłaniu formularza
+// obsługiwanie logowanie po wysłaniu formularza
 if (isset($_POST['zaloguj'])) {
     $email = $_POST['email'];
     $haslo = $_POST['haslo'];
@@ -37,7 +37,10 @@ if (isset($_POST['zaloguj'])) {
         $_SESSION['id'] = $dane['id'];
         $_SESSION['email'] = $dane['email'];
         $_SESSION['rola'] = $dane['rola'];
-
+        if (isset($_POST['zapamietaj']) && $_POST['zapamietaj'] == '1') {
+          // Ustawienie cookie sesji na 7 dni
+          setcookie(session_name(), session_id(), time() + (7 * 24 * 60 * 60), "/");
+      }
         if ($rola == "klient") {
             header("Location: umow.php");
         } elseif ($rola == "fryzjer") {
