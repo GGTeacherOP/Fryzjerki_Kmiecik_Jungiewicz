@@ -43,6 +43,9 @@
 </div>
     </main>
     <section class="obok_main"><img src="zdjecia/main.jpg"></section>
+    <section class="opinie">
+      
+    </section>
     <section class="galeria_zdjec">
 <h1>Zdjęcia naszego salonu i stylizacji</h1>
 <div class="galeria">

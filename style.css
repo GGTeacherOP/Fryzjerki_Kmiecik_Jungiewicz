@@ -247,7 +247,7 @@ form {
 label{
   font-size: 20px;
 }
-/* Styl dla wszystkich pól tekstowych i haseł */
+/* Styl dla wszystkich pól formularza */
 input[type="text"],
 input[type="email"],
 input[type="password"] ,
@@ -274,6 +274,10 @@ select {
   font-size: 16px;
   box-sizing: border-box;
 }
+select option:hover{
+  background-color: #fc437d;
+}
+
 
 /* Styl dla <textarea> */
 textarea {
@@ -291,10 +295,22 @@ textarea {
 input[type="checkbox"] {
   margin-right: 8px;          /* odstęp od tekstu */
   transform: scale(1.2);      /* trochę większy checkbox */
+  text-align: left;
+  accent-color: #ff709d;  
 }
-
+form>table{
+  width:530px;
+  border-collapse: collapse;
+  margin: 40px auto;   
+  border-style: none;
+}
+form table td{
+  text-align: left;
+  border: none;
+  width: auto;
+}
 /* Styl przycisku */
-button, input[type="submit"] {
+form button, input[type="submit"] {
   padding: 8px 16px;
   font-size: 16px;
   color: white;
@@ -306,11 +322,11 @@ button, input[type="submit"] {
 }
 
 /* Efekt po najechaniu */
-button:hover, input[type="submit"]:hover {
+form button:hover, input[type="submit"]:hover {
   background-color: #fc437d;
 }
 
 /* Efekt po kliknięciu */
-button:active, input[type="submit"]:active {
+form button:active, input[type="submit"]:active {
   background-color: #fc437d;
 }

@@ -28,8 +28,8 @@
         </div>
     </header>
     <main class="cennik">
-      <div class="umow"> 
-      <h2>umów sie na wizyte!</h2>
+     
+      <h2>Umów sie na wizyte!</h2>
       <form>
       <label for="imie">Imię i nazwisko:</label><br>
         <input type="text" id="imie" name="imie" required><br><br>
@@ -47,35 +47,27 @@
         <input type="time" id="godzina" name="godzina" required><br><br>
         
         <label for="usluga">Wybierz usługę:</label>
-    
-        <select id="usluga" name="usluga" required>
-        <option value="">-- Wybierz usługę --</option>
-        <option value="Strzyżenie (z myciem i modelowaniem)">Strzyżenie (z myciem i modelowaniem) – 130 zł</option>
-        <option value="Modelowanie (lokówka/prostownica)">Modelowanie (lokówka/prostownica) – 90 zł</option>
-        <option value="Farbowanie odrostów">Farbowanie odrostów – 160 zł</option>
-        <option value="Koloryzacja całościowa">Koloryzacja całościowa – 220 zł</option>
-        <option value="Balayage / Ombre">Balayage / Ombre – 280 zł</option>
-        <option value="Regeneracja włosów (sauna)">Regeneracja włosów (sauna) – 120 zł</option>
-        <option value="Strzyżenie klasyczne">Strzyżenie klasyczne – 80 zł</option>
-        <option value="Strzyżenie maszynką (całość)">Strzyżenie maszynką (całość) – 50 zł</option>
-        <option value="Stylizacja brody">Stylizacja brody – 45 zł</option>
-        <option value="Pakiet: włosy + broda">Pakiet: włosy + broda – 110 zł</option>
-        <option value="Strzyżenie dziecięce">Strzyżenie dziecięce – 60 zł</option>
-        <option value="Upięcie komunijne/okazjonalne">Upięcie komunijne/okazjonalne – 100 zł</option>
-        <option value="Mycie z masażem skóry głowy">Mycie z masażem skóry głowy – 30 zł</option>
-        <option value="Upięcie okazjonalne">Upięcie okazjonalne – 180 zł</option>
-        <option value="Keratynowe prostowanie">Keratynowe prostowanie – 290 zł</option>
-        <option value="Botox na włosy">Botox na włosy – 230 zł</option>
-        <option value="Pakiet Ślubny VIP">Pakiet Ślubny VIP – 750 zł</option>
-        <option value="Voucher 100 zł">Voucher o wartości 100 zł</option>
-        <option value="Voucher 200 zł">Voucher o wartości 200 zł</option>
-        <option value="Voucher 300 zł">Voucher o wartości 300 zł (z opakowaniem)</option>
-    </select>
-        
-        <button type="submit">umów się na wizyte</button>
+    <table>
+        <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw1=("SELECT * FROM `widok_uslugi_kategorie`;");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td><input type='checkbox' id='".$row[1]."' name='".$row[1]."' value='".$row[1]."'>
+                      <label for='".$row[1]."'>".$row[1]." - ".$row[2]."</td></tr></label>"; 
+            }
+            mysqli_close($conn);
+            ?>
+        </table>
+        <button type="submit">Umów się na wizyte</button>
     </form>
       
-      </div>
+      
     </main>
     
     <footer>
