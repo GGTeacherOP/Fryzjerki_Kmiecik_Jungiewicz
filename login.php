@@ -137,7 +137,8 @@ if (isset($_POST['zaloguj'])) {
            
         </select>
         <br><br>
-        
+        <label>
+  <input type="checkbox" name="zapamietaj" value="1"> Zapamiętaj mnie</label><br><br>
         <button type="submit" name="zaloguj">Zaloguj się</button>
         
     </form>
