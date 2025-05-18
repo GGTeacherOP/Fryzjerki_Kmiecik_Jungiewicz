@@ -105,10 +105,9 @@ session_start();
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $godzina = $_POST['godzina'];
       
-        $nazwa_uslugi = $_POST['usluga'];
-        $result_usluga = mysqli_query($conn, "SELECT id, czas_trwania FROM uslugi WHERE nazwa = '$nazwa_uslugi'");
-        $row_usluga = mysqli_fetch_assoc($result_usluga);
-        $id_usluga = $row_usluga['id'];
+        $id_usluga = $_POST['usluga'];
+$result_usluga = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = '$id_usluga'");
+$row_usluga = mysqli_fetch_assoc($result_usluga);
        // pobieranie id_uslugi z tabeli 
 
         $imie_nazwisko = $_POST['id_pracownika'];
