@@ -1,0 +1,389 @@
+/* ===================== OGÓLNE USTAWIENIA ===================== */
+* {
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+  
+   text-align: center;
+ }
+ 
+ body {
+   width: auto;
+   height: auto;
+   background-color: #524545; 
+ }
+ 
+ h1 {
+   text-align: center;
+   
+ }
+ 
+ /* ===================== NAGŁÓWEK ===================== */
+ header {
+   background-color: #524545; 
+   padding: 10px;
+   color: white; 
+   height: 75px;
+   float: left;
+   width: 100%; 
+ }
+ 
+ .nazwa_salonu {
+   font-weight: 800; 
+ }
+ 
+ .header1 {
+   float: left;
+   width: 70%; 
+   letter-spacing: 8px;
+   word-spacing: 15px;
+ }
+ 
+ .header2 {
+   position: relative;
+   float: left;
+   width: 10%; 
+ }
+ 
+ .header3 {
+   float: right;
+   width: 20%; 
+   font-size: large;
+ 
+  
+ }
+ 
+ /* ===================== PRZYCISK MENU ===================== */
+ .menu {
+   background-color: #524545;
+   color: white;
+   border: none;
+   padding: 10px;
+   cursor: pointer;
+   display: block; /* Blokowy wygląd */
+   width: 100px;
+   height: 75px;
+   font-weight: 800;
+   font-size: large;
+ }
+ 
+ /* ===================== MENU ROZWIJANE ===================== */
+ .linki {
+   display: none; /* Ukryte domyślnie */
+   background-color: #524545;
+   color: rgb(219, 205, 182);
+   width: 100%;
+   overflow: hidden; /* Ukrywa zawartość wykraczającą poza max-height */
+   max-height: 0; /* Początkowa wysokość = 0 */
+   opacity: 0; /* Niewidoczne */
+   transition: max-height 0.5s ease, opacity 0.5s ease; /* Animacja rozwijania */
+ }
+ 
+ .linki.show,
+ .linki.active {
+   display: block;
+   max-height: 500px; 
+   opacity: 1; /* Widoczne */
+ }
+ 
+ .linki ul {
+   list-style-type: none; /* Bez kropek */
+   padding: 0;
+   margin: 0;
+ }
+ 
+ .linki ul li {
+   padding: 10px;
+   text-align: center;
+ }
+ 
+ .linki ul li a {
+   color: white;
+   text-decoration: none;
+   display: block;
+ }
+ 
+ .linki ul li a:hover {
+   background-color: rgb(192, 180, 161);
+   color: #524545;
+ }
+ 
+ /* ===================== GŁÓWNA CZĘŚĆ STRONY ===================== */
+ .main {
+   background-color: rgb(219, 205, 182); 
+   float: left;
+   width: 100%;
+   color: black;
+   height: auto;
+ }
+.o_salonie p{
+  padding-left: 200px;
+  padding-right: 200px;
+  font-size: 18px;
+}
+ hr{
+  border: 1px solid #524545;
+  border-radius: 5px;
+  height: 3px;
+  width: 50px;
+  background-color: #524545;
+ }
+
+ /*======================OPINIE=============================*/
+
+  #opinie-container {
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+  }
+
+  .autor {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #272727;
+  
+ }
+ /* ===================== GALERIA ZDJĘĆ ===================== */
+ .galeria_zdjec {
+   float: left;
+   width: 100%;
+   background-color: rgb(192, 180, 161);
+   color: black;
+ }
+ .galeria_zdjec hr{
+  background-color: #524545;
+  width: 125px;
+ }
+ 
+ .galeria {
+   padding-bottom: 15px;
+ }
+ 
+ .galeria img {
+   width: 350px;
+   height: 200px;
+   border: 2px solid #524545;
+   border-radius: 30px;
+   margin: auto;
+   opacity: 0.5;
+
+ }
+ 
+ .galeria img:hover {
+   width: 365px;
+   height: 215px; /* Powiększenie przy najechaniu */
+   opacity: 1;/*zdjecie ma pelna przejrzystosc*/
+ }
+ 
+ /* ===================== STOPKA ===================== */
+ footer {
+   clear: both;
+   height: 370px;
+   width: 100%;
+   background-color: #524545;
+   color: white;
+ }
+ .godziny_otwarcia h1,.dane_kontaktowe h1,.miejsce h1{
+  margin-bottom: 0;
+ }
+ .godziny_otwarcia hr, .dane_kontaktowe hr, .miejsce hr{
+  width: 50px;
+  background-color: rgb(192, 180, 161);
+  border: 1px solid rgb(192, 180, 161);
+  border-radius: 5px;
+  height: 3px;
+  width: 50px;
+ }
+ .kontakt {
+   list-style: none; /* Bez kropek */
+   text-align: center;
+ }
+ 
+ .dane_kontaktowe,
+ .godziny_otwarcia,
+ .miejsce {
+   float: left;
+   height: 370px;
+ }
+ 
+ .dane_kontaktowe,
+ .miejsce {
+   width: 35%; 
+ }
+ 
+ .godziny_otwarcia {
+   width: 30%; 
+ }
+ 
+ .miejsce {
+   float: right;
+ }
+  /* ===================== CENNIK ===================== */
+  .cennik{
+   width: 100%;
+   height: auto;
+   float: left;
+   background-color: rgb(219, 205, 182);
+   color: black;
+   text-align: center;
+  }
+  table {
+   width: 93%;
+   border-collapse: collapse;
+   margin: 20px 0;
+   margin-left:50px ;
+  margin-right: 50px;
+ }
+ 
+ /* Styl dla nagłówków sekcji */
+ .tabelka_cennik {
+   background-color: #f3e9e2;
+   font-weight: bold;
+   font-size: 18px;
+   text-align: center;
+   padding: 12px;
+ }
+ 
+ /* Styl dla komórek tabeli */
+ td {
+   padding: 10px;
+   border: 1px solid #524545;
+   font-weight: bold;
+   
+ }
+ th{
+  padding: 10px;
+  border: 1px solid #524545;
+  font-weight: bold;
+ }
+ 
+ /* Efekt zmiany koloru na hover*/
+ tr:hover {
+   background-color: #f2f2f2;
+   color: black;
+ }
+ .main_login{
+   float: left;
+   width: 80%;
+   color: black;
+   height: 400px;
+
+ }
+ /* Styl ogólny formularza */
+form {
+  max-width: 400px;            /* maksymalna szerokość */
+  margin: 0 auto;              /* wyśrodkowanie */
+  padding: 20px;               /* przestrzeń wewnątrz */
+}
+label{
+  font-size: 20px;
+}
+/* Styl dla wszystkich pól formularza */
+input[type="text"],
+input[type="email"],
+input[type="password"] ,
+input[type="tel"],
+input[type="time"],
+input[type="date"]{
+  width: 100%;                 /* szerokość 100% kontenera */
+  padding: 8px;                /* przestrzeń wewnątrz */
+  margin-bottom: 12px;         /* odstęp między polami */
+  border: 1px solid #ccc;      /* cienka ramka */
+  border-radius: 4px;          /* zaokrąglone rogi */
+  box-sizing: border-box;      /* uwzględnij padding w szerokości */
+  font-size: 16px;
+}
+
+/* Styl dla <select> */
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+select option:hover{
+  background-color: #fc437d;
+}
+
+
+/* Styl dla <textarea> */
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;           /* tylko pionowe rozwijanie */
+  box-sizing: border-box;
+}
+
+/* Styl dla checkboxa */
+input[type="checkbox"] {
+  margin-right: 8px;          /* odstęp od tekstu */
+  transform: scale(1.2);      /* trochę większy checkbox */
+  text-align: left;
+  accent-color: #ff709d;  
+}
+form>table{
+  width:530px;
+  border-collapse: collapse;
+  margin: 40px auto;   
+  border-style: none;
+}
+form table td{
+  text-align: left;
+  border: none;
+  width: auto;
+}
+/* Styl przycisku */
+form button, input[type="submit"] {
+  padding: 8px 16px;
+  font-size: 16px;
+  color: white;
+  background-color: #ff709d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Efekt po najechaniu */
+form button:hover, input[type="submit"]:hover {
+  background-color: #fc437d;
+}
+
+/* Efekt po kliknięciu */
+form button:active, input[type="submit"]:active {
+  background-color: #fc437d;
+}
+/*==================OPINIE====================*/
+.gwiazdki {
+  direction: rtl;              /* Odwrócona kolejność gwiazdek */
+  unicode-bidi: bidi-override; /* Dla poprawnego działania z RTL */
+  display: inline-block;
+}
+
+.gwiazdki input {
+  display: none;               /* Ukrycie inputów */
+}
+
+.gwiazdki label {
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.3s;
+  font-size: 40px;
+}
+
+.gwiazdki label:hover,
+.gwiazdki label:hover ~ label {
+  color: gold;
+  transform: scale(1.2);
+}
+
+.gwiazdki input:checked ~ label {
+  color: gold;
+}
