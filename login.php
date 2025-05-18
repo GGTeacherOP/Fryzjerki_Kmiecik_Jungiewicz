@@ -77,12 +77,12 @@ if (isset($_POST['zaloguj'])) {
           <ul>
   <li><a href="index.php">Strona główna</a></li>
   <li><a href="cennik.php">Cennik</a></li>
-  <li><a href="umow.php">Umów swoją wizytę</a></li>
 
   <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
       ?>
+       <li><a href="umow.php">Umów swoją wizytę</a></li>
       <li><a href="moje_wizyty.php">Moje wizyty</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php

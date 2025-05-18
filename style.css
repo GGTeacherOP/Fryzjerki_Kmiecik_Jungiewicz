@@ -360,3 +360,30 @@ form button:hover, input[type="submit"]:hover {
 form button:active, input[type="submit"]:active {
   background-color: #fc437d;
 }
+/*==================OPINIE====================*/
+.gwiazdki {
+  direction: rtl;              /* Odwrócona kolejność gwiazdek */
+  unicode-bidi: bidi-override; /* Dla poprawnego działania z RTL */
+  display: inline-block;
+}
+
+.gwiazdki input {
+  display: none;               /* Ukrycie inputów */
+}
+
+.gwiazdki label {
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.3s;
+  font-size: 40px;
+}
+
+.gwiazdki label:hover,
+.gwiazdki label:hover ~ label {
+  color: gold;
+  transform: scale(1.2);
+}
+
+.gwiazdki input:checked ~ label {
+  color: gold;
+}
