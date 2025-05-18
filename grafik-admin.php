@@ -18,7 +18,7 @@ session_start();
         <div class="header2">
           <button class="menu">☰ Menu</button>
           <nav class="linki">
-          <ul>
+              <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
 
@@ -37,7 +37,12 @@ session_start();
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    }
+    }elseif ($_SESSION['rola'] == "fryzjer") {
+        ?>
+        <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+        <li><a href="logout.php">Wyloguj się</a></li>
+        <?php
+      }
    
   } else {
     ?>
@@ -54,93 +59,42 @@ session_start();
             <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="main">
-      <div class="o_salonie"> 
-      <h2>O naszym salonie</h2><hr>
-      <p>Nasz salon fryzjerski to miejsce, gdzie pasja do pięknych włosów spotyka się z profesjonalizmem i dbałością o klienta. Zlokalizowany w Mielcu,
-         nasz salon oferuje szeroki zakres usług fryzjerskich, dostosowanych do indywidualnych potrzeb i oczekiwań.</p>
-         <h2>Nasi Fryzjerzy</h2><hr>
-         <p>Nasz zespół to wykwalifikowani i doświadczeni fryzjerzy, którzy nieustannie podnoszą swoje kwalifikacje, uczestnicząc w szkoleniach i śledząc najnowsze trendy.
-           Zapewniamy indywidualne podejście do każdego klienta, doradzając i pomagając w doborze idealnej fryzury i koloru.</p>
-           <h2>Atmosfera</h2>
-    <hr>       <p>W naszym salonie panuje przyjazna i relaksująca atmosfera. Dbamy o to, aby każdy klient czuł się u nas komfortowo i wyjątkowo.
-             Oferujemy kawę, herbatę i miłą rozmowę, aby wizyta w naszym salonie była prawdziwą przyjemnością.</p>
-            
-</div>
-<h2>Opinie naszych klientów</h2>
-<hr>
-<div id="opinie-container">
-  <p id="tresc-opinii"></p>
-  <p class="autor" id="autor-opinii"></p>
-</div>
+    <main class="cennik">
+      <h2>Rezerwacje w salonie</h2><hr>
+      <table>
+        <tr class="tabelka_cennik">
+            <th>ID klienta</th>
+            <th>Nazwa usługi</th>
+            <th>Godzina rozpoczęcia usługi</th>
+            <th>Godzina zakończenia usługi</th>
+            <th>Data wizyty</th>
+            <th>Imię i nazwisko stylistyki/stylisty</th>
+        </tr>
+    <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $id_usera = (int)$_SESSION['id'];
+            $kw1=("SELECT `id_user`,`nazwa`,`godzina_poczatkowa`,`godzina_koncowa`,`data_wizyty`,`imie_stylisty`,`nazwisko_stylisty` FROM `moje_rezerwacje` ");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<tr><td>".$row[0]."
+                </td><td>".$row[1]."</td><td>"
+                . substr($row[2], 0, 5) ."</td><td>"
+                . substr($row[3], 0, 5) ."</td><td>"
+                .$row[4]."</td><td>"
+                .$row[5]." ".$row[6]."</td></tr>";
 
-<?php
-// Połączenie z bazą danych
-$serwer = "localhost";
-$user = "root";
-$haslo = "";
-$baza = "salon";
-
-$conn = mysqli_connect($serwer, $user, $haslo, $baza);
-
-if (!$conn) {
-  die("Błąd połączenia: " . mysqli_connect_error());
-}
-
-// Pobieranie opinii z bazy
-$komentarz = array();
-$sql = "SELECT imie, komentarz FROM `widok_opinie`";
-$wynik = mysqli_query($conn, $sql);
-
-while ($row = mysqli_fetch_assoc($wynik)) {
-  $komentarz[] = $row;
-}
-
-mysqli_close($conn);
-
-// Przekazanie opinii do JavaScript w formacie JSON
-echo "<script>
-var wszystkieOpinie = " . json_encode($komentarz) . ";
-</script>";
-?>
-
-<script>
-// Prosty skrypt do zmieniania opinii co 5 sekund
-var indeks = 0;
-
-function pokazOpinie() {
-  if (wszystkieOpinie.length === 0) return;
-
-  var opinia = wszystkieOpinie[indeks];
-  document.getElementById('tresc-opinii').innerText = opinia.komentarz;
-  document.getElementById('autor-opinii').innerText = '– ' + opinia.imie;
-
-  // Przechodzimy do następnej opinii (w pętli)
-  indeks = (indeks + 1) % wszystkieOpinie.length;
-}
-
-// Pokazujemy pierwszą opinię od razu
-pokazOpinie();
-
-// Co 5 sekund zmieniamy opinię
-setInterval(pokazOpinie, 5000);
-</script>
-<h3>Zapraszamy do skorzystania z naszych usług i doświadczenia profesjonalnej obsługi w miłej atmosferze!</h3>
-    </main>
+            }
+            mysqli_close($conn);
+            ?>
+   
+<table>
+       </main>
     
-    <section class="galeria_zdjec">
-<h1>Zdjęcia naszego salonu i stylizacji</h1><hr>
-<div class="galeria">
-<img src="zdjecia/1.jpg" >
-<img src="zdjecia/2.jpg" >
-<img src="zdjecia/3.jpg" >
-<img src="zdjecia/4.jpg" >
-<img src="zdjecia/5.jpg" >
-<img src="zdjecia/6.jpg" >
-<img src="zdjecia/7.jpg"  alt="zdjecie salonu">
-<img src="zdjecia/8.jpg" alt="zdjecie salonu" >
-</div>
-    </section>
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br><hr>

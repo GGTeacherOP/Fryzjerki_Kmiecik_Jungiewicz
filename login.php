@@ -9,8 +9,8 @@ if (isset($_SESSION['id'])) {
     } elseif ($_SESSION['rola'] == 'fryzjer') {
         header("Location: panel_fryzjera.php");
         exit();
-    } elseif ($_SESSION['rola'] == 'admin') {
-        header("Location: panel_admina.php");
+    } elseif ($_SESSION['rola'] == 'szef') {
+        header("Location: index.php");
         exit();
     }elseif ($_SESSION['rola'] == 'sprzataczka') {
       header("Location: panel_sprzataczki.php");
@@ -45,8 +45,8 @@ if (isset($_POST['zaloguj'])) {
             header("Location: umow.php");
         } elseif ($rola == "fryzjer") {
             header("Location: panel_fryzjera.php");
-        } elseif ($rola == "admin") {
-            header("Location: panel_admina.php");
+        } elseif ($rola == "szef") {
+            header("Location: index.php");
         }elseif ($rola == "sprzataczka") {
           header("Location: panel_sprzataczki.php");
       }
@@ -114,7 +114,7 @@ if (isset($_POST['zaloguj'])) {
     <main class="cennik">
       <div class="logowanie"> 
       <h1>Zaloguj sie!</h1>
-      <form action="login.php" method="post">
+      <form action="" method="post">
         <label for="email">Adres e-mail:</label>
         <input type="email" id="email" name="email" placeholder="podaj email"  required>
         <br><br>
