@@ -92,7 +92,7 @@ session_start();
             mysqli_close($conn);
             ?>
    
-<table>
+        </table>
        </main>
     
     <footer>

@@ -76,21 +76,23 @@ session_start();
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
             $id_usera = (int)$_SESSION['id'];
-            $kw1=("SELECT `id_user`,`nazwa`,`godzina_poczatkowa`,`godzina_koncowa`,`data_wizyty`FROM `grafik_fryzjera` where id=$id_usera ");
+            $id_pracownika=(int)$_SESSION['id_pracownika'];
+            $kw1=("SELECT `id_user`,`nazwa`,`godzina_poczatkowa`,`godzina_koncowa`,`data_wizyty` FROM `grafik_fryzjera` where id_pracownika=$id_pracownika ");
             $skrypt1=mysqli_query($conn,$kw1);
-            while($row=mysqli_fetch_row($skrypt1))
-            {
-                echo "<tr><td>".$row[0]."
-                </td><td>".$row[1]."</td><td>"
-                . substr($row[2], 0, 5) ."</td><td>"
-                . substr($row[3], 0, 5) ."</td><td>"
-                .$row[4]."</td></tr>";
-
+            if (mysqli_num_rows($skrypt1) > 0) {
+                while($row = mysqli_fetch_row($skrypt1)) {
+                    echo "<tr><td>".$row[0]."</td><td>".$row[1]."</td><td>"
+                        . substr($row[2], 0, 5) ."</td><td>"
+                        . substr($row[3], 0, 5) ."</td><td>"
+                        .$row[4]."</td></tr>";
+                }
+            } else {
+                echo "<tr><td colspan='5'>Brak rezerwacji dla tego pracownika.</td></tr>";
             }
             mysqli_close($conn);
             ?>
    
-<table>
+        </table>
        </main>
     
     <footer>
