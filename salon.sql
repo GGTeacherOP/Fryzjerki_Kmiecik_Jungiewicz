@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 16, 2025 at 06:10 PM
+-- Generation Time: Maj 18, 2025 at 03:01 AM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -31,6 +31,7 @@ CREATE TABLE `rezerwacje` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_usluga` int(11) NOT NULL,
+  `id_pracownika` int(11) NOT NULL,
   `godzina_poczatkowa` time NOT NULL,
   `godzina_koncowa` time NOT NULL,
   `data_wizyty` date NOT NULL
@@ -40,12 +41,12 @@ CREATE TABLE `rezerwacje` (
 -- Dumping data for table `rezerwacje`
 --
 
-INSERT INTO `rezerwacje` (`id`, `id_user`, `id_usluga`, `godzina_poczatkowa`, `godzina_koncowa`, `data_wizyty`) VALUES
-(1, 1, 1, '10:00:00', '11:00:00', '2025-05-20'),
-(2, 2, 4, '12:00:00', '14:00:00', '2025-05-21'),
-(3, 3, 10, '09:00:00', '09:45:00', '2025-05-22'),
-(4, 4, 15, '13:00:00', '14:30:00', '2025-05-23'),
-(5, 5, 20, '11:00:00', '11:30:00', '2025-05-24');
+INSERT INTO `rezerwacje` (`id`, `id_user`, `id_usluga`, `id_pracownika`, `godzina_poczatkowa`, `godzina_koncowa`, `data_wizyty`) VALUES
+(1, 1, 1, 4, '10:00:00', '11:00:00', '2025-05-20'),
+(2, 2, 4, 2, '12:00:00', '14:00:00', '2025-05-21'),
+(3, 3, 10, 5, '09:00:00', '09:45:00', '2025-05-22'),
+(4, 4, 15, 6, '13:00:00', '14:30:00', '2025-05-23'),
+(5, 5, 20, 0, '11:00:00', '11:30:00', '2025-05-24');
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,14 @@ INSERT INTO `users` (`id`, `imie`, `nazwisko`, `email`, `haslo`, `rola`, `id_pra
 (27, 'Joanna', 'Kowalczyk', 'joanna.kowalczyk@example.com', 'sprzataczka5', 'sprzataczka', 12),
 (28, 'Łukasz', 'Baran', 'lukasz.baran@example.com', 'sprzatanie6', 'sprzataczka', 13),
 (29, 'Monika', 'Szymańska', 'monika.szymanska@example.com', 'sprzatanie7', 'sprzataczka', 14),
-(30, 'Paweł', 'Włodarczyk', 'pawel.wlodarczyk@example.com', 'sprzataczka8', 'sprzataczka', 15);
+(30, 'Paweł', 'Włodarczyk', 'pawel.wlodarczyk@example.com', 'sprzataczka8', 'sprzataczka', 15),
+(31, '', '', '', 'aaa', 'klient', NULL),
+(32, 'agnieszka', 'nowak', 'test2@gmail.com', 'aaa', 'klient', NULL),
+(33, 'zbigniew', 'kruk', 'test3@djd.pl', 'aaa', 'klient', NULL),
+(34, 'zbigniew', 'kruk', 'fvf@ff', 'aaa', 'klient', NULL),
+(35, 'Paweł', 'Nowak', 'test3@gmail.com', 'bbb', 'klient', NULL),
+(36, 'agnieszka', 'kruk', 'fggf@cvv', 'aaa', 'klient', NULL),
+(37, 'agnieszka', 'nowak', 'test4@df', 'aa', 'klient', NULL);
 
 -- --------------------------------------------------------
 
@@ -149,7 +157,8 @@ INSERT INTO `uslugi` (`id`, `nazwa`, `cena`, `czas_trwania`, `id_kategorii`) VAL
 ALTER TABLE `rezerwacje`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_usluga` (`id_usluga`);
+  ADD KEY `id_usluga` (`id_usluga`),
+  ADD KEY `id_pracownika` (`id_pracownika`);
 
 --
 -- Indeksy dla tabeli `users`
@@ -180,7 +189,7 @@ ALTER TABLE `rezerwacje`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `uslugi`
@@ -197,7 +206,8 @@ ALTER TABLE `uslugi`
 --
 ALTER TABLE `rezerwacje`
   ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`);
+  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`),
+  ADD CONSTRAINT `rezerwacje_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
 
 --
 -- Constraints for table `users`
