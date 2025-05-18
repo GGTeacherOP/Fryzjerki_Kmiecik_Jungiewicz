@@ -106,8 +106,8 @@ session_start();
         $godzina = $_POST['godzina'];
       
         $id_usluga = $_POST['usluga'];
-$result_usluga = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = '$id_usluga'");
-$row_usluga = mysqli_fetch_assoc($result_usluga);
+        $result_usluga = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = '$id_usluga'");
+        $row_usluga = mysqli_fetch_assoc($result_usluga);
        // pobieranie id_uslugi z tabeli 
 
         $imie_nazwisko = $_POST['id_pracownika'];
@@ -158,7 +158,7 @@ if (mysqli_num_rows($sprawdz) > 0) {
 mysqli_close($conn);
 ?>
 
-      
+      <div id="podsumowanie" style="margin-top: 20px; font-weight: bold; color: #333;"></div>
       
     </main>
     
@@ -190,5 +190,38 @@ menuButton.addEventListener('click', () => {
     linki.classList.toggle('show'); //pokazuje lub ukrywa menu
 });
       </script>
+
+      <script>
+document.querySelector('form').addEventListener('change', function() {
+    const data = document.querySelector('input[name="data"]').value;
+    const uslugaInput = document.querySelector('input[name="usluga"]:checked');
+
+    // sprawdza czy podano usluge 
+    if (!data || !uslugaInput) {
+        document.getElementById('podsumowanie').innerHTML = "";
+        return;
+    }
+
+    // Pobieramy tekst 
+    const uslugaLabel = uslugaInput.nextElementSibling.innerText;
+    const [nazwaUslugi, cenaTekst] = uslugaLabel.split(" - ");
+    const cena = parseFloat(cenaTekst.replace("zł", "").trim());
+
+    // Obliczamy punkty
+    const punkty = Math.floor(cena / 10);
+
+    // Tworzymy tekst podsumowania
+    const tekst = `
+        <h3> Podsumowanie rezerwacji:</h3>
+        <p> Data: <strong>${data}</strong></p>
+        <p> Usługa: <strong>${nazwaUslugi}</strong></p>
+        <p> Cena: <strong>${cena} zł</strong></p>
+        <p> Punkty lojalnościowe: <strong>${punkty}</strong></p>
+    `;
+
+    
+    document.getElementById('podsumowanie').innerHTML = tekst;
+});
+</script>
 </body>
 </html>
