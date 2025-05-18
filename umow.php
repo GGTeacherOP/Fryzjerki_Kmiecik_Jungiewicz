@@ -56,14 +56,14 @@ session_start();
     <main class="cennik">
      
       <h2>Umów sie na wizyte!</h2><hr>
-      <form>
+      
+<form method="POST" action="zapisz_rezerwacje.php">
 
-        <label for="data">Data wizyty:</label><br>
-        <input type="date" id="data" name="data" required><br><br>
+    <label>Data wizyty:</label><br>
+    <input type="date" name="data" required><br><br>
 
-        <label for="godzina">Godzina wizyty:</label><br>
-        <input type="time" id="godzina" name="godzina" required><br><br>
-        
+    <label>Godzina wizyty:</label><br>
+    <input type="time" name="godzina" required><br><br>
         <label for="usluga">Wybierz usługę:</label>
     <table>
         <?php
@@ -76,14 +76,30 @@ session_start();
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
-                echo "<tr><td><input type='radio' id='".$row[1]."' name='".$row[1]."' value='".$row[1]."'>
+                echo "<tr><td><input type='radio' id='".$row[1]."' name='usluga' value='".$row[1]."'>
                       <label for='".$row[1]."'>".$row[1]." - ".$row[2]."</td></tr></label>"; 
             }
             mysqli_close($conn);
             ?>
         </table>
-        <button type="submit">Umów się na wizyte</button>
-    </form>
+        
+    <label>Pracownik:</label><br>
+    <select name="id_pracownika">
+        <?php
+        $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $kw2=("SELECT * FROM widok_pracownicy WHERE rola='fryzjer'");
+            $skrypt2=mysqli_query($conn,$kw2);
+            while($row=mysqli_fetch_row($skrypt2))
+            {
+                echo "<option>$row[0] $row[1]</option>"; 
+            }
+            mysqli_close($conn);
+        ?>
+    </select><br><br>
+
+    <button type="submit">Umów się</button>
+</form>
+    
       
       
     </main>
