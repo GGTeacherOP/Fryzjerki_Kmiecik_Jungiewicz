@@ -42,9 +42,9 @@ session_start();
       <?php
     }elseif ($_SESSION['rola'] == "fryzjer") {
       ?>
-      <li><a href="grafik-pracownik.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
-      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
     
       <?php
     }
@@ -155,7 +155,7 @@ setInterval(pokazOpinie, 5000);
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br><hr>
           <ul class="kontakt">
-            <li><h4>Aleksandra&nbspKmiecik</h4> <p>+48 999 888 777</p><a href="mailto:akmiecik2007@gmail.com">e-mail</a></li>
+            <li><h4>Aleksandra&nbspKmiecik</h4> <p>+48 999 888 777</p></li>
             <li><h4>Natalia&nbspJungiewicz</h4> <p>+48 666 555 444</p></li>
           </ul>
         </div>

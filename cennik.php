@@ -21,7 +21,6 @@ session_start();
               <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
-
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -32,10 +31,20 @@ session_start();
       <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "admin") {
+    } elseif ($_SESSION['rola'] == "szef") {
       ?>
-      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    }elseif ($_SESSION['rola'] == "fryzjer") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
       <?php
     }
    

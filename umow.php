@@ -31,10 +31,20 @@ session_start();
       <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "admin") {
+    } elseif ($_SESSION['rola'] == "szef") {
       ?>
-      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    }elseif ($_SESSION['rola'] == "fryzjer") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
       <?php
     }
    
@@ -196,11 +206,11 @@ $punkty = floor($cena / 10);
 if (mysqli_num_rows($sprawdz_punkty) > 0) {
     // Jeśli istnieje - aktualizuje
     mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
-    echo "zauktualizowano punkty" ;
+    echo "Zauktualizowano punkty" ;
 } else {
     // Jeśli nie istnieje dodaje 
     mysqli_query($conn, "INSERT INTO program_lojalnosciowy (id_user, punkty) VALUES ($id_user, $punkty)");
-    echo "dodano punkty";
+    echo "Dodano punkty";
 
 }}
 
