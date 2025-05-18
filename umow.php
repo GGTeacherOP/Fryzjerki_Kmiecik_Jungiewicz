@@ -246,7 +246,32 @@ document.querySelector('form').addEventListener('change', function() {
 
     
     document.getElementById('podsumowanie').innerHTML = tekst;
+
+     fetch("punkty.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "punkty=" + punkty
+  });
+  
 });
 </script>
+<?php
+ $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+$sprawdz_punkty = mysqli_query($conn, "SELECT * FROM program_lojalnosciowy WHERE id_user = $id_user");
+
+if (mysqli_num_rows($sprawdz_punkty) > 0) {
+    // Jeśli istnieje - aktualizuje
+    mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
+    echo "zauktualizowano" ;
+} else {
+    // Jeśli nie istnieje dodaje 
+    mysqli_query($conn, "INSERT INTO program_lojalnosciowy (id_user, punkty) VALUES ($id_user, $punkty)");
+    echo "dodano";
+
+}
+
+?>
 </body>
 </html>
