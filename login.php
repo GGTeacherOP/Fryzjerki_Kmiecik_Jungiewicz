@@ -33,8 +33,20 @@ if (isset($_POST['zaloguj'])) {
     if (!$conn) {
         die("Błąd połączenia: " . mysqli_connect_error());
     }
+//if do sprawdzania czy aktywny
+if ($rola == 'fryzjer') {
+  // Sprawdzamy aktywnego pracownika
+  $sql = "SELECT * FROM `logowanie_aktywny` WHERE users.email='$email' AND users.haslo='$haslo' AND users.rola='$rola' AND pracownicy.aktywny=1";
+} elseif($rola=='szef') {
+  // Klient, szef, sprzątaczka – zwykłe sprawdzenie
+  $sql = "SELECT * FROM `logowanie_aktywny` WHERE users.email='$email' AND users.haslo='$haslo' AND users.rola='$rola' AND pracownicy.aktywny=1"
+}elseif($rola=='sprzataczka'){
+   $sql = "SELECT * FROM `logowanie_aktywny` WHERE users.email='$email' AND users.haslo='$haslo' AND users.rola='$rola' AND pracownicy.aktywny=1"
+}else{
+  $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
 
-    $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
+}
+
     $wynik = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($wynik) == 1) {
@@ -59,7 +71,7 @@ if (isset($_POST['zaloguj'])) {
       }
         exit();
     } else {
-        $blad = "Nieprawidłowe dane logowania.";
+        $blad = "Nieprawidłowe dane logowania lub konto nieaktywne.";
     }
 
     mysqli_close($conn);

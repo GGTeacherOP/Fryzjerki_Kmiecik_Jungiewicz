@@ -32,12 +32,19 @@ session_start();
       <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "admin") {
+    } elseif ($_SESSION['rola'] == "szef") {
       ?>
-      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a><li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    }
+    }elseif ($_SESSION['rola'] == "fryzjer") {
+        ?>
+        <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+        <li><a href="logout.php">Wyloguj się</a></li>
+        <?php
+      }
    
   } else {
     ?>
@@ -55,11 +62,15 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-      <h2>Twoje punkty lojalnościowe</h2><hr>
+      <h2>Opinie o salonie</h2><hr>
       <table>
         <tr class="tabelka_cennik">
-            <th>Punkty</th>
-          
+            <th>ID klienta</th>
+            <th>Treść opini</th>
+            <th>Ocena(1-5)</th>
+            <th>Data wystawienia opini</th>
+            <th>Usuń opinie</th>
+            
         </tr>
     <?php
             $serwer="localhost";
@@ -67,19 +78,49 @@ session_start();
             $haslo="";
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            $id_usera = (int)$_SESSION['id'];
-            $kw1=("SELECT * FROM `punkty` WHERE id_user= $id_usera;");
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_opinii'])) {
+                $id_opinii = (int)$_POST['id_opinii'];
+                $kw_usun = "DELETE FROM opinie WHERE id = $id_opinii";
+                mysqli_query($conn, $kw_usun);
+            }
+            $kw1=("SELECT * FROM `opinie_admin` ");
+            $id_opini=("SELECT id FROM opinie");
             $skrypt1=mysqli_query($conn,$kw1);
+            
             while($row=mysqli_fetch_row($skrypt1))
             {
-                echo "<tr><td>"
-                .$row[1]."</td></tr>";
+                echo "<tr><td>".$row[1]."
+                </td><td>".$row[2]."</td><td>"
+                .$row[3] ."</td><td>"
+                .$row[4] ."</td><td><form method='POST' onsubmit=\"return confirm('Na pewno chcesz usunąć tę opinię?');\">
+                <input type='hidden' name='id_opinii' value='" . $row[0] . "'>
+                <input type='submit' value='Usuń'>
+            </form>
+                </td></tr>";
 
             }
             mysqli_close($conn);
             ?>
    
         </table>
+        <h3>Łączna liczba wystawionych opini</h3><hr>
+        <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $id_usera = (int)$_SESSION['id'];
+            $kw1=("SELECT COUNT(*) FROM `opinie_admin` ");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<p>".$row[0]."
+                </p>";
+
+            }
+            mysqli_close($conn);
+            ?>
        </main>
     
     <footer>

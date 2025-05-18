@@ -68,7 +68,7 @@ session_start();
         <br><br>
         
         <label for="haslo">Hasło:</label>
-        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" required>
+        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         <br><br>
         <label for="phaslo">Powtórz hasło:</label>
         <input type="password" id="phaslo" name="phaslo" placeholder="powtórz hasło" required>
