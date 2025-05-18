@@ -55,7 +55,6 @@ session_start();
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
      <li><a href="sprzataczka.php">Umów swoją wizytę</a></li>
-
     <?php
   }
   ?>
@@ -67,77 +66,68 @@ session_start();
         </div>
     </header>
     <main class="main">
-      <div class="o_salonie"> 
-      <h2>O naszym salonie</h2><hr>
-      <p>Nasz salon fryzjerski to miejsce, gdzie pasja do pięknych włosów spotyka się z profesjonalizmem i dbałością o klienta. Zlokalizowany w Mielcu,
-         nasz salon oferuje szeroki zakres usług fryzjerskich, dostosowanych do indywidualnych potrzeb i oczekiwań.</p>
-         <h2>Nasi Fryzjerzy</h2><hr>
-         <p>Nasz zespół to wykwalifikowani i doświadczeni fryzjerzy, którzy nieustannie podnoszą swoje kwalifikacje, uczestnicząc w szkoleniach i śledząc najnowsze trendy.
-           Zapewniamy indywidualne podejście do każdego klienta, doradzając i pomagając w doborze idealnej fryzury i koloru.</p>
-           <h2>Atmosfera</h2>
-    <hr>       <p>W naszym salonie panuje przyjazna i relaksująca atmosfera. Dbamy o to, aby każdy klient czuł się u nas komfortowo i wyjątkowo.
-             Oferujemy kawę, herbatę i miłą rozmowę, aby wizyta w naszym salonie była prawdziwą przyjemnością.</p>
-            
-</div>
-<h2>Opinie naszych klientów</h2>
-<hr>
-<div id="opinie-container">
-  <p id="tresc-opinii"></p>
-  <p class="autor" id="autor-opinii"></p>
-</div>
+      <table>
+        <caption>Grafik pracy – Sprzątaczki (Salon Fryzjerski, 19–25 maja 2025)</caption>
+        <thead>
+            <tr>
+                <th>Dzień</th>
+                <th>Data</th>
+                <th>Sprzątaczka 1<br><span class="name">Anna</span></th>
+                <th>Sprzątaczka 2<br><span class="name">Beata</span></th>
+                <th>Sprzątaczka 3<br><span class="name">Celina</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Poniedziałek</td>
+                <td>19.05.2025</td>
+                <td>07:00–09:00<br>Poranne sprzątanie</td>
+                <td>Wolne</td>
+                <td>20:00–22:00<br>Dezynfekcja po zamknięciu</td>
+            </tr>
+            <tr>
+                <td>Wtorek</td>
+                <td>20.05.2025</td>
+                <td>Wolne</td>
+                <td>07:00–09:00<br>Podłogi, kurze</td>
+                <td>20:00–22:00<br>Toalety, narzędzia</td>
+            </tr>
+            <tr>
+                <td>Środa</td>
+                <td>21.05.2025</td>
+                <td>07:00–09:00<br>Ogólne sprzątanie</td>
+                <td>20:00–22:00<br>Mycie luster</td>
+                <td>Wolne</td>
+            </tr>
+            <tr>
+                <td>Czwartek</td>
+                <td>22.05.2025</td>
+                <td>Wolne</td>
+                <td>07:00–09:00<br>Przygotowanie salonu</td>
+                <td>20:00–22:00<br>Dokładna dezynfekcja</td>
+            </tr>
+            <tr>
+                <td>Piątek</td>
+                <td>23.05.2025</td>
+                <td>07:00–09:00<br>Ogólne porządki</td>
+                <td>20:00–22:00<br>Uzupełnienie środków</td>
+                <td>Wolne</td>
+            </tr>
+            <tr>
+                <td>Sobota</td>
+                <td>24.05.2025</td>
+                <td>07:00–09:00<br>Szybkie porządki</td>
+                <td>Wolne</td>
+                <td>15:00–17:00<br>Sprzątanie po klientach</td>
+            </tr>
+            <tr>
+                <td>Niedziela</td>
+                <td>25.05.2025</td>
+                <td colspan="3">Wolne (salon nieczynny)</td>
+            </tr>
+        </tbody>
+    </table>
 
-<?php
-// Połączenie z bazą danych
-$serwer = "localhost";
-$user = "root";
-$haslo = "";
-$baza = "salon";
-
-$conn = mysqli_connect($serwer, $user, $haslo, $baza);
-
-if (!$conn) {
-  die("Błąd połączenia: " . mysqli_connect_error());
-}
-
-// Pobieranie opinii z bazy
-$komentarz = array();
-$sql = "SELECT imie, komentarz FROM `widok_opinie`";
-$wynik = mysqli_query($conn, $sql);
-
-while ($row = mysqli_fetch_assoc($wynik)) {
-  $komentarz[] = $row;
-}
-
-mysqli_close($conn);
-
-// Przekazanie opinii do JavaScript w formacie JSON
-echo "<script>
-var wszystkieOpinie = " . json_encode($komentarz) . ";
-</script>";
-?>
-
-<script>
-// Prosty skrypt do zmieniania opinii co 5 sekund
-var indeks = 0;
-
-function pokazOpinie() {
-  if (wszystkieOpinie.length === 0) return;
-
-  var opinia = wszystkieOpinie[indeks];
-  document.getElementById('tresc-opinii').innerText = opinia.komentarz;
-  document.getElementById('autor-opinii').innerText = '– ' + opinia.imie;
-
-  // Przechodzimy do następnej opinii (w pętli)
-  indeks = (indeks + 1) % wszystkieOpinie.length;
-}
-
-// Pokazujemy pierwszą opinię od razu
-pokazOpinie();
-
-// Co 5 sekund zmieniamy opinię
-setInterval(pokazOpinie, 5000);
-</script>
-<h3>Zapraszamy do skorzystania z naszych usług i doświadczenia profesjonalnej obsługi w miłej atmosferze!</h3>
     </main>
     
     <section class="galeria_zdjec">
