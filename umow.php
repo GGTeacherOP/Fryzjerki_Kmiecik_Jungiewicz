@@ -180,11 +180,12 @@ if (mysqli_num_rows($sprawdz) > 0) {
     echo "Rezerwacja zapisana od $start do $end";
 }
        }
-mysqli_close($conn);
+
 ?>
 
       <div id="podsumowanie" style="margin-top: 20px; font-weight: bold; color: #333;"></div>
       <?php
+      if ($_SERVER['REQUEST_METHOD'] === 'POST'){
  $conn=mysqli_connect($serwer,$user,$haslo,$baza);
 $id_user = $_SESSION['id'];
 $sprawdz_punkty = mysqli_query($conn, "SELECT * FROM program_lojalnosciowy WHERE id_user = $id_user");
@@ -201,7 +202,7 @@ if (mysqli_num_rows($sprawdz_punkty) > 0) {
     mysqli_query($conn, "INSERT INTO program_lojalnosciowy (id_user, punkty) VALUES ($id_user, $punkty)");
     echo "dodano punkty";
 
-}
+}}
 
 ?>
     </main>
