@@ -67,7 +67,7 @@ session_start();
     
     <label for="kod_rabatowy">Kod rabatowy (opcjonalnie):</label><br>
     <input type="text" name="kod_rabatowy" placeholder="Wpisz kod..."><br><br>
-    
+
     <label for="usluga">Wybierz usługę:</label>
     
     <table>
@@ -108,6 +108,26 @@ session_start();
       <?php
        $conn=mysqli_connect($serwer,$user,$haslo,$baza);
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $kod_rabatowy = isset($_POST['kod_rabatowy']) ? trim($_POST['kod_rabatowy']) : '';
+        $znizka = 0;
+
+    if (!empty($kod_rabatowy)) {
+    $dzis = date('Y-m-d');
+    $sql_kod = "SELECT znizka FROM kody_rabatowe 
+                WHERE kod = '$kod_rabatowy' AND aktywny = 1 AND data_waznosci >= '$dzis'";
+    $wynik_kod = mysqli_query($conn, $sql_kod);
+
+    if (mysqli_num_rows($wynik_kod) > 0) {
+        $rabat = mysqli_fetch_assoc($wynik_kod);
+        $znizka = $rabat['znizka'];
+        echo "<p style='color:green;'>Zastosowano kod rabatowy: -$znizka%</p>";
+    } else {
+        echo "<p style='color:red;'>Kod rabatowy jest nieprawidłowy lub wygasł.</p>";
+    }
+}
+
+
         $godzina = $_POST['godzina'];
       
         $id_usluga = $_POST['usluga'];
