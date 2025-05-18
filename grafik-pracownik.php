@@ -75,8 +75,24 @@ session_start();
             $haslo="";
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            $id_usera = (int)$_SESSION['id'];
-            $id_pracownika=(int)$_SESSION['id_pracownika'];
+            if (isset($_SESSION['id'])) {
+                $id_uzytkownika = (int)$_SESSION['id'];
+                $zapytanie = "SELECT id_pracownika FROM users WHERE id = $id_uzytkownika";
+                $wynik = mysqli_query($conn, $zapytanie);
+            
+                if ($wynik && mysqli_num_rows($wynik) > 0) {
+                    $wiersz = mysqli_fetch_assoc($wynik);
+                    $_SESSION['id_pracownika'] = $wiersz['id_pracownika'];
+                } else {
+                    $_SESSION['id_pracownika'] = null;
+                }
+            }
+            if (isset($_SESSION['id_pracownika'])) {
+                $id_pracownika = (int)$_SESSION['id_pracownika'];
+            } else {
+                echo "<p>Błąd: brak ID pracownika w sesji.</p>";
+                exit; 
+            }
             $kw1=("SELECT `id_user`,`nazwa`,`godzina_poczatkowa`,`godzina_koncowa`,`data_wizyty` FROM `grafik_fryzjera` where id_pracownika=$id_pracownika ");
             $skrypt1=mysqli_query($conn,$kw1);
             if (mysqli_num_rows($skrypt1) > 0) {

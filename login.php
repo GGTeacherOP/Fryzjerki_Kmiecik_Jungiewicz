@@ -7,13 +7,18 @@ if (isset($_SESSION['id'])) {
         header("Location: umow.php");
         exit();
     } elseif ($_SESSION['rola'] == 'fryzjer') {
-        header("Location: index.php.php");
+      if ($dane['rola'] == 'fryzjer') {
+        $_SESSION['id'] = $dane['id']; // ID z tabeli users
+        $_SESSION['rola'] = 'fryzjer';
+        $_SESSION['id_pracownika'] = $dane['id_pracownika']; // DODAJ TO
+        header("Location: sprawdz_rezerwacje.php");
         exit();
+    }
     } elseif ($_SESSION['rola'] == 'szef') {
         header("Location: index.php");
         exit();
     }elseif ($_SESSION['rola'] == 'sprzataczka') {
-      header("Location: index.php.php");
+      header("Location: index.php");
       exit();
   }
 }
@@ -44,6 +49,8 @@ if (isset($_POST['zaloguj'])) {
         if ($rola == "klient") {
             header("Location: umow.php");
         } elseif ($rola == "fryzjer") {
+          $_SESSION['id_pracownika'] = $dane['id_pracownika']; 
+
             header("Location: index.php");
         } elseif ($rola == "szef") {
             header("Location: index.php");
