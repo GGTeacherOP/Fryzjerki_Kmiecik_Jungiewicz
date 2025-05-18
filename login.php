@@ -7,13 +7,13 @@ if (isset($_SESSION['id'])) {
         header("Location: umow.php");
         exit();
     } elseif ($_SESSION['rola'] == 'fryzjer') {
-        header("Location: panel_fryzjera.php");
+        header("Location: index.php.php");
         exit();
     } elseif ($_SESSION['rola'] == 'szef') {
         header("Location: index.php");
         exit();
     }elseif ($_SESSION['rola'] == 'sprzataczka') {
-      header("Location: panel_sprzataczki.php");
+      header("Location: index.php.php");
       exit();
   }
 }
@@ -44,11 +44,11 @@ if (isset($_POST['zaloguj'])) {
         if ($rola == "klient") {
             header("Location: umow.php");
         } elseif ($rola == "fryzjer") {
-            header("Location: panel_fryzjera.php");
+            header("Location: index.php");
         } elseif ($rola == "szef") {
             header("Location: index.php");
         }elseif ($rola == "sprzataczka") {
-          header("Location: panel_sprzataczki.php");
+          header("Location: index.php");
       }
         exit();
     } else {
@@ -91,6 +91,11 @@ if (isset($_POST['zaloguj'])) {
     } elseif ($_SESSION['rola'] == "admin") {
       ?>
       <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    } elseif ($_SESSION['rola'] == "fryzjer") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź rezerwacje</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
     }
