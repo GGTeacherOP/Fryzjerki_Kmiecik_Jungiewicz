@@ -36,12 +36,12 @@ if (isset($_POST['zaloguj'])) {
 //if do sprawdzania czy aktywny
 if ($rola == 'fryzjer') {
   // Sprawdzamy aktywnego pracownika
-  $sql = "SELECT * FROM `logowanie_aktywny` WHERE users.email='$email' AND users.haslo='$haslo' AND users.rola='$rola' AND pracownicy.aktywny=1";
+  $sql = "SELECT * FROM `logowanie_aktywny` WHERE email='$email' AND haslo='$haslo' AND rola='$rola' AND aktywny=1";
 } elseif($rola=='szef') {
   // Klient, szef, sprzątaczka – zwykłe sprawdzenie
-  $sql = "SELECT * FROM `logowanie_aktywny` WHERE users.email='$email' AND users.haslo='$haslo' AND users.rola='$rola' AND pracownicy.aktywny=1";
+  $sql = "SELECT * FROM `logowanie_aktywny` WHERE email='$email' AND haslo='$haslo' AND rola='$rola' AND aktywny=1";
 }elseif($rola=='sprzataczka'){
-   $sql = "SELECT * FROM `logowanie_aktywny` WHERE users.email='$email' AND users.haslo='$haslo' AND users.rola='$rola' AND pracownicy.aktywny=1";
+   $sql = "SELECT * FROM `logowanie_aktywny` WHERE email='$email' AND haslo='$haslo' AND rola='$rola' AND aktywny=1";
 }else{
   $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
 
