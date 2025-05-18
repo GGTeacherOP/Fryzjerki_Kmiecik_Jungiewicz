@@ -76,7 +76,7 @@ session_start();
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
-                echo "<tr><td><input type='checkbox' id='".$row[1]."' name='".$row[1]."' value='".$row[1]."'>
+                echo "<tr><td><input type='radio' id='".$row[1]."' name='usluga' value='".$row[1]."'>
                       <label for='".$row[1]."'>".$row[1]." - ".$row[2]."</td></tr></label>"; 
             }
             mysqli_close($conn);
