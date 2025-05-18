@@ -64,7 +64,12 @@ session_start();
 
     <label>Godzina wizyty:</label><br>
     <input type="time" name="godzina" required><br><br>
-        <label for="usluga">Wybierz usługę:</label>
+    
+    <label for="kod_rabatowy">Kod rabatowy (opcjonalnie):</label><br>
+    <input type="text" name="kod_rabatowy" placeholder="Wpisz kod..."><br><br>
+    
+    <label for="usluga">Wybierz usługę:</label>
+    
     <table>
         <?php
             $serwer="localhost";
