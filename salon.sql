@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 18, 2025 at 03:49 PM
--- Wersja serwera: 10.4.28-MariaDB
--- Wersja PHP: 8.2.4
+-- Generation Time: Maj 18, 2025 at 10:03 PM
+-- Wersja serwera: 10.4.32-MariaDB
+-- Wersja PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,7 +42,9 @@ INSERT INTO `dni_wolne` (`id`, `id_pracownika`, `data_wolna`, `powod`) VALUES
 (1, 2, '2025-05-25', 'Urlop wypoczynkowy'),
 (2, 5, '2025-05-26', 'Choroba'),
 (3, 8, '2025-05-27', 'Szkolenie'),
-(4, 12, '2025-05-28', 'Sprawy rodzinne');
+(4, 12, '2025-05-28', 'Sprawy rodzinne'),
+(7, 6, '2025-05-25', 'wizyta u lekarza'),
+(8, 6, '2025-05-25', 'wizyta u lekarza');
 
 -- --------------------------------------------------------
 
@@ -142,7 +144,8 @@ CREATE TABLE `opinie` (
 INSERT INTO `opinie` (`id`, `id_user`, `ocena`, `komentarz`, `data_opinii`) VALUES
 (1, 1, 5, 'Świetne strzyżenie, bardzo polecam!', '2025-05-21'),
 (2, 2, 4, 'Koloryzacja dobrze wykonana, ale długi czas oczekiwania.', '2025-05-22'),
-(3, 3, 3, 'Usługa ok, ale mogłoby być szybciej.', '2025-05-23');
+(3, 3, 3, 'Usługa ok, ale mogłoby być szybciej.', '2025-05-23'),
+(10, 1, 5, 'super salon, polecam bardzo serdecznie', '2025-05-18');
 
 -- --------------------------------------------------------
 
@@ -196,7 +199,7 @@ CREATE TABLE `program_lojalnosciowy` (
 
 INSERT INTO `program_lojalnosciowy` (`id`, `id_user`, `punkty`) VALUES
 (1, 1, 150),
-(2, 2, 300),
+(2, 2, 344),
 (3, 3, 75),
 (4, 4, 200),
 (5, 5, 0);
@@ -237,7 +240,14 @@ INSERT INTO `rezerwacje` (`id`, `id_user`, `id_usluga`, `id_pracownika`, `godzin
 (2, 2, 4, 2, '12:00:00', '14:00:00', '2025-05-21'),
 (3, 3, 10, 5, '09:00:00', '09:45:00', '2025-05-22'),
 (4, 4, 15, 6, '13:00:00', '14:30:00', '2025-05-23'),
-(5, 5, 20, 0, '11:00:00', '11:30:00', '2025-05-24');
+(5, 5, 20, 0, '11:00:00', '11:30:00', '2025-05-24'),
+(6, 1, 3, 5, '14:00:00', '15:30:00', '2025-05-28'),
+(7, 1, 1, 6, '11:11:00', '12:11:00', '2025-06-17'),
+(8, 1, 1, 2, '12:30:00', '13:30:00', '2025-05-24'),
+(9, 6, 5, 7, '14:00:00', '16:30:00', '2025-05-27'),
+(10, 3, 15, 4, '10:10:00', '12:40:00', '2025-05-30'),
+(11, 3, 2, 6, '15:00:00', '15:45:00', '2025-08-13'),
+(12, 2, 4, 5, '20:20:00', '22:20:00', '2025-05-22');
 
 -- --------------------------------------------------------
 
@@ -405,6 +415,18 @@ CREATE TABLE `widok_opinie` (
 -- --------------------------------------------------------
 
 --
+-- Zastąpiona struktura widoku `widok_pracownicy`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_pracownicy` (
+`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`rola` enum('klient','szef','fryzjer','sprzataczka')
+);
+
+-- --------------------------------------------------------
+
+--
 -- Zastąpiona struktura widoku `widok_uslugi_kategorie`
 -- (See below for the actual view)
 --
@@ -459,6 +481,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `widok_opinie`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_opinie`  AS SELECT `users`.`imie` AS `imie`, `opinie`.`komentarz` AS `komentarz` FROM (`opinie` join `users` on(`users`.`id` = `opinie`.`id_user`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_pracownicy`
+--
+DROP TABLE IF EXISTS `widok_pracownicy`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_pracownicy`  AS SELECT `pracownicy`.`imie` AS `imie`, `pracownicy`.`nazwisko` AS `nazwisko`, `users`.`rola` AS `rola` FROM (`pracownicy` join `users`) WHERE `pracownicy`.`id` = `users`.`id_pracownika` ;
 
 -- --------------------------------------------------------
 
@@ -559,7 +590,7 @@ ALTER TABLE `uslugi`
 -- AUTO_INCREMENT for table `dni_wolne`
 --
 ALTER TABLE `dni_wolne`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `kategorie_uslug`
@@ -577,7 +608,7 @@ ALTER TABLE `kody_rabatowe`
 -- AUTO_INCREMENT for table `opinie`
 --
 ALTER TABLE `opinie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pracownicy`
@@ -595,7 +626,7 @@ ALTER TABLE `program_lojalnosciowy`
 -- AUTO_INCREMENT for table `rezerwacje`
 --
 ALTER TABLE `rezerwacje`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `stanowisko`
@@ -650,30 +681,10 @@ ALTER TABLE `program_lojalnosciowy`
   ADD CONSTRAINT `program_lojalnosciowy_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `rezerwacje`
---
-ALTER TABLE `rezerwacje`
-  ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
 -- Constraints for table `szkolenia_pracownikow`
 --
 ALTER TABLE `szkolenia_pracownikow`
   ADD CONSTRAINT `szkolenia_pracownikow_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
--- Constraints for table `uslugi`
---
-ALTER TABLE `uslugi`
-  ADD CONSTRAINT `uslugi_ibfk_1` FOREIGN KEY (`id_kategorii`) REFERENCES `kategorie_uslug` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
