@@ -22,7 +22,7 @@ session_start();
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
 
-              <?php
+     <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
       ?>
@@ -32,10 +32,18 @@ session_start();
       <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "admin") {
+    } elseif ($_SESSION['rola'] == "szef") {
       ?>
-      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    }elseif ($_SESSION['rola'] == "fryzjer") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź rezerwacje</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
+
       <?php
     }
    
@@ -71,7 +79,48 @@ if (!isset($_SESSION['id'])) {
         <input type="submit" value="Dodaj dzień wolny">
     </form>
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $serwer = "localhost";
+    $user = "root";
+    $haslo = "";
+    $baza = "salon";
 
+    $conn = mysqli_connect($serwer, $user, $haslo, $baza);
+    if (!$conn) {
+        die("Błąd połączenia: " . mysqli_connect_error());
+    }
+
+    $id_user = (int)$_SESSION['id'];
+
+      $result = mysqli_query($conn, "SELECT id_pracownika FROM users WHERE id = $id_user LIMIT 1");
+    if (!$result || mysqli_num_rows($result) == 0) {
+        echo "<p>Nie znaleziono powiązanego pracownika dla tego użytkownika.</p>";
+        exit();
+    }
+    $row = mysqli_fetch_assoc($result);
+    $id_pracownika = (int)$row['id_pracownika'];
+
+    $data_wolna = mysqli_real_escape_string($conn, $_POST['data']);
+    $powod = mysqli_real_escape_string($conn, $_POST['powod']);
+
+    // Sprawdza czy data nie jest pusta i ma poprawny format
+    if ($data_wolna && $powod) {
+        $sql = "INSERT INTO dni_wolne (id_pracownika, data_wolna, powod) 
+                VALUES ('$id_pracownika', '$data_wolna', '$powod')";
+
+        if (mysqli_query($conn, $sql)) {
+            echo "<p>Dzień wolny został dodany pomyślnie.</p>";
+        } else {
+            echo "<p>Błąd podczas dodawania: " . mysqli_error($conn) . "</p>";
+        }
+    } else {
+        echo "<p>Wszystkie pola są wymagane.</p>";
+    }
+
+    mysqli_close($conn);
+}
+?>
    
        </main>
     
