@@ -35,8 +35,7 @@ session_start();
     } elseif ($_SESSION['rola'] == "szef") {
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
-      <li><a href="pracownicy-admin.php">Pracownicy</a><li>
-
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
@@ -131,8 +130,82 @@ mysqli_close($conn);
                 </p>";
 
             }
+          
+            ?>
+            <h2>Dodaj nowego pracownika</h2>
+            <?php
+$conn = mysqli_connect("localhost", "root", "", "salon");
+if (!$conn) {
+    die("Błąd połączenia: " . mysqli_connect_error());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!empty($_POST['imie']) && !empty($_POST['nazwisko']) && !empty($_POST['email']) &&
+        !empty($_POST['haslo']) && !empty($_POST['id_stanowisko'])) {
+
+        $imie = $_POST['imie'];
+        $nazwisko = $_POST['nazwisko'];
+        $email = $_POST['email'];
+        $haslo = $_POST['haslo'];
+        $id_stanowisko = (int)$_POST['id_stanowisko'];
+
+        // Sprawdzenie, czy email już istnieje
+        $sprawdz_email = "SELECT id FROM users WHERE email = '$email'";
+        $wynik_email = mysqli_query($conn, $sprawdz_email);
+        
+        if (mysqli_num_rows($wynik_email) > 0) {
+            echo "Podany adres email jest już zajęty. Wybierz inny.";
+        } else {
+            // Dodaj pracownika
+            $sql1 = "INSERT INTO pracownicy (imie, nazwisko, id_stanowisko) VALUES ('$imie', '$nazwisko', $id_stanowisko)";
+            if (mysqli_query($conn, $sql1)) {
+                $id_pracownika = mysqli_insert_id($conn);
+
+                $result = mysqli_query($conn, "SELECT nazwa FROM stanowisko WHERE id = $id_stanowisko");
+                $row = mysqli_fetch_assoc($result);
+                $rola = $row['nazwa'];
+
+                $sql2 = "INSERT INTO users (imie, nazwisko, email, haslo, rola, id_pracownika) 
+                         VALUES ('$imie', '$nazwisko', '$email', '$haslo', '$rola', $id_pracownika)";
+
+                if (mysqli_query($conn, $sql2)) {
+                    echo "Dodano pracownika i użytkownika!";
+                } else {
+                    echo "Błąd dodawania użytkownika: " . mysqli_error($conn);
+                }
+            } else {
+                echo "Błąd dodawania pracownika: " . mysqli_error($conn);
+            }
+        }
+    } else {
+        echo "Wszystkie pola muszą być wypełnione!";
+    }
+}
+?>
+
+<!-- Formularz dodawania pracownika pokazujemy ZAWSZE, niezależnie czy był POST czy nie -->
+<form method="POST">
+    <label>Imię: <input type="text" name="imie" required></label><br>
+    <label>Nazwisko: <input type="text" name="nazwisko" required></label><br>
+    <label>Email: <input type="email" name="email" required></label><br>
+    <label>Hasło: <input type="password" name="haslo" required></label><br>
+    <label>Stanowisko:
+        <select name="id_stanowisko" required>
+            <option value="" disabled selected>Wybierz stanowisko</option>
+            <?php
+            $zapytanie = "SELECT id, nazwa FROM stanowisko";
+            $wynik = mysqli_query($conn, $zapytanie);
+            while ($row = mysqli_fetch_assoc($wynik)) {
+                echo "<option value='{$row['id']}'>{$row['nazwa']}</option>";
+            }
             mysqli_close($conn);
             ?>
+        </select>
+    </label><br><br>
+
+    <input type="submit" value="Dodaj pracownika">
+</form>
+
        </main>
     
     <footer>
