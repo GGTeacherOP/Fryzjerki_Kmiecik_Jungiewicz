@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 18, 2025 at 03:49 PM
+-- Generation Time: Maj 18, 2025 at 10:26 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -108,6 +108,23 @@ INSERT INTO `kody_rabatowe` (`id`, `kod`, `znizka`, `data_waznosci`, `aktywny`) 
 -- --------------------------------------------------------
 
 --
+-- Zastąpiona struktura widoku `logowanie_aktywny`
+-- (See below for the actual view)
+--
+CREATE TABLE `logowanie_aktywny` (
+`id` int(11)
+,`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`email` varchar(100)
+,`haslo` varchar(255)
+,`rola` enum('klient','szef','fryzjer','sprzataczka')
+,`id_pracownika` int(11)
+,`aktywny` tinyint(1)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Zastąpiona struktura widoku `moje_rezerwacje`
 -- (See below for the actual view)
 --
@@ -141,8 +158,21 @@ CREATE TABLE `opinie` (
 
 INSERT INTO `opinie` (`id`, `id_user`, `ocena`, `komentarz`, `data_opinii`) VALUES
 (1, 1, 5, 'Świetne strzyżenie, bardzo polecam!', '2025-05-21'),
-(2, 2, 4, 'Koloryzacja dobrze wykonana, ale długi czas oczekiwania.', '2025-05-22'),
 (3, 3, 3, 'Usługa ok, ale mogłoby być szybciej.', '2025-05-23');
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `opinie_admin`
+-- (See below for the actual view)
+--
+CREATE TABLE `opinie_admin` (
+`id_opini` int(11)
+,`id_user` int(11)
+,`komentarz` text
+,`ocena` int(11)
+,`data_opinii` date
+);
 
 -- --------------------------------------------------------
 
@@ -154,29 +184,46 @@ CREATE TABLE `pracownicy` (
   `id` int(11) NOT NULL,
   `imie` varchar(50) NOT NULL,
   `nazwisko` varchar(50) NOT NULL,
-  `id_stanowisko` int(11) DEFAULT NULL
+  `id_stanowisko` int(11) DEFAULT NULL,
+  `aktywny` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pracownicy`
 --
 
-INSERT INTO `pracownicy` (`id`, `imie`, `nazwisko`, `id_stanowisko`) VALUES
-(1, 'Jan', 'Kowalski', 1),
-(2, 'Anna', 'Nowak', 2),
-(3, 'Piotr', 'Wiśniewski', 2),
-(4, 'Katarzyna', 'Wójcik', 2),
-(5, 'Michał', 'Krawczyk', 2),
-(6, 'Ewa', 'Zielińska', 2),
-(7, 'Tomasz', 'Sikora', 2),
-(8, 'Agnieszka', 'Lewandowska', 3),
-(9, 'Marcin', 'Duda', 3),
-(10, 'Magdalena', 'Kaczmarek', 3),
-(11, 'Robert', 'Mazur', 3),
-(12, 'Joanna', 'Kowalczyk', 3),
-(13, 'Łukasz', 'Baran', 3),
-(14, 'Monika', 'Szymańska', 3),
-(15, 'Paweł', 'Włodarczyk', 3);
+INSERT INTO `pracownicy` (`id`, `imie`, `nazwisko`, `id_stanowisko`, `aktywny`) VALUES
+(1, 'Jan', 'Kowalski', 1, 1),
+(2, 'Anna', 'Nowak', 2, 1),
+(3, 'Piotr', 'Wiśniewski', 2, 1),
+(4, 'Katarzyna', 'Wójcik', 2, 1),
+(5, 'Michał', 'Krawczyk', 2, 1),
+(6, 'Ewa', 'Zielińska', 2, 1),
+(7, 'Tomasz', 'Sikora', 2, 1),
+(8, 'Agnieszka', 'Lewandowska', 3, 1),
+(9, 'Marcin', 'Duda', 3, 0),
+(10, 'Magdalena', 'Kaczmarek', 3, 1),
+(11, 'Robert', 'Mazur', 3, 0),
+(12, 'Joanna', 'Kowalczyk', 3, 1),
+(13, 'Łukasz', 'Baran', 3, 1),
+(14, 'Monika', 'Szymańska', 3, 1),
+(15, 'Paweł', 'Włodarczyk', 3, 1),
+(24, 'Natalia', 'Jungiewicz', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `pracownicy_dane`
+-- (See below for the actual view)
+--
+CREATE TABLE `pracownicy_dane` (
+`id_pracownika` int(11)
+,`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`email` varchar(100)
+,`nazwa` varchar(50)
+,`wynagrodzenie` decimal(10,2)
+);
 
 -- --------------------------------------------------------
 
@@ -333,13 +380,7 @@ INSERT INTO `users` (`id`, `imie`, `nazwisko`, `email`, `haslo`, `rola`, `id_pra
 (28, 'Łukasz', 'Baran', 'lukasz.baran@example.com', 'sprzatanie6', 'sprzataczka', 13),
 (29, 'Monika', 'Szymańska', 'monika.szymanska@example.com', 'sprzatanie7', 'sprzataczka', 14),
 (30, 'Paweł', 'Włodarczyk', 'pawel.wlodarczyk@example.com', 'sprzataczka8', 'sprzataczka', 15),
-(31, '', '', '', 'aaa', 'klient', NULL),
-(32, 'agnieszka', 'nowak', 'test2@gmail.com', 'aaa', 'klient', NULL),
-(33, 'zbigniew', 'kruk', 'test3@djd.pl', 'aaa', 'klient', NULL),
-(34, 'zbigniew', 'kruk', 'fvf@ff', 'aaa', 'klient', NULL),
-(35, 'Paweł', 'Nowak', 'test3@gmail.com', 'bbb', 'klient', NULL),
-(36, 'agnieszka', 'kruk', 'fggf@cvv', 'aaa', 'klient', NULL),
-(37, 'agnieszka', 'nowak', 'test4@df', 'aa', 'klient', NULL);
+(49, 'Natalia', 'Jungiewicz', 'nataliaj@mail.com', 'szef3', 'szef', 24);
 
 -- --------------------------------------------------------
 
@@ -405,6 +446,18 @@ CREATE TABLE `widok_opinie` (
 -- --------------------------------------------------------
 
 --
+-- Zastąpiona struktura widoku `widok_pracownicy`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_pracownicy` (
+`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`rola` enum('klient','szef','fryzjer','sprzataczka')
+);
+
+-- --------------------------------------------------------
+
+--
 -- Zastąpiona struktura widoku `widok_uslugi_kategorie`
 -- (See below for the actual view)
 --
@@ -427,11 +480,38 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Struktura widoku `logowanie_aktywny`
+--
+DROP TABLE IF EXISTS `logowanie_aktywny`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `logowanie_aktywny`  AS SELECT `users`.`id` AS `id`, `users`.`imie` AS `imie`, `users`.`nazwisko` AS `nazwisko`, `users`.`email` AS `email`, `users`.`haslo` AS `haslo`, `users`.`rola` AS `rola`, `users`.`id_pracownika` AS `id_pracownika`, `pracownicy`.`aktywny` AS `aktywny` FROM (`users` join `pracownicy` on(`pracownicy`.`id` = `users`.`id_pracownika`)) ;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura widoku `moje_rezerwacje`
 --
 DROP TABLE IF EXISTS `moje_rezerwacje`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `moje_rezerwacje`  AS SELECT `rezerwacje`.`id_user` AS `id_user`, `uslugi`.`nazwa` AS `nazwa`, `rezerwacje`.`godzina_poczatkowa` AS `godzina_poczatkowa`, `rezerwacje`.`godzina_koncowa` AS `godzina_koncowa`, `rezerwacje`.`data_wizyty` AS `data_wizyty`, `pracownicy`.`imie` AS `imie_stylisty`, `pracownicy`.`nazwisko` AS `nazwisko_stylisty` FROM ((`rezerwacje` join `uslugi` on(`uslugi`.`id` = `rezerwacje`.`id_usluga`)) join `pracownicy` on(`pracownicy`.`id` = `rezerwacje`.`id_pracownika`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `opinie_admin`
+--
+DROP TABLE IF EXISTS `opinie_admin`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `opinie_admin`  AS SELECT `opinie`.`id` AS `id_opini`, `opinie`.`id_user` AS `id_user`, `opinie`.`komentarz` AS `komentarz`, `opinie`.`ocena` AS `ocena`, `opinie`.`data_opinii` AS `data_opinii` FROM `opinie` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `pracownicy_dane`
+--
+DROP TABLE IF EXISTS `pracownicy_dane`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pracownicy_dane`  AS SELECT `pracownicy`.`id` AS `id_pracownika`, `pracownicy`.`imie` AS `imie`, `pracownicy`.`nazwisko` AS `nazwisko`, `users`.`email` AS `email`, `stanowisko`.`nazwa` AS `nazwa`, `stanowisko`.`wynagrodzenie` AS `wynagrodzenie` FROM ((`pracownicy` join `users` on(`pracownicy`.`id` = `users`.`id_pracownika`)) join `stanowisko` on(`stanowisko`.`id` = `pracownicy`.`id_stanowisko`)) WHERE `pracownicy`.`aktywny` = 1 ;
 
 -- --------------------------------------------------------
 
@@ -459,6 +539,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `widok_opinie`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_opinie`  AS SELECT `users`.`imie` AS `imie`, `opinie`.`komentarz` AS `komentarz` FROM (`opinie` join `users` on(`users`.`id` = `opinie`.`id_user`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_pracownicy`
+--
+DROP TABLE IF EXISTS `widok_pracownicy`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_pracownicy`  AS SELECT `pracownicy`.`imie` AS `imie`, `pracownicy`.`nazwisko` AS `nazwisko`, `users`.`rola` AS `rola` FROM (`pracownicy` join `users`) WHERE `pracownicy`.`id` = `users`.`id_pracownika` ;
 
 -- --------------------------------------------------------
 
@@ -583,7 +672,7 @@ ALTER TABLE `opinie`
 -- AUTO_INCREMENT for table `pracownicy`
 --
 ALTER TABLE `pracownicy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `program_lojalnosciowy`
@@ -613,7 +702,7 @@ ALTER TABLE `szkolenia_pracownikow`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `uslugi`
@@ -650,30 +739,10 @@ ALTER TABLE `program_lojalnosciowy`
   ADD CONSTRAINT `program_lojalnosciowy_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `rezerwacje`
---
-ALTER TABLE `rezerwacje`
-  ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
 -- Constraints for table `szkolenia_pracownikow`
 --
 ALTER TABLE `szkolenia_pracownikow`
   ADD CONSTRAINT `szkolenia_pracownikow_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
--- Constraints for table `uslugi`
---
-ALTER TABLE `uslugi`
-  ADD CONSTRAINT `uslugi_ibfk_1` FOREIGN KEY (`id_kategorii`) REFERENCES `kategorie_uslug` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
