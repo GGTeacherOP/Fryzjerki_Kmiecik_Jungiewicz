@@ -22,19 +22,30 @@ session_start();
               <li><a href="cennik.php">Cennik</a></li>
 
               <?php
-              if (isset($_SESSION['id'])) {
-              ?>
-                  <li><a href="umow.php">Umów swoją wizytę</a></li>
-                  <li><a href="logout.php">Wyloguj się</a></li>
-              <?php
-              } else {
-              ?>
-                  <li><a href="login.php">Logowanie</a></li>
-                  <li><a href="rejestrowanie.php">Rejestracja</a></li>
-                  <li><a href="login.php">Umów swoją wizytę</a></li>
-              <?php
-              }
-              ?>
+  if (isset($_SESSION['id'])) {
+    if ($_SESSION['rola'] == "klient") {
+      ?>
+      <li><a href="umow.php">Umów swoją wizytę</a></li>
+      <li><a href="moje_wizyty.php">Moje wizyty</a></li>
+      <li><a href="dodaj_opinie.php">Dodaj opinie</a></li>
+      <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    } elseif ($_SESSION['rola'] == "admin") {
+      ?>
+      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    }
+   
+  } else {
+    ?>
+    <li><a href="login.php">Logowanie</a></li>
+    <li><a href="rejestrowanie.php">Rejestracja</a></li>
+    <li><a href="login.php">Umów swoją wizytę</a></li>
+    <?php
+  }
+  ?>
               </ul>
           </nav>
       </div>

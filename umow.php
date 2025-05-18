@@ -28,6 +28,7 @@ session_start();
       <li><a href="umow.php">Umów swoją wizytę</a></li>
       <li><a href="moje_wizyty.php">Moje wizyty</a></li>
       <li><a href="dodaj_opinie.php">Dodaj opinie</a></li>
+      <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
     } elseif ($_SESSION['rola'] == "admin") {
