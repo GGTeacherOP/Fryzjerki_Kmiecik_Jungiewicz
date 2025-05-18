@@ -57,7 +57,7 @@ session_start();
      
       <h2>Umów sie na wizyte!</h2><hr>
       
-<form method="POST" action="zapisz_rezerwacje.php">
+<form method="post" action="umow.php">
 
     <label>Data wizyty:</label><br>
     <input type="date" name="data" required><br><br>
@@ -72,14 +72,14 @@ session_start();
             $haslo="";
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            $kw1=("SELECT * FROM `widok_uslugi_kategorie`;");
+            $kw1=("SELECT * FROM `uslugi`;");
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
-                echo "<tr><td><input type='radio' id='".$row[1]."' name='usluga' value='".$row[1]."'>
+                echo "<tr><td><input type='radio' id='".$row[1]."' name='usluga' value='".$row[0]."'>
                       <label for='".$row[1]."'>".$row[1]." - ".$row[2]."</td></tr></label>"; 
             }
-            mysqli_close($conn);
+           
             ?>
         </table>
         
@@ -91,9 +91,9 @@ session_start();
             $skrypt2=mysqli_query($conn,$kw2);
             while($row=mysqli_fetch_row($skrypt2))
             {
-                echo "<option>$row[0] $row[1]</option>"; 
+                echo "<option value='{$row[0]} {$row[1]}'>{$row[0]} {$row[1]}</option>"; 
             }
-            mysqli_close($conn);
+         
         ?>
     </select><br><br>
 
@@ -102,21 +102,35 @@ session_start();
     
       <?php
        $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-       $kw3 = "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
-               VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')";
-        $data = $_POST['data'];
+       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $godzina = $_POST['godzina'];
-        $id_usluga = $_POST['id_usluga'];
+      
+        $nazwa_uslugi = $_POST['usluga'];
+        $result_usluga = mysqli_query($conn, "SELECT id, czas_trwania FROM uslugi WHERE nazwa = '$nazwa_uslugi'");
+        $row_usluga = mysqli_fetch_assoc($result_usluga);
+        $id_usluga = $row_usluga['id'];
+       // pobieranie id_uslugi z tabeli 
+
+        $imie_nazwisko = $_POST['id_pracownika'];
         $id_pracownika = $_POST['id_pracownika'];
         $id_user = $_SESSION['id'];
+        list($imie, $nazwisko) = explode(" ", $imie_nazwisko, 2); //dzielenie imienia i nazwiska
+        $result_pracownik = mysqli_query($conn, "SELECT id FROM pracownicy WHERE imie = '$imie' AND nazwisko = '$nazwisko'");
+        $row_pracownik = mysqli_fetch_assoc($result_pracownik);
+        $id_pracownika = $row_pracownik['id']; //pobieranie id_pracownika
 
+
+        $data = $_POST['data'];
         $start = $godzina;
         $wynik = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = $id_usluga");
         $wiersz = mysqli_fetch_assoc($wynik);
-        $czas_trwania = $wiersz['czas_trwania']; //pobieranie czasu
-        $end = date("H:i", strtotime($start) + $czas_trwania * 60);
+        $czas_trwania_time = $row_usluga['czas_trwania'];
+        $parts = explode(":", $czas_trwania_time);
+        $czas_trwania_minuty = $parts[0] * 60 + $parts[1];
 
-        $kw4 = mysqli_query($conn, "SELECT imie, nazwisko FROM pracownicy WHERE id_pracownika = $id_pracownika");
+        $end = date("H:i", strtotime($start) + $czas_trwania_minuty * 60);//pobieranie czasu
+
+        $kw4 = mysqli_query($conn, "SELECT imie, nazwisko FROM pracownicy WHERE id = $id_pracownika");
         $p = mysqli_fetch_assoc($kw4);
         $imie = $p['imie'];
         $nazwisko = $p['nazwisko'];
@@ -141,11 +155,11 @@ if (mysqli_num_rows($sprawdz) > 0) {
 
     echo "Rezerwacja zapisana od $start do $end";
 }
-
+       }
 mysqli_close($conn);
 ?>
 
-      ?>
+      
       
     </main>
     
