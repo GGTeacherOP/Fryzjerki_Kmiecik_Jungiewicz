@@ -100,7 +100,52 @@ session_start();
     <button type="submit">Umów się</button>
 </form>
     
-      
+      <?php
+       $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+       $kw3 = "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
+               VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')";
+        $data = $_POST['data'];
+        $godzina = $_POST['godzina'];
+        $id_usluga = $_POST['id_usluga'];
+        $id_pracownika = $_POST['id_pracownika'];
+        $id_user = $_SESSION['id'];
+
+        $start = $godzina;
+        $wynik = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = $id_usluga");
+        $wiersz = mysqli_fetch_assoc($wynik);
+        $czas_trwania = $wiersz['czas_trwania']; //pobieranie czasu
+        $end = date("H:i", strtotime($start) + $czas_trwania * 60);
+
+        $kw4 = mysqli_query($conn, "SELECT imie, nazwisko FROM pracownicy WHERE id_pracownika = $id_pracownika");
+        $p = mysqli_fetch_assoc($kw4);
+        $imie = $p['imie'];
+        $nazwisko = $p['nazwisko'];
+
+// Sprawdza czy w widoku istnieje kolidująca rezerwacja
+$sprawdz = mysqli_query($conn, "
+    SELECT * FROM moje_rezerwacje
+    WHERE imie_stylisty = '$imie'
+      AND nazwisko_stylisty = '$nazwisko'
+      AND data_wizyty = '$data'
+      AND (
+          ('$start' < godzina_koncowa AND '$end' > godzina_poczatkowa)
+      )
+");
+
+if (mysqli_num_rows($sprawdz) > 0) {
+    echo "Ten pracownik jest już zajęty w tym czasie!";
+} else {
+    // Zapisz rezerwację
+    mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
+    VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')");
+
+    echo "Rezerwacja zapisana od $start do $end";
+}
+
+mysqli_close($conn);
+?>
+
+      ?>
       
     </main>
     
