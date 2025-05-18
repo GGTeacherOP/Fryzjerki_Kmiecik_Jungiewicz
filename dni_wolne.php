@@ -55,86 +55,23 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-      <h2>Dodaj opinie o naszym salonie</h2><hr>
-      <form action="" method="post" >
-      <div class="gwiazdki">
-  <input type="radio" id="star5" name="ocena" value="5">
-  <label for="star5">&#9733;</label>
-  
-  <input type="radio" id="star4" name="ocena" value="4">
-  <label for="star4">&#9733;</label>
-  
-  <input type="radio" id="star3" name="ocena" value="3">
-  <label for="star3">&#9733;</label>
-  
-  <input type="radio" id="star2" name="ocena" value="2">
-  <label for="star2">&#9733;</label>
-  
-  <input type="radio" id="star1" name="ocena" value="1">
-  <label for="star1">&#9733;</label>
-</div>
-  
-  <div>
-    <textarea name="tresc" rows="4" placeholder="Napisz opinię..."></textarea>
-  </div>
-  
-  <input type="submit" value="Wyślij opinię">
-</form>
-   
-<?php
-// Jeśli dane zostały przesłane metodą POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-           $serwer="localhost";
-            $user="root";
-            $haslo="";
-            $baza="salon";
-            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-  // Sprawdzenie połączenia
-  if (!$conn) {
-    die("Błąd połączenia: " . mysqli_connect_error());
-  }
-// Pobranie danych z formularza
-    $ocena = 0;
-    $tresc = "";
-    if (isset($_POST['ocena'])) {
-    $ocena = (int)$_POST['ocena'];
-}
-
-    if (isset($_POST['tresc'])) {
-        $tresc = $_POST['tresc'];
-}
-    if ($ocena >= 1 && $ocena <= 5 && $tresc != "") {
-        $id_usera = (int)$_SESSION['id'];
-     $sql = "INSERT INTO `opinie`(`id`, `id_user`, `ocena`, `komentarz`, `data_opinii`) VALUES ('','$id_usera','$ocena','$tresc',CURDATE())";
-     $wynik = mysqli_query($conn, $sql);
-  if ($wynik) {
-    echo "<!DOCTYPE html>
-    <html lang='pl'>
-    <head>
-      <meta charset='UTF-8'>
-      <title>Sukces</title>
-      <script>
-        // Przekierowanie po 3 sekundach
-        setTimeout(function() {
-          window.location.href = 'index.php';
-        }, 3000);
-      </script>
-    </head>
-    <body>
-      <h2>Dziękujemy za Twoją opinię!</h2>
-      <p>Za chwilę zostaniesz przekierowany do strony głównej...</p>
-    </body>
-    </html>";
-} else {
-    echo "Błąd przy zapisie: " . mysqli_error($conn);
-}
-
-} else {
-echo "Proszę podać ocenę (1–5) i treść opinii.";
-}
-  mysqli_close($conn); // zamknięcie połączenia
+        <?php
+if (!isset($_SESSION['id'])) {
+    echo "<p>Musisz być zalogowany, aby dodać dzień wolny.</p>";
+    exit();
 }
 ?>
+    <form action="" method="post">
+        <label for="data">Data wolna:</label><br>
+        <input type="date" id="data" name="data" required><br><br>
+
+        <label for="powod">Powód:</label><br>
+        <textarea id="powod" name="powod" rows="4" placeholder="Podaj powód..." required></textarea><br><br>
+
+        <input type="submit" value="Dodaj dzień wolny">
+    </form>
+
+
    
        </main>
     

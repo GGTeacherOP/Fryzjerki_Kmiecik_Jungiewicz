@@ -35,12 +35,15 @@ session_start();
     } elseif ($_SESSION['rola'] == "szef") {
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
     }elseif ($_SESSION['rola'] == "fryzjer") {
       ?>
       <li><a href="grafik-pracownik.php">Sprawdź rezerwacje</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
+      <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
+
       <?php
     }
    
