@@ -184,7 +184,26 @@ mysqli_close($conn);
 ?>
 
       <div id="podsumowanie" style="margin-top: 20px; font-weight: bold; color: #333;"></div>
-      
+      <?php
+ $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+$id_user = $_SESSION['id'];
+$sprawdz_punkty = mysqli_query($conn, "SELECT * FROM program_lojalnosciowy WHERE id_user = $id_user");
+$result_usluga = mysqli_query($conn, "SELECT cena FROM uslugi WHERE id = '$id_usluga'");
+$row_cena = mysqli_fetch_assoc($result_usluga);
+$cena = $row_cena['cena'];
+$punkty = floor($cena / 10);
+if (mysqli_num_rows($sprawdz_punkty) > 0) {
+    // Jeśli istnieje - aktualizuje
+    mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
+    echo "zauktualizowano punkty" ;
+} else {
+    // Jeśli nie istnieje dodaje 
+    mysqli_query($conn, "INSERT INTO program_lojalnosciowy (id_user, punkty) VALUES ($id_user, $punkty)");
+    echo "dodano punkty";
+
+}
+
+?>
     </main>
     
     <footer>
@@ -247,31 +266,16 @@ document.querySelector('form').addEventListener('change', function() {
     
     document.getElementById('podsumowanie').innerHTML = tekst;
 
-     fetch("punkty.php", {
+     fetch("umow.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     body: "punkty=" + punkty
   });
-  
+
 });
 </script>
-<?php
- $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-$sprawdz_punkty = mysqli_query($conn, "SELECT * FROM program_lojalnosciowy WHERE id_user = $id_user");
 
-if (mysqli_num_rows($sprawdz_punkty) > 0) {
-    // Jeśli istnieje - aktualizuje
-    mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
-    echo "zauktualizowano" ;
-} else {
-    // Jeśli nie istnieje dodaje 
-    mysqli_query($conn, "INSERT INTO program_lojalnosciowy (id_user, punkty) VALUES ($id_user, $punkty)");
-    echo "dodano";
-
-}
-
-?>
 </body>
 </html>
