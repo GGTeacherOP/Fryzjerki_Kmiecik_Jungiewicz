@@ -18,7 +18,7 @@ session_start();
         <div class="header2">
           <button class="menu">☰ Menu</button>
           <nav class="linki">
-          <ul>
+              <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
 
@@ -35,16 +35,17 @@ session_start();
     } elseif ($_SESSION['rola'] == "szef") {
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
-      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
       <li><a href="pracownicy-admin.php">Pracownicy</a><li>
+
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
     }elseif ($_SESSION['rola'] == "fryzjer") {
-      ?>
-      <li><a href="grafik-pracownik.php">Sprawdź rezerwacje</a></li>
-      <li><a href="logout.php">Wyloguj się</a></li>
-      <?php
-    }
+        ?>
+        <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+        <li><a href="logout.php">Wyloguj się</a></li>
+        <?php
+      }
    
   } else {
     ?>
@@ -61,98 +62,84 @@ session_start();
             <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="main">
-      <div class="o_salonie"> 
-      <h2>O naszym salonie</h2><hr>
-      <p>Nasz salon fryzjerski to miejsce, gdzie pasja do pięknych włosów spotyka się z profesjonalizmem i dbałością o klienta. Zlokalizowany w Mielcu,
-         nasz salon oferuje szeroki zakres usług fryzjerskich, dostosowanych do indywidualnych potrzeb i oczekiwań.</p>
-         <h2>Nasi Fryzjerzy</h2><hr>
-         <p>Nasz zespół to wykwalifikowani i doświadczeni fryzjerzy, którzy nieustannie podnoszą swoje kwalifikacje, uczestnicząc w szkoleniach i śledząc najnowsze trendy.
-           Zapewniamy indywidualne podejście do każdego klienta, doradzając i pomagając w doborze idealnej fryzury i koloru.</p>
-           <h2>Atmosfera</h2>
-    <hr>       <p>W naszym salonie panuje przyjazna i relaksująca atmosfera. Dbamy o to, aby każdy klient czuł się u nas komfortowo i wyjątkowo.
-             Oferujemy kawę, herbatę i miłą rozmowę, aby wizyta w naszym salonie była prawdziwą przyjemnością.</p>
-            
-</div>
-<h2>Opinie naszych klientów</h2>
-<hr>
-<div id="opinie-container">
-  <p id="tresc-opinii"></p>
-  <p class="autor" id="autor-opinii"></p>
-</div>
+    <main class="cennik">
+    <h2>Pracownicy</h2><hr>
+<table>
+    <tr class="tabelka_cennik">
+        <th>ID pracownika</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Email</th>
+        <th>Stanowisko</th>
+        <th>Wynagrodzenie</th>
+        <th>Usuń pracownika</th>
+    </tr>
 
 <?php
-// Połączenie z bazą danych
 $serwer = "localhost";
 $user = "root";
 $haslo = "";
 $baza = "salon";
-
 $conn = mysqli_connect($serwer, $user, $haslo, $baza);
 
-if (!$conn) {
-  die("Błąd połączenia: " . mysqli_connect_error());
+// Usuwanie pracownika (tylko z tabeli pracownicy, NIE z users!)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_pracownika'])) {
+    $id_pracownika = (int)$_POST['id_pracownika'];
+
+    // Zmienia pracownika na nieaktywnego
+    $ukryj = "UPDATE pracownicy SET aktywny = 0 WHERE id = $id_pracownika";
+    mysqli_query($conn, $ukryj);
 }
 
-// Pobieranie opinii z bazy
-$komentarz = array();
-$sql = "SELECT imie, komentarz FROM `widok_opinie`";
-$wynik = mysqli_query($conn, $sql);
+// Wyświetlanie danych z widoku
+$zapytanie = "SELECT * FROM pracownicy_dane";
+$wynik = mysqli_query($conn, $zapytanie);
 
-while ($row = mysqli_fetch_assoc($wynik)) {
-  $komentarz[] = $row;
+while ($row = mysqli_fetch_row($wynik)) {
+    echo "<tr>
+        <td>$row[0]</td>  <!-- ID pracownika -->
+        <td>$row[1]</td>  <!-- Imię -->
+        <td>$row[2]</td>  <!-- Nazwisko -->
+        <td>$row[3]</td>  <!-- Email -->
+        <td>$row[4]</td>  <!-- Stanowisko -->
+        <td>$row[5] zł</td>  <!-- Wynagrodzenie -->
+        <td>
+            <form method='POST' onsubmit=\"return confirm('Na pewno chcesz usunąć tego pracownika?');\">
+                <input type='hidden' name='id_pracownika' value='$row[0]'>
+                <input type='submit' value='Usuń'>
+            </form>
+        </td>
+    </tr>";
 }
 
 mysqli_close($conn);
-
-// Przekazanie opinii do JavaScript w formacie JSON
-echo "<script>
-var wszystkieOpinie = " . json_encode($komentarz) . ";
-</script>";
 ?>
+        </table>
+        <h3>Łączna liczba pracowników</h3><hr>
+        <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+            $id_usera = (int)$_SESSION['id'];
+            $kw1=("SELECT COUNT(*) FROM pracownicy_dane ");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<p>".$row[0]."
+                </p>";
 
-<script>
-// Prosty skrypt do zmieniania opinii co 5 sekund
-var indeks = 0;
-
-function pokazOpinie() {
-  if (wszystkieOpinie.length === 0) return;
-
-  var opinia = wszystkieOpinie[indeks];
-  document.getElementById('tresc-opinii').innerText = opinia.komentarz;
-  document.getElementById('autor-opinii').innerText = '– ' + opinia.imie;
-
-  // Przechodzimy do następnej opinii (w pętli)
-  indeks = (indeks + 1) % wszystkieOpinie.length;
-}
-
-// Pokazujemy pierwszą opinię od razu
-pokazOpinie();
-
-// Co 5 sekund zmieniamy opinię
-setInterval(pokazOpinie, 5000);
-</script>
-<h3>Zapraszamy do skorzystania z naszych usług i doświadczenia profesjonalnej obsługi w miłej atmosferze!</h3>
-    </main>
+            }
+            mysqli_close($conn);
+            ?>
+       </main>
     
-    <section class="galeria_zdjec">
-<h1>Zdjęcia naszego salonu i stylizacji</h1><hr>
-<div class="galeria">
-<img src="zdjecia/1.jpg" >
-<img src="zdjecia/2.jpg" >
-<img src="zdjecia/3.jpg" >
-<img src="zdjecia/4.jpg" >
-<img src="zdjecia/5.jpg" >
-<img src="zdjecia/6.jpg" >
-<img src="zdjecia/7.jpg"  alt="zdjecie salonu">
-<img src="zdjecia/8.jpg" alt="zdjecie salonu" >
-</div>
-    </section>
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br><hr>
           <ul class="kontakt">
-            <li><h4>Aleksandra&nbspKmiecik</h4> <p>+48 999 888 777</p><a href="mailto:akmiecik2007@gmail.com">e-mail</a></li>
+            <li><h4>Aleksandra&nbspKmiecik</h4> <p>+48 999 888 777</p></li>
             <li><h4>Natalia&nbspJungiewicz</h4> <p>+48 666 555 444</p></li>
           </ul>
         </div>

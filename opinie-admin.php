@@ -36,6 +36,7 @@ session_start();
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a><li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
     }elseif ($_SESSION['rola'] == "fryzjer") {
