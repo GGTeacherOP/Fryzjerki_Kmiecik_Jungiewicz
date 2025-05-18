@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 18, 2025 at 09:51 PM
+-- Generation Time: Maj 18, 2025 at 10:26 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -446,6 +446,18 @@ CREATE TABLE `widok_opinie` (
 -- --------------------------------------------------------
 
 --
+-- Zastąpiona struktura widoku `widok_pracownicy`
+-- (See below for the actual view)
+--
+CREATE TABLE `widok_pracownicy` (
+`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`rola` enum('klient','szef','fryzjer','sprzataczka')
+);
+
+-- --------------------------------------------------------
+
+--
 -- Zastąpiona struktura widoku `widok_uslugi_kategorie`
 -- (See below for the actual view)
 --
@@ -527,6 +539,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `widok_opinie`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_opinie`  AS SELECT `users`.`imie` AS `imie`, `opinie`.`komentarz` AS `komentarz` FROM (`opinie` join `users` on(`users`.`id` = `opinie`.`id_user`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `widok_pracownicy`
+--
+DROP TABLE IF EXISTS `widok_pracownicy`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_pracownicy`  AS SELECT `pracownicy`.`imie` AS `imie`, `pracownicy`.`nazwisko` AS `nazwisko`, `users`.`rola` AS `rola` FROM (`pracownicy` join `users`) WHERE `pracownicy`.`id` = `users`.`id_pracownika` ;
 
 -- --------------------------------------------------------
 
@@ -718,30 +739,10 @@ ALTER TABLE `program_lojalnosciowy`
   ADD CONSTRAINT `program_lojalnosciowy_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `rezerwacje`
---
-ALTER TABLE `rezerwacje`
-  ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`),
-  ADD CONSTRAINT `rezerwacje_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
 -- Constraints for table `szkolenia_pracownikow`
 --
 ALTER TABLE `szkolenia_pracownikow`
   ADD CONSTRAINT `szkolenia_pracownikow_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
-
---
--- Constraints for table `uslugi`
---
-ALTER TABLE `uslugi`
-  ADD CONSTRAINT `uslugi_ibfk_1` FOREIGN KEY (`id_kategorii`) REFERENCES `kategorie_uslug` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
