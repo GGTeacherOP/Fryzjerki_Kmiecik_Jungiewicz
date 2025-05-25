@@ -21,7 +21,6 @@ session_start();
               <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
-
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -66,7 +65,8 @@ session_start();
 
     <?php
   }
-  ?>   </ul>
+  ?>
+              </ul>
           </nav>
       </div>
         <div class="header3">
@@ -74,37 +74,78 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-      <h2>Twoje rezerwacje</h2><hr>
-      <table>
-        <tr class="tabelka_cennik">
-            <th>Nazwa usługi</th>
-            <th>Godzina rozpoczęcia usługi</th>
-            <th>Godzina zakończenia usługi</th>
-            <th>Data wizyty</th>
-            <th>Imię i nazwisko stylistyki/stylisty</th>
-        </tr>
-    <?php
+    <h2>Pracownicy</h2><hr>
+<table>
+    <tr class="tabelka_cennik">
+        <th>ID pracownika</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Email</th>
+        <th>Stanowisko</th>
+       
+        <th>Usuń usluge</th>
+    </tr>
+
+<?php
+$serwer = "localhost";
+$user = "root";
+$haslo = "";
+$baza = "salon";
+$conn = mysqli_connect($serwer, $user, $haslo, $baza);
+
+// Usuwanie usługi
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_uslugi'])) {
+    $id_uslugi = (int)$_POST['id_uslugi'];
+
+    // Zmienia pracownika na nieaktywnego
+    $usun = "DELETE FROM uslugi WHERE id = $id_uslugi;";
+    mysqli_query($conn, $usun);
+}
+
+// Wyświetlanie danych z widoku
+$zapytanie = "SELECT * FROM uslugi";
+$wynik = mysqli_query($conn, $zapytanie);
+
+while ($row = mysqli_fetch_row($wynik)) {
+    echo "<tr>
+        <td>$row[0]</td>  <!-- ID uslugi -->
+        <td>$row[1]</td>  <!-- nazwa -->
+        <td>$row[2]</td>  <!-- cena -->
+        <td>$row[3]</td>  <!-- czas_trwania -->
+        <td>$row[4]</td>  <!-- id_kategori -->
+        
+        <td>
+            <form method='POST' onsubmit=\"return confirm('Na pewno chcesz usunąć tą usługe?');\">
+                <input type='hidden' name='id_uslugi' value='$row[0]'>
+                <input type='submit' value='Usuń'>
+            </form>
+        </td>
+    </tr>";
+}
+
+mysqli_close($conn);
+?>
+        </table>
+        <h3>Łączna liczba uslug</h3><hr>
+        <?php
             $serwer="localhost";
             $user="root";
             $haslo="";
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            $id_usera = (int)$_SESSION['id'];
-            $kw1=("SELECT `id_user`,`nazwa`,`godzina_poczatkowa`,`godzina_koncowa`,`data_wizyty`,`imie_stylisty`,`nazwisko_stylisty` FROM `moje_rezerwacje` WHERE id_user= $id_usera;");
+         
+            $kw1=("SELECT COUNT(*) FROM uslugi");
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
-                echo "<tr><td>".$row[1]."</td><td>"
-                . substr($row[2], 0, 5) ."</td><td>"
-                . substr($row[3], 0, 5) ."</td><td>"
-                .$row[4]."</td><td>"
-                .$row[5]." ".$row[6]."</td></tr>";
+                echo "<p>".$row[0]."
+                </p>";
 
             }
-            mysqli_close($conn);
+          
             ?>
-   
-        </table>
+            
+
        </main>
     
     <footer>
