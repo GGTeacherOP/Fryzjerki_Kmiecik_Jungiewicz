@@ -89,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_uslugi'])) {
     $id_uslugi = (int)$_POST['id_uslugi'];
 
     // Zmienia pracownika na nieaktywnego
-    $usun = "DELETE * FROM uslugi WHERE id = $id_uslugi;";
-    mysqli_query($conn, $ukryj);
+    $usun = "DELETE FROM uslugi WHERE id = $id_uslugi;";
+    mysqli_query($conn, $usun);
 }
 
 // Wyświetlanie danych z widoku
@@ -135,68 +135,7 @@ mysqli_close($conn);
             }
           
             ?>
-            <h2>Dodaj nowa usluge</h2>
-            <?php
-$conn = mysqli_connect("localhost", "root", "", "salon");
-if (!$conn) {
-    die("Błąd połączenia: " . mysqli_connect_error());
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!empty($_POST['id']) && !empty($_POST['nazwa']) && !empty($_POST['cena']) &&
-        !empty($_POST['czas_trwania']) && !empty($_POST['id_kategorii'])) {
-
-        $id = $_POST['id'];
-        $nazwa = $_POST['nazwa'];
-        $cena = $_POST['cena'];
-        $czas_trwania = $_POST['czas_trwania'];
-        $id_kategorii = (int)$_POST['id_kategorii'];
-
-        // Sprawdzenie, czy nazwa już istnieje
-        $sprawdz_nazwa = "SELECT id FROM uslugi WHERE nazwa = '$nazwa'";
-        $wynik_nazwa = mysqli_query($conn, $sprawdz_email);
-        
-        if (mysqli_num_rows($wynik_nazwa) > 0) {
-            echo "Podana nazwa jest już zajęty. Wybierz inną.";
-        } else {
-            // Dodaj usluge
-            $sql1 = "INSERT INTO uslugi (id, nazwa, cena, czas_trwania, id_kategorii) VALUES ('$id', '$nazwa', '$cena', '$czas_trwania', '$id_kategori' )";
-            if (mysqli_query($conn, $sql1)) {
-                
-                    echo "Dodano usluge";
-                } else {
-                    echo "Błąd dodawania uslugi: " . mysqli_error($conn);
-                }
-           
-        }
-    } else {
-        echo "Wszystkie pola muszą być wypełnione!";
-    }
-}
-?>
-
-<!-- Formularz dodawania uslugi pokazujemy ZAWSZE, niezależnie czy był POST czy nie -->
-<form method="POST">
-    <label>id: <input type="text" name="id" required></label><br>
-    <label>Nazwa: <input type="text" name="nazwa" required></label><br>
-    <label>Czas_trwania: <input type="text" name="czas_trwania" required></label><br>
-    <label>cena: <input type="number" name="cena" required></label><br>
-    <label>id_kategori
-        <select name="id_kategori" required>
-            <option value="" disabled selected>Wybierz kategorie</option>
-            <?php
-            $zapytanie = "SELECT id, nazwa FROM kategorie_uslug";
-            $wynik = mysqli_query($conn, $zapytanie);
-            while ($row = mysqli_fetch_assoc($wynik)) {
-                echo "<option value='{$row['id']}'>{$row['nazwa']}</option>";
-            }
-            mysqli_close($conn);
-            ?>
-        </select>
-    </label><br><br>
-
-    <input type="submit" value="Dodaj usluge">
-</form>
+            
 
        </main>
     

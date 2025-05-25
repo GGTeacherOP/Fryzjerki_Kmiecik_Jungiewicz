@@ -61,14 +61,10 @@ session_start();
     ?>
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
-<<<<<<< HEAD
     <li><a href="login.php">Umów swoją wizytę</a></li>
    
 
     <?php
-=======
-    <li><a href="login.php">Umów swoją wizytę</a></li>    <?php
->>>>>>> f82bd58f799bd0a073f25ffa38ef10c4e2221b97
   }
   ?>
               </ul>
