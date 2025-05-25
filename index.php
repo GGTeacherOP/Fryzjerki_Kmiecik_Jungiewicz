@@ -54,7 +54,7 @@ session_start();
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
-     <li><a href="sprzataczka.php">Umów swoją wizytę</a></li>
+   
 
     <?php
   }

@@ -54,7 +54,7 @@ session_start();
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
-     <li><a href="sprzataczka.php">Umów swoją wizytę</a></li>
+ 
     <?php
   }
   ?>
@@ -72,9 +72,9 @@ session_start();
             <tr>
                 <th>Dzień</th>
                 <th>Data</th>
-                <th>Sprzątaczka 1<br><span class="name">Anna</span></th>
-                <th>Sprzątaczka 2<br><span class="name">Beata</span></th>
-                <th>Sprzątaczka 3<br><span class="name">Celina</span></th>
+                <th>Sprzątaczka 1<br><span class="name"></span></th>
+                <th>Sprzątaczka 2<br><span class="name"></span></th>
+                <th>Sprzątaczka 3<br><span class="name"></span></th>
             </tr>
         </thead>
         <tbody>
