@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
       if ($dane['rola'] == 'fryzjer') {
         $_SESSION['id'] = $dane['id']; // ID z tabeli users
         $_SESSION['rola'] = 'fryzjer';
-        $_SESSION['id_pracownika'] = $dane['id_pracownika']; // DODAJ TO
+        $_SESSION['id_pracownika'] = $dane['id_pracownika']; 
         header("Location: sprawdz_rezerwacje.php");
         exit();
     }
@@ -47,7 +47,6 @@ if ($rola == 'fryzjer') {
 
 }
 
-    $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
     $wynik = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($wynik) == 1) {
@@ -123,14 +122,20 @@ if ($rola == 'fryzjer') {
       <li><a href="logout.php">Wyloguj się</a></li>
     
       <?php
+    }elseif ($_SESSION['rola'] == "sprzataczka") {
+      ?>
+      <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
     }
    
   } else {
     ?>
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
-    <li><a href="login.php">Umów swoją wizytę</a></li>
-    <?php
+    <li><a href="login.php">Umów swoją wizytę</a></li>    <?php
   }
   ?>
 </ul>

@@ -38,11 +38,19 @@ session_start();
       <li><a href="dni_wolne.php">dodaj dzien wolny</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
       <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
     }elseif ($_SESSION['rola'] == "fryzjer") {
       ?>
       <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "sprzataczka") {
+      ?>
+      <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
       <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
     
@@ -53,10 +61,14 @@ session_start();
     ?>
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
+<<<<<<< HEAD
     <li><a href="login.php">Umów swoją wizytę</a></li>
    
 
     <?php
+=======
+    <li><a href="login.php">Umów swoją wizytę</a></li>    <?php
+>>>>>>> f82bd58f799bd0a073f25ffa38ef10c4e2221b97
   }
   ?>
               </ul>
@@ -101,7 +113,7 @@ if (!$conn) {
 
 // Pobieranie opinii z bazy
 $komentarz = array();
-$sql = "SELECT imie, komentarz FROM `widok_opinie`";
+$sql = "SELECT imie, komentarz FROM `widok_opinie` ORDER BY RAND()";
 $wynik = mysqli_query($conn, $sql);
 
 while ($row = mysqli_fetch_assoc($wynik)) {

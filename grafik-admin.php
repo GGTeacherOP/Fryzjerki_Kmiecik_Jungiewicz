@@ -21,7 +21,6 @@ session_start();
               <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
-
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -47,14 +46,20 @@ session_start();
       <li><a href="logout.php">Wyloguj się</a></li>
     
       <?php
+    }elseif ($_SESSION['rola'] == "sprzataczka") {
+      ?>
+      <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
     }
    
   } else {
     ?>
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
-    <li><a href="login.php">Umów swoją wizytę</a></li>
-    <?php
+    <li><a href="login.php">Umów swoją wizytę</a></li>    <?php
   }
   ?>
               </ul>

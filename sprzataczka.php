@@ -47,6 +47,13 @@ session_start();
       <li><a href="logout.php">Wyloguj się</a></li>
     
       <?php
+    }elseif ($_SESSION['rola'] == "sprzataczka") {
+      ?>
+      <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
     }
    
   } else {
@@ -54,7 +61,7 @@ session_start();
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
- 
+     <li><a href="sprzataczka.php">Umów swoją wizytę</a></li>
     <?php
   }
   ?>
@@ -72,9 +79,9 @@ session_start();
             <tr>
                 <th>Dzień</th>
                 <th>Data</th>
-                <th>Sprzątaczka 1<br><span class="name"></span></th>
-                <th>Sprzątaczka 2<br><span class="name"></span></th>
-                <th>Sprzątaczka 3<br><span class="name"></span></th>
+                <th>Sprzątaczka 1<br><span class="name">Anna</span></th>
+                <th>Sprzątaczka 2<br><span class="name">Beata</span></th>
+                <th>Sprzątaczka 3<br><span class="name">Celina</span></th>
             </tr>
         </thead>
         <tbody>
@@ -130,19 +137,7 @@ session_start();
 
     </main>
     
-    <section class="galeria_zdjec">
-<h1>Zdjęcia naszego salonu i stylizacji</h1><hr>
-<div class="galeria">
-<img src="zdjecia/1.jpg" >
-<img src="zdjecia/2.jpg" >
-<img src="zdjecia/3.jpg" >
-<img src="zdjecia/4.jpg" >
-<img src="zdjecia/5.jpg" >
-<img src="zdjecia/6.jpg" >
-<img src="zdjecia/7.jpg"  alt="zdjecie salonu">
-<img src="zdjecia/8.jpg" alt="zdjecie salonu" >
-</div>
-    </section>
+   
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br><hr>
