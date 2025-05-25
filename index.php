@@ -105,7 +105,7 @@ if (!$conn) {
 
 // Pobieranie opinii z bazy
 $komentarz = array();
-$sql = "SELECT imie, komentarz FROM `widok_opinie`";
+$sql = "SELECT imie, komentarz FROM `widok_opinie` ORDER BY RAND()";
 $wynik = mysqli_query($conn, $sql);
 
 while ($row = mysqli_fetch_assoc($wynik)) {
