@@ -244,7 +244,7 @@ $punkty = floor($cena / 10);
  
  
 if (mysqli_num_rows($sprawdz) > 0){
-    echo "punkty niezmienne!";
+    echo "<h3>punkty niezmienne!</h3>";
 } else if (mysqli_num_rows($sprawdz_punkty) > 0) {
     // Jeśli istnieje - aktualizuje
     mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
