@@ -240,7 +240,18 @@ $result_usluga = mysqli_query($conn, "SELECT cena FROM uslugi WHERE id = '$id_us
 $row_cena = mysqli_fetch_assoc($result_usluga);
 $cena = $row_cena['cena'];
 $punkty = floor($cena / 10);
-if (mysqli_num_rows($sprawdz_punkty) > 0) {
+
+$sprawdz = mysqli_query($conn, "
+    SELECT * FROM rezerwacje
+    WHERE id_pracownika = '$id_pracownika'
+      AND data_wizyty = '$data'
+      AND (
+          ('$start' < godzina_koncowa AND '$end' > godzina_poczatkowa)
+      )
+");
+if (mysqli_num_rows($sprawdz) > 0){
+    echo "punkty niezmienne!";
+} else if (mysqli_num_rows($sprawdz_punkty) > 0) {
     // Jeśli istnieje - aktualizuje
     mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
     echo "Zauktualizowano punkty" ;

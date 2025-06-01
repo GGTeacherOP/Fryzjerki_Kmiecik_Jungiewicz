@@ -139,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dzis = date('Y-m-d');
     if ($data_wolna < $dzis) {
     echo "<p><h1>nie mozna ustawic dnia z przeszłości</h1></p>";
+     exit();
   }
   if ($data_wolna && $powod) {
         $sql = "INSERT INTO dni_wolne (id_pracownika, data_wolna, powod) 
@@ -157,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
    
-}
+
 ?>
 <h2>Twoje dni wolne</h2><hr>
 <table >
