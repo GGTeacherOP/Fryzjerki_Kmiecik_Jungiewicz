@@ -136,12 +136,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_wolna = mysqli_real_escape_string($conn, $_POST['data']);
     $powod = mysqli_real_escape_string($conn, $_POST['powod']);
 
-    // Sprawdza czy data nie jest pusta i ma poprawny format
-    if ($data_wolna && $powod) {
+    $dzis = date('Y-m-d');
+    if ($data_wolna < $dzis) {
+    echo "<p><h1>nie mozna ustawic dnia z przeszłości</h1></p>";
+     exit();
+  }
+  if ($data_wolna && $powod) {
         $sql = "INSERT INTO dni_wolne (id_pracownika, data_wolna, powod) 
-                VALUES ('$id_pracownika', '$data_wolna', '$powod')";
+                VALUES ('$id_pracownika', '$data_wolna', '$powod')"; // Sprawdza czy data nie jest pusta i ma poprawny format
  
-
+  }
  
  if (mysqli_query($conn, $sql)) {
   $_SESSION['komunikat'] = "Dzień wolny dodany!";
@@ -154,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
    
-}
+
 ?>
 <h2>Twoje dni wolne</h2><hr>
 <table >

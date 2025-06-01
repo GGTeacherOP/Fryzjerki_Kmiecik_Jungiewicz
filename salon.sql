@@ -728,7 +728,7 @@ ALTER TABLE `kody_rabatowe`
 -- AUTO_INCREMENT for table `opinie`
 --
 ALTER TABLE `opinie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pracownicy`
@@ -804,9 +804,9 @@ ALTER TABLE `program_lojalnosciowy`
 -- Constraints for table `rezerwacje`
 --
 ALTER TABLE `rezerwacje`
-  ADD CONSTRAINT `fk_rezerwacje_pracownik` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_rezerwacje_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_rezerwacje_usluga` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`),
+  ADD CONSTRAINT `rezerwacje_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
 
 --
 -- Constraints for table `szkolenia_pracownikow`
@@ -818,13 +818,13 @@ ALTER TABLE `szkolenia_pracownikow`
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `fk_users_pracownik` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
 
 --
 -- Constraints for table `uslugi`
 --
 ALTER TABLE `uslugi`
-  ADD CONSTRAINT `fk_uslugi_kategoria` FOREIGN KEY (`id_kategorii`) REFERENCES `kategorie_uslug` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `uslugi_ibfk_1` FOREIGN KEY (`id_kategorii`) REFERENCES `kategorie_uslug` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
