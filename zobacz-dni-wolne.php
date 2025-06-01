@@ -85,7 +85,7 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-      <h2>Opinie o salonie</h2><hr>
+      <h2>dni wolne</h2><hr>
       <table>
         <tr class="tabelka_cennik">
           
