@@ -34,9 +34,9 @@ session_start();
     } elseif ($_SESSION['rola'] == "szef") {
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
-      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
-      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="pracownicy-szef.php">Pracownicy</a></li>
       <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
@@ -44,6 +44,17 @@ session_start();
       ?>
       <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
       <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="opinie-fryzjer.php">Sprawdź opinie salonu</a></li>
+      <li><a href="uslugi-fryzjer.php">Usługi</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "admin") {
+      ?>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
     
       <?php
@@ -74,6 +85,12 @@ session_start();
         </div>
     </header>
     <main class="cennik">
+    <?php
+ if (isset($_SESSION['komunikat'])) {
+  echo '<h2>' . $_SESSION['komunikat'] . '</h2><hr>';
+  unset($_SESSION['komunikat']);
+}
+?>
     <h2>Usługi</h2><hr>
 <table>
     <tr class="tabelka_cennik">
@@ -99,7 +116,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_uslugi'])) {
 
    
     $usun = "DELETE FROM uslugi WHERE id = $id_uslugi;";
-    mysqli_query($conn, $usun);
+   
+    if (mysqli_query($conn, $usun)) {
+      $_SESSION['komunikat'] = "Usługa została usunięta!";
+      mysqli_close($conn);
+      header("Location: " . $_SERVER['PHP_SELF']);
+      exit();
+    }
 }
 
 // Wyświetlanie danych z widoku

@@ -21,7 +21,6 @@ session_start();
               <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
-
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -35,9 +34,9 @@ session_start();
     } elseif ($_SESSION['rola'] == "szef") {
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
-      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
-      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="pracownicy-szef.php">Pracownicy</a></li>
       <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
@@ -45,6 +44,17 @@ session_start();
       ?>
       <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
       <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="opinie-fryzjer.php">Sprawdź opinie salonu</a></li>
+      <li><a href="uslugi-fryzjer.php">Usługi</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "admin") {
+      ?>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
     
       <?php
@@ -97,11 +107,22 @@ $conn = mysqli_connect($serwer, $user, $haslo, $baza);
 // Usuwanie pracownika (tylko z tabeli pracownicy, NIE z users!)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_pracownika'])) {
     $id_pracownika = (int)$_POST['id_pracownika'];
-
-    // Zmienia pracownika na nieaktywnego
-    $ukryj = "UPDATE pracownicy SET aktywny = 0 WHERE id = $id_pracownika";
-    mysqli_query($conn, $ukryj);
+// Zmienia pracownika na nieaktywnego
+$ukryj = "UPDATE pracownicy SET aktywny = 0 WHERE id = $id_pracownika";
+if (mysqli_query($conn, $ukryj)) {
+    $_SESSION['komunikat'] = "Usunięto pracownika!";
+    mysqli_close($conn);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+  
 }
+}
+?><?php 
+$serwer = "localhost";
+$user = "root";
+$haslo = "";
+$baza = "salon";
+$conn = mysqli_connect($serwer, $user, $haslo, $baza);
 
 // Wyświetlanie danych z widoku
 $zapytanie = "SELECT * FROM pracownicy_dane";
@@ -126,7 +147,12 @@ while ($row = mysqli_fetch_row($wynik)) {
 
 mysqli_close($conn);
 ?>
-        </table>
+        </table><?php
+ if (isset($_SESSION['komunikat'])) {
+  echo '<h3>' . $_SESSION['komunikat'] . '</h3><hr>';
+  unset($_SESSION['komunikat']);
+}
+?>
         <h3>Łączna liczba pracowników</h3><hr>
         <?php
             $serwer="localhost";
@@ -145,7 +171,7 @@ mysqli_close($conn);
             }
           
             ?>
-            <h2>Dodaj nowego pracownika</h2>
+            <h2>Dodaj nowego pracownika</h2><hr>
             <?php
 $conn = mysqli_connect("localhost", "root", "", "salon");
 if (!$conn) {
@@ -181,9 +207,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $sql2 = "INSERT INTO users (imie, nazwisko, email, haslo, rola, id_pracownika) 
                          VALUES ('$imie', '$nazwisko', '$email', '$haslo', '$rola', $id_pracownika)";
 
-                if (mysqli_query($conn, $sql2)) {
-                    echo "Dodano pracownika i użytkownika!";
-                } else {
+if (mysqli_query($conn, $sql2)) {
+    echo "<h3>Dodano pracownika i użytkownika!</h3><!DOCTYPE html>
+    <html lang='pl'>
+    <head>
+      <meta charset='UTF-8'>
+      <title>Sukces</title>
+      <script>
+        
+        setTimeout(function() {
+          window.location.href = 'pracownicy-admin.php';
+        }, 8000);
+      </script>
+    </head>
+    <body>
+     
+    </body>
+    </html>";
+     
+      
+} else {
                     echo "Błąd dodawania użytkownika: " . mysqli_error($conn);
                 }
             } else {
