@@ -179,20 +179,26 @@ session_start();
         $imie = $p['imie'];
         $nazwisko = $p['nazwisko'];
 
-// Sprawdza czy w widoku istnieje kolidująca rezerwacja
+
+/// Sprawdzenie daty
+$dzis = date('Y-m-d');
+if ($data < $dzis) {
+    echo "<p style='color:red;'>Nie można zapisać się na wizytę w przeszłości!</p>";
+    exit();
+}
+
+// Sprawdzenie dostępności pracownika
 $sprawdz = mysqli_query($conn, "
-    SELECT * FROM moje_rezerwacje
-    WHERE imie_stylisty = '$imie'
-      AND nazwisko_stylisty = '$nazwisko'
+    SELECT * FROM rezerwacje
+    WHERE id_pracownika = '$id_pracownika'
       AND data_wizyty = '$data'
       AND (
           ('$start' < godzina_koncowa AND '$end' > godzina_poczatkowa)
       )
 ");
-
-if (mysqli_num_rows($sprawdz) > 0) {
+if (mysqli_num_rows($sprawdz) > 0){
     echo "Ten pracownik jest już zajęty w tym czasie!";
-} else {
+}else {
     // Zapisz rezerwację
     mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
     VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')");
