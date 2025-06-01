@@ -52,7 +52,7 @@ session_start();
       <?php
     }elseif ($_SESSION['rola'] == "admin") {
       ?>
-      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+ 
       <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
       <li><a href="pracownicy-admin.php">Pracownicy</a></li>
