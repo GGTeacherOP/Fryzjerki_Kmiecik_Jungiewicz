@@ -97,7 +97,7 @@ $conn = mysqli_connect($serwer, $user, $haslo, $baza);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_uslugi'])) {
     $id_uslugi = (int)$_POST['id_uslugi'];
 
-    // Zmienia pracownika na nieaktywnego
+   
     $usun = "DELETE FROM uslugi WHERE id = $id_uslugi;";
     mysqli_query($conn, $usun);
 }
