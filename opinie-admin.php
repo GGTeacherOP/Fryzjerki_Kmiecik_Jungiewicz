@@ -79,7 +79,7 @@ session_start();
         <tr class="tabelka_cennik">
             <th>ID klienta</th>
             <th>Treść opini</th>
-            <th>Ocena(1-5)</th>
+            <th style="min-width: 100px;">Ocena(1-5)</th>
             <th>Data wystawienia opini</th>
             <th>Usuń opinie</th>
             
