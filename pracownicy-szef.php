@@ -21,6 +21,7 @@ session_start();
               <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
+
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -74,48 +75,46 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-      <h2>Opinie o salonie</h2><hr>
-      <table>
-        <tr class="tabelka_cennik">
-            <th>ID klienta</th>
-            <th>Treść opini</th>
-            <th style="min-width: 100px;">Ocena(1-5)</th>
-            <th>Data wystawienia opini</th>
-            <th>Usuń opinie</th>
-            
-        </tr>
-    <?php
-            $serwer="localhost";
-            $user="root";
-            $haslo="";
-            $baza="salon";
-            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_opinii'])) {
-                $id_opinii = (int)$_POST['id_opinii'];
-                $kw_usun = "DELETE FROM opinie WHERE id = $id_opinii";
-                mysqli_query($conn, $kw_usun);
-            }
-            $kw1=("SELECT * FROM `opinie_admin` ");
-            $id_opini=("SELECT id FROM opinie");
-            $skrypt1=mysqli_query($conn,$kw1);
-            
-            while($row=mysqli_fetch_row($skrypt1))
-            {
-                echo "<tr><td>".$row[1]."
-                </td><td>".$row[2]."</td><td>"
-                .$row[3] ."</td><td>"
-                .$row[4] ."</td><td><form method='POST' onsubmit=\"return confirm('Na pewno chcesz usunąć tę opinię?');\">
-                <input type='hidden' name='id_opinii' value='" . $row[0] . "'>
-                <input type='submit' value='Usuń'>
-            </form>
-                </td></tr>";
+    <h2>Pracownicy</h2><hr>
+<table>
+    <tr class="tabelka_cennik">
+      
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Email</th>
+        <th>Stanowisko</th>
+        <th>Wynagrodzenie</th>
+      
+    </tr>
 
-            }
-            mysqli_close($conn);
-            ?>
-   
+<?php
+$serwer = "localhost";
+$user = "root";
+$haslo = "";
+$baza = "salon";
+$conn = mysqli_connect($serwer, $user, $haslo, $baza);
+
+
+// Wyświetlanie danych z widoku
+$zapytanie = "SELECT * FROM pracownicy_dane";
+$wynik = mysqli_query($conn, $zapytanie);
+
+while ($row = mysqli_fetch_row($wynik)) {
+    echo "<tr>
+       
+        <td>$row[1]</td>  <!-- Imię -->
+        <td>$row[2]</td>  <!-- Nazwisko -->
+        <td>$row[3]</td>  <!-- Email -->
+        <td>$row[4]</td>  <!-- Stanowisko -->
+        <td>$row[5] zł</td>  <!-- Wynagrodzenie -->
+        
+    </tr>";
+}
+
+mysqli_close($conn);
+?>
         </table>
-        <h3>Łączna liczba wystawionych opini</h3><hr>
+        <h3>Łączna liczba pracowników</h3><hr>
         <?php
             $serwer="localhost";
             $user="root";
@@ -123,7 +122,7 @@ session_start();
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
             $id_usera = (int)$_SESSION['id'];
-            $kw1=("SELECT COUNT(*) FROM `opinie_admin` ");
+            $kw1=("SELECT COUNT(*) FROM pracownicy_dane ");
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
@@ -131,8 +130,9 @@ session_start();
                 </p>";
 
             }
-            mysqli_close($conn);
+          
             ?>
+    
        </main>
     
     <footer>

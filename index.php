@@ -35,9 +35,9 @@ session_start();
     } elseif ($_SESSION['rola'] == "szef") {
       ?>
       <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
-      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
       <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
-      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="pracownicy-szef.php">Pracownicy</a></li>
       <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
@@ -45,6 +45,18 @@ session_start();
       ?>
       <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
       <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="opinie-fryzjer.php">Sprawdź opinie salonu</a></li>
+      <li><a href="uslugi-fryzjer.php">Usługi</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "admin") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
     
       <?php
