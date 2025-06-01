@@ -74,14 +74,14 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-    <h2>Pracownicy</h2><hr>
+    <h2>Usługi</h2><hr>
 <table>
     <tr class="tabelka_cennik">
-        <th>ID pracownika</th>
-        <th>Imię</th>
-        <th>Nazwisko</th>
-        <th>Email</th>
-        <th>Stanowisko</th>
+        <th>ID usługi</th>
+        <th>Nazwa</th>
+        <th>Cena</th>
+        <th>Czas trwania</th>
+        <th>Kategoria</th>
        
         <th>Usuń usluge</th>
     </tr>
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_uslugi'])) {
 }
 
 // Wyświetlanie danych z widoku
-$zapytanie = "SELECT * FROM uslugi";
+$zapytanie = "SELECT * FROM uslugi_admin";
 $wynik = mysqli_query($conn, $zapytanie);
 
 while ($row = mysqli_fetch_row($wynik)) {
@@ -112,7 +112,7 @@ while ($row = mysqli_fetch_row($wynik)) {
         <td>$row[1]</td>  <!-- nazwa -->
         <td>$row[2]</td>  <!-- cena -->
         <td>$row[3]</td>  <!-- czas_trwania -->
-        <td>$row[4]</td>  <!-- id_kategori -->
+        <td>$row[4]</td>  <!-- kategoria -->
         
         <td>
             <form method='POST' onsubmit=\"return confirm('Na pewno chcesz usunąć tą usługe?');\">
@@ -134,7 +134,7 @@ mysqli_close($conn);
             $baza="salon";
             $conn=mysqli_connect($serwer,$user,$haslo,$baza);
          
-            $kw1=("SELECT COUNT(*) FROM uslugi");
+            $kw1=("SELECT COUNT(id_uslugi) FROM uslugi_admin");
             $skrypt1=mysqli_query($conn,$kw1);
             while($row=mysqli_fetch_row($skrypt1))
             {
