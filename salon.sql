@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 18, 2025 at 10:03 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Generation Time: Maj 18, 2025 at 03:49 PM
+-- Wersja serwera: 10.4.28-MariaDB
+-- Wersja PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,9 +42,7 @@ INSERT INTO `dni_wolne` (`id`, `id_pracownika`, `data_wolna`, `powod`) VALUES
 (1, 2, '2025-05-25', 'Urlop wypoczynkowy'),
 (2, 5, '2025-05-26', 'Choroba'),
 (3, 8, '2025-05-27', 'Szkolenie'),
-(4, 12, '2025-05-28', 'Sprawy rodzinne'),
-(7, 6, '2025-05-25', 'wizyta u lekarza'),
-(8, 6, '2025-05-25', 'wizyta u lekarza');
+(4, 12, '2025-05-28', 'Sprawy rodzinne');
 
 -- --------------------------------------------------------
 
@@ -110,6 +108,23 @@ INSERT INTO `kody_rabatowe` (`id`, `kod`, `znizka`, `data_waznosci`, `aktywny`) 
 -- --------------------------------------------------------
 
 --
+-- Zastąpiona struktura widoku `logowanie_aktywny`
+-- (See below for the actual view)
+--
+CREATE TABLE `logowanie_aktywny` (
+`id` int(11)
+,`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`email` varchar(100)
+,`haslo` varchar(255)
+,`rola` enum('klient','szef','fryzjer','sprzataczka')
+,`id_pracownika` int(11)
+,`aktywny` tinyint(1)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Zastąpiona struktura widoku `moje_rezerwacje`
 -- (See below for the actual view)
 --
@@ -144,8 +159,7 @@ CREATE TABLE `opinie` (
 INSERT INTO `opinie` (`id`, `id_user`, `ocena`, `komentarz`, `data_opinii`) VALUES
 (1, 1, 5, 'Świetne strzyżenie, bardzo polecam!', '2025-05-21'),
 (2, 2, 4, 'Koloryzacja dobrze wykonana, ale długi czas oczekiwania.', '2025-05-22'),
-(3, 3, 3, 'Usługa ok, ale mogłoby być szybciej.', '2025-05-23'),
-(10, 1, 5, 'super salon, polecam bardzo serdecznie', '2025-05-18');
+(3, 3, 3, 'Usługa ok, ale mogłoby być szybciej.', '2025-05-23');
 
 -- --------------------------------------------------------
 
@@ -157,29 +171,49 @@ CREATE TABLE `pracownicy` (
   `id` int(11) NOT NULL,
   `imie` varchar(50) NOT NULL,
   `nazwisko` varchar(50) NOT NULL,
-  `id_stanowisko` int(11) DEFAULT NULL
+  `id_stanowisko` int(11) DEFAULT NULL,
+  `aktywny` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `pracownicy`
 --
 
-INSERT INTO `pracownicy` (`id`, `imie`, `nazwisko`, `id_stanowisko`) VALUES
-(1, 'Jan', 'Kowalski', 1),
-(2, 'Anna', 'Nowak', 2),
-(3, 'Piotr', 'Wiśniewski', 2),
-(4, 'Katarzyna', 'Wójcik', 2),
-(5, 'Michał', 'Krawczyk', 2),
-(6, 'Ewa', 'Zielińska', 2),
-(7, 'Tomasz', 'Sikora', 2),
-(8, 'Agnieszka', 'Lewandowska', 3),
-(9, 'Marcin', 'Duda', 3),
-(10, 'Magdalena', 'Kaczmarek', 3),
-(11, 'Robert', 'Mazur', 3),
-(12, 'Joanna', 'Kowalczyk', 3),
-(13, 'Łukasz', 'Baran', 3),
-(14, 'Monika', 'Szymańska', 3),
-(15, 'Paweł', 'Włodarczyk', 3);
+INSERT INTO `pracownicy` (`id`, `imie`, `nazwisko`, `id_stanowisko`, `aktywny`) VALUES
+(1, 'Jan', 'Kowalski', 1, 0),
+(2, 'Anna', 'Nowak', 2, 1),
+(3, 'Piotr', 'Wiśniewski', 2, 1),
+(4, 'Katarzyna', 'Wójcik', 2, 1),
+(5, 'Michał', 'Krawczyk', 2, 1),
+(6, 'Ewa', 'Zielińska', 2, 1),
+(7, 'Tomasz', 'Sikora', 2, 1),
+(8, 'Agnieszka', 'Lewandowska', 3, 1),
+(9, 'Marcin', 'Duda', 3, 0),
+(10, 'Magdalena', 'Kaczmarek', 3, 1),
+(11, 'Robert', 'Mazur', 3, 0),
+(12, 'Joanna', 'Kowalczyk', 3, 1),
+(13, 'Łukasz', 'Baran', 3, 1),
+(14, 'Monika', 'Szymańska', 3, 1),
+(15, 'Paweł', 'Włodarczyk', 3, 1),
+(24, 'Natalia', 'Jungiewicz', 1, 1),
+(25, 'Aleksandra', 'Kmiecik', 1, 1),
+(26, 'Natalia', 'Jungiewicz', 1, 1),
+(27, 'Andrzej', 'Pusty', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `pracownicy_dane`
+-- (See below for the actual view)
+--
+CREATE TABLE `pracownicy_dane` (
+`id_pracownika` int(11)
+,`imie` varchar(50)
+,`nazwisko` varchar(50)
+,`email` varchar(100)
+,`nazwa` varchar(50)
+,`wynagrodzenie` decimal(10,2)
+);
 
 -- --------------------------------------------------------
 
@@ -199,10 +233,11 @@ CREATE TABLE `program_lojalnosciowy` (
 
 INSERT INTO `program_lojalnosciowy` (`id`, `id_user`, `punkty`) VALUES
 (1, 1, 150),
-(2, 2, 344),
+(2, 2, 300),
 (3, 3, 75),
 (4, 4, 200),
-(5, 5, 0);
+(7, 51, 4),
+(8, 52, 16);
 
 -- --------------------------------------------------------
 
@@ -240,14 +275,7 @@ INSERT INTO `rezerwacje` (`id`, `id_user`, `id_usluga`, `id_pracownika`, `godzin
 (2, 2, 4, 2, '12:00:00', '14:00:00', '2025-05-21'),
 (3, 3, 10, 5, '09:00:00', '09:45:00', '2025-05-22'),
 (4, 4, 15, 6, '13:00:00', '14:30:00', '2025-05-23'),
-(5, 5, 20, 0, '11:00:00', '11:30:00', '2025-05-24'),
-(6, 1, 3, 5, '14:00:00', '15:30:00', '2025-05-28'),
-(7, 1, 1, 6, '11:11:00', '12:11:00', '2025-06-17'),
-(8, 1, 1, 2, '12:30:00', '13:30:00', '2025-05-24'),
-(9, 6, 5, 7, '14:00:00', '16:30:00', '2025-05-27'),
-(10, 3, 15, 4, '10:10:00', '12:40:00', '2025-05-30'),
-(11, 3, 2, 6, '15:00:00', '15:45:00', '2025-08-13'),
-(12, 2, 4, 5, '20:20:00', '22:20:00', '2025-05-22');
+(5, 5, 20, 0, '11:00:00', '11:30:00', '2025-05-24');
 
 -- --------------------------------------------------------
 
@@ -317,39 +345,17 @@ INSERT INTO `users` (`id`, `imie`, `nazwisko`, `email`, `haslo`, `rola`, `id_pra
 (2, 'Barbara', 'Nowicka', 'barbara.nowicka@example.com', 'barbara2025', 'klient', NULL),
 (3, 'Cezary', 'Lewandowski', 'cezary.lewandowski@example.com', 'cezarypass', 'klient', NULL),
 (4, 'Dorota', 'Majewska', 'dorota.majewska@example.com', 'dorota321', 'klient', NULL),
-(5, 'Eryk', 'Sadowski', 'eryk.sadowski@example.com', 'erik2025', 'klient', NULL),
-(6, 'Felicja', 'Czajka', 'felicja.czajka@example.com', 'felicja!', 'klient', NULL),
-(7, 'Grzegorz', 'Walczak', 'grzegorz.walczak@example.com', 'grzesiek', 'klient', NULL),
-(8, 'Halina', 'Bąk', 'halina.bak@example.com', 'halina2025', 'klient', NULL),
-(9, 'Igor', 'Gajda', 'igor.gajda@example.com', 'igorpass', 'klient', NULL),
-(10, 'Justyna', 'Pawlak', 'justyna.pawlak@example.com', 'justyna123', 'klient', NULL),
-(11, 'Kamil', 'Sobczak', 'kamil.sobczak@example.com', 'kamilpass', 'klient', NULL),
-(12, 'Lidia', 'Wrona', 'lidia.wrona@example.com', 'lidia321', 'klient', NULL),
-(13, 'Mariusz', 'Kubik', 'mariusz.kubik@example.com', 'mariusz2025', 'klient', NULL),
-(14, 'Natalia', 'Kruk', 'natalia.kruk@example.com', 'natalia!', 'klient', NULL),
-(15, 'Oskar', 'Wilk', 'oskar.wilk@example.com', 'oskarpass', 'klient', NULL),
 (16, 'Jan', 'Kowalski', 'jan.kowalski@example.com', 'szef123', 'szef', 1),
 (17, 'Anna', 'Nowak', 'anna.nowak@example.com', 'fryzjerka1', 'fryzjer', 2),
 (18, 'Piotr', 'Wiśniewski', 'piotr.wisniewski@example.com', 'fryzjerpiotr', 'fryzjer', 3),
 (19, 'Katarzyna', 'Wójcik', 'katarzyna.wojcik@example.com', 'kasia2025', 'fryzjer', 4),
-(20, 'Michał', 'Krawczyk', 'michal.krawczyk@example.com', 'michalpass', 'fryzjer', 5),
-(21, 'Ewa', 'Zielińska', 'ewa.zielinska@example.com', 'ewaziel', 'fryzjer', 6),
-(22, 'Tomasz', 'Sikora', 'tomasz.sikora@example.com', 'tomasz321', 'fryzjer', 7),
 (23, 'Agnieszka', 'Lewandowska', 'agnieszka.lewandowska@example.com', 'sprzatanie1', 'sprzataczka', 8),
 (24, 'Marcin', 'Duda', 'marcin.duda@example.com', 'sprzatanie2', 'sprzataczka', 9),
-(25, 'Magdalena', 'Kaczmarek', 'magdalena.kaczmarek@example.com', 'sprzataczka3', 'sprzataczka', 10),
-(26, 'Robert', 'Mazur', 'robert.mazur@example.com', 'sprzatanie4', 'sprzataczka', 11),
-(27, 'Joanna', 'Kowalczyk', 'joanna.kowalczyk@example.com', 'sprzataczka5', 'sprzataczka', 12),
-(28, 'Łukasz', 'Baran', 'lukasz.baran@example.com', 'sprzatanie6', 'sprzataczka', 13),
-(29, 'Monika', 'Szymańska', 'monika.szymanska@example.com', 'sprzatanie7', 'sprzataczka', 14),
-(30, 'Paweł', 'Włodarczyk', 'pawel.wlodarczyk@example.com', 'sprzataczka8', 'sprzataczka', 15),
-(31, '', '', '', 'aaa', 'klient', NULL),
-(32, 'agnieszka', 'nowak', 'test2@gmail.com', 'aaa', 'klient', NULL),
-(33, 'zbigniew', 'kruk', 'test3@djd.pl', 'aaa', 'klient', NULL),
-(34, 'zbigniew', 'kruk', 'fvf@ff', 'aaa', 'klient', NULL),
-(35, 'Paweł', 'Nowak', 'test3@gmail.com', 'bbb', 'klient', NULL),
-(36, 'agnieszka', 'kruk', 'fggf@cvv', 'aaa', 'klient', NULL),
-(37, 'agnieszka', 'nowak', 'test4@df', 'aa', 'klient', NULL);
+(51, 'Edward', 'Polak', 'epolak@email.com', 'polake123', 'klient', NULL),
+(52, 'Ewelina', 'Bratek', 'bratekk@mail.pl', 'bratek1', 'klient', NULL),
+(53, 'Aleksandra', 'Kmiecik', 'kmiecika@szef.pl', 'szef2', 'szef', 25),
+(54, 'Natalia', 'Jungiewicz', 'jungiewicz@szef.pl', 'szef3', 'szef', 26),
+(55, 'Andrzej', 'Pusty', 'apusty@salon.com', 'pustyy', 'fryzjer', 27);
 
 -- --------------------------------------------------------
 
@@ -362,7 +368,7 @@ CREATE TABLE `uslugi` (
   `nazwa` varchar(100) NOT NULL,
   `cena` decimal(10,2) NOT NULL,
   `czas_trwania` time NOT NULL,
-  `id_kategorii` int(11) DEFAULT NULL
+  `id_kategorii` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -449,11 +455,38 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Struktura widoku `logowanie_aktywny`
+--
+DROP TABLE IF EXISTS `logowanie_aktywny`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `logowanie_aktywny`  AS SELECT `users`.`id` AS `id`, `users`.`imie` AS `imie`, `users`.`nazwisko` AS `nazwisko`, `users`.`email` AS `email`, `users`.`haslo` AS `haslo`, `users`.`rola` AS `rola`, `users`.`id_pracownika` AS `id_pracownika`, `pracownicy`.`aktywny` AS `aktywny` FROM (`users` join `pracownicy` on(`pracownicy`.`id` = `users`.`id_pracownika`)) ;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura widoku `moje_rezerwacje`
 --
 DROP TABLE IF EXISTS `moje_rezerwacje`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `moje_rezerwacje`  AS SELECT `rezerwacje`.`id_user` AS `id_user`, `uslugi`.`nazwa` AS `nazwa`, `rezerwacje`.`godzina_poczatkowa` AS `godzina_poczatkowa`, `rezerwacje`.`godzina_koncowa` AS `godzina_koncowa`, `rezerwacje`.`data_wizyty` AS `data_wizyty`, `pracownicy`.`imie` AS `imie_stylisty`, `pracownicy`.`nazwisko` AS `nazwisko_stylisty` FROM ((`rezerwacje` join `uslugi` on(`uslugi`.`id` = `rezerwacje`.`id_usluga`)) join `pracownicy` on(`pracownicy`.`id` = `rezerwacje`.`id_pracownika`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `opinie_admin`
+--
+DROP TABLE IF EXISTS `opinie_admin`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `opinie_admin`  AS SELECT `opinie`.`id` AS `id_opini`, `opinie`.`id_user` AS `id_user`, `opinie`.`komentarz` AS `komentarz`, `opinie`.`ocena` AS `ocena`, `opinie`.`data_opinii` AS `data_opinii` FROM `opinie` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `pracownicy_dane`
+--
+DROP TABLE IF EXISTS `pracownicy_dane`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pracownicy_dane`  AS SELECT `pracownicy`.`id` AS `id_pracownika`, `pracownicy`.`imie` AS `imie`, `pracownicy`.`nazwisko` AS `nazwisko`, `users`.`email` AS `email`, `stanowisko`.`nazwa` AS `nazwa`, `stanowisko`.`wynagrodzenie` AS `wynagrodzenie` FROM ((`pracownicy` join `users` on(`pracownicy`.`id` = `users`.`id_pracownika`)) join `stanowisko` on(`stanowisko`.`id` = `pracownicy`.`id_stanowisko`)) WHERE `pracownicy`.`aktywny` = 1 ;
 
 -- --------------------------------------------------------
 
@@ -573,14 +606,14 @@ ALTER TABLE `szkolenia_pracownikow`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `id_pracownika` (`id_pracownika`);
+  ADD KEY `idx_users_id_pracownika` (`id_pracownika`);
 
 --
 -- Indeksy dla tabeli `uslugi`
 --
 ALTER TABLE `uslugi`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_kategorii` (`id_kategorii`);
+  ADD KEY `idx_uslugi_id_kategorii` (`id_kategorii`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -590,7 +623,7 @@ ALTER TABLE `uslugi`
 -- AUTO_INCREMENT for table `dni_wolne`
 --
 ALTER TABLE `dni_wolne`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kategorie_uslug`
@@ -608,25 +641,25 @@ ALTER TABLE `kody_rabatowe`
 -- AUTO_INCREMENT for table `opinie`
 --
 ALTER TABLE `opinie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pracownicy`
 --
 ALTER TABLE `pracownicy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `program_lojalnosciowy`
 --
 ALTER TABLE `program_lojalnosciowy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `rezerwacje`
 --
 ALTER TABLE `rezerwacje`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `stanowisko`
@@ -644,7 +677,7 @@ ALTER TABLE `szkolenia_pracownikow`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `uslugi`
@@ -660,31 +693,51 @@ ALTER TABLE `uslugi`
 -- Constraints for table `dni_wolne`
 --
 ALTER TABLE `dni_wolne`
-  ADD CONSTRAINT `dni_wolne_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
+  ADD CONSTRAINT `fk_dni_wolne_pracownik` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `opinie`
 --
 ALTER TABLE `opinie`
-  ADD CONSTRAINT `opinie_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk_opinie_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pracownicy`
 --
 ALTER TABLE `pracownicy`
-  ADD CONSTRAINT `pracownicy_ibfk_1` FOREIGN KEY (`id_stanowisko`) REFERENCES `stanowisko` (`id`);
+  ADD CONSTRAINT `fk_pracownik_stanowisko` FOREIGN KEY (`id_stanowisko`) REFERENCES `stanowisko` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `program_lojalnosciowy`
 --
 ALTER TABLE `program_lojalnosciowy`
-  ADD CONSTRAINT `program_lojalnosciowy_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk_lojalka_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `rezerwacje`
+--
+ALTER TABLE `rezerwacje`
+  ADD CONSTRAINT `rezerwacje_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `rezerwacje_ibfk_2` FOREIGN KEY (`id_usluga`) REFERENCES `uslugi` (`id`),
+  ADD CONSTRAINT `rezerwacje_ibfk_3` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
 
 --
 -- Constraints for table `szkolenia_pracownikow`
 --
 ALTER TABLE `szkolenia_pracownikow`
   ADD CONSTRAINT `szkolenia_pracownikow_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_pracownika`) REFERENCES `pracownicy` (`id`);
+
+--
+-- Constraints for table `uslugi`
+--
+ALTER TABLE `uslugi`
+  ADD CONSTRAINT `uslugi_ibfk_1` FOREIGN KEY (`id_kategorii`) REFERENCES `kategorie_uslug` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
       if ($dane['rola'] == 'fryzjer') {
         $_SESSION['id'] = $dane['id']; // ID z tabeli users
         $_SESSION['rola'] = 'fryzjer';
-        $_SESSION['id_pracownika'] = $dane['id_pracownika']; // DODAJ TO
+        $_SESSION['id_pracownika'] = $dane['id_pracownika']; 
         header("Location: sprawdz_rezerwacje.php");
         exit();
     }
@@ -33,8 +33,20 @@ if (isset($_POST['zaloguj'])) {
     if (!$conn) {
         die("Błąd połączenia: " . mysqli_connect_error());
     }
+//if do sprawdzania czy aktywny
+if ($rola == 'fryzjer') {
+  // Sprawdzamy aktywnego pracownika
+  $sql = "SELECT * FROM `logowanie_aktywny` WHERE email='$email' AND haslo='$haslo' AND rola='$rola' AND aktywny=1";
+} elseif($rola=='szef') {
+  // Klient, szef, sprzątaczka – zwykłe sprawdzenie
+  $sql = "SELECT * FROM `logowanie_aktywny` WHERE email='$email' AND haslo='$haslo' AND rola='$rola' AND aktywny=1";
+}elseif($rola=='sprzataczka'){
+   $sql = "SELECT * FROM `logowanie_aktywny` WHERE email='$email' AND haslo='$haslo' AND rola='$rola' AND aktywny=1";
+}else{
+  $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
 
-    $sql = "SELECT * FROM users WHERE email='$email' AND haslo='$haslo' AND rola='$rola'";
+}
+
     $wynik = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($wynik) == 1) {
@@ -54,7 +66,9 @@ if (isset($_POST['zaloguj'])) {
             header("Location: index.php");
         } elseif ($rola == "szef") {
             header("Location: index.php");
-        }elseif ($rola == "sprzataczka") {
+        }elseif ($rola == "admin") {
+          header("Location: index.php");
+      }elseif ($rola == "sprzataczka") {
           header("Location: index.php");
       }
         exit();
@@ -85,6 +99,7 @@ if (isset($_POST['zaloguj'])) {
   <li><a href="index.php">Strona główna</a></li>
   <li><a href="cennik.php">Cennik</a></li>
 
+  
   <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -95,15 +110,40 @@ if (isset($_POST['zaloguj'])) {
       <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "admin") {
+    } elseif ($_SESSION['rola'] == "szef") {
       ?>
-      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-szef.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "fryzjer") {
+    }elseif ($_SESSION['rola'] == "fryzjer") {
       ?>
-      <li><a href="grafik-pracownik.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="opinie-fryzjer.php">Sprawdź opinie salonu</a></li>
+      <li><a href="uslugi-fryzjer.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "admin") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="zobacz-dni-wolne.php">Wyświetl dni wolne</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "sprzataczka") {
+      ?>
+      <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
       <?php
     }
    
@@ -112,6 +152,8 @@ if (isset($_POST['zaloguj'])) {
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
+   
+
     <?php
   }
   ?>

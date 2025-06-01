@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -19,10 +18,9 @@ session_start();
         <div class="header2">
           <button class="menu">☰ Menu</button>
           <nav class="linki">
-              <ul>
+          <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
-
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -75,123 +73,72 @@ session_start();
             <img src="favicon.ico" alt="Logo Salonu Fryzjerskiego SigmaHair">
         </div>
     </header>
-    <main class="cennik">
-        <?php
-if (!isset($_SESSION['id'])) {
-    echo "<p>Musisz być zalogowany, aby dodać dzień wolny.</p>";
-    exit();
-}
-?>
-<h2>Dodaj dzień wolny</h2><hr>
-    <form action="" method="post">
-        <label for="data">Data wolna:</label><br>
-        <input type="date" id="data" name="data" required><br><br>
+    <main class="main">
+      <table>
+        <caption>Grafik pracy – Sprzątaczki (Salon Fryzjerski, 19–25 maja 2025)</caption>
+        <thead>
+            <tr>
+                <th>Dzień</th>
+                <th>Data</th>
+                <th>Sprzątaczka 1<br><span class="name">Anna</span></th>
+                <th>Sprzątaczka 2<br><span class="name">Beata</span></th>
+                <th>Sprzątaczka 3<br><span class="name">Celina</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Poniedziałek</td>
+                <td>19.05.2025</td>
+                <td>07:00–09:00<br>Poranne sprzątanie</td>
+                <td>Wolne</td>
+                <td>20:00–22:00<br>Dezynfekcja po zamknięciu</td>
+            </tr>
+            <tr>
+                <td>Wtorek</td>
+                <td>20.05.2025</td>
+                <td>Wolne</td>
+                <td>07:00–09:00<br>Podłogi, kurze</td>
+                <td>20:00–22:00<br>Toalety, narzędzia</td>
+            </tr>
+            <tr>
+                <td>Środa</td>
+                <td>21.05.2025</td>
+                <td>07:00–09:00<br>Ogólne sprzątanie</td>
+                <td>20:00–22:00<br>Mycie luster</td>
+                <td>Wolne</td>
+            </tr>
+            <tr>
+                <td>Czwartek</td>
+                <td>22.05.2025</td>
+                <td>Wolne</td>
+                <td>07:00–09:00<br>Przygotowanie salonu</td>
+                <td>20:00–22:00<br>Dokładna dezynfekcja</td>
+            </tr>
+            <tr>
+                <td>Piątek</td>
+                <td>23.05.2025</td>
+                <td>07:00–09:00<br>Ogólne porządki</td>
+                <td>20:00–22:00<br>Uzupełnienie środków</td>
+                <td>Wolne</td>
+            </tr>
+            <tr>
+                <td>Sobota</td>
+                <td>24.05.2025</td>
+                <td>07:00–09:00<br>Szybkie porządki</td>
+                <td>Wolne</td>
+                <td>15:00–17:00<br>Sprzątanie po klientach</td>
+            </tr>
+            <tr>
+                <td>Niedziela</td>
+                <td>25.05.2025</td>
+                <td colspan="3">Wolne (salon nieczynny)</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <label for="powod">Powód:</label><br>
-        <textarea id="powod" name="powod" rows="4" placeholder="Podaj powód..." required></textarea><br><br>
-
-        <input type="submit" value="Dodaj dzień wolny">
-    </form>
-<?php
- if (isset($_SESSION['komunikat'])) {
-  echo '<h2>' . $_SESSION['komunikat'] . '</h2><hr>';
-  unset($_SESSION['komunikat']);
-}
-?>
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $serwer = "localhost";
-    $user = "root";
-    $haslo = "";
-    $baza = "salon";
-
-    $conn = mysqli_connect($serwer, $user, $haslo, $baza);
-    if (!$conn) {
-        die("Błąd połączenia: " . mysqli_connect_error());
-    }
-   
-
-    $id_user = (int)$_SESSION['id'];
-
-      $result = mysqli_query($conn, "SELECT id_pracownika FROM users WHERE id = $id_user LIMIT 1");
-    if (!$result || mysqli_num_rows($result) == 0) {
-        echo "<p>Nie znaleziono powiązanego pracownika dla tego użytkownika.</p>";
-        exit();
-    }
-    $row = mysqli_fetch_assoc($result);
-    $id_pracownika = (int)$row['id_pracownika'];
-
-    $data_wolna = mysqli_real_escape_string($conn, $_POST['data']);
-    $powod = mysqli_real_escape_string($conn, $_POST['powod']);
-
-    // Sprawdza czy data nie jest pusta i ma poprawny format
-    if ($data_wolna && $powod) {
-        $sql = "INSERT INTO dni_wolne (id_pracownika, data_wolna, powod) 
-                VALUES ('$id_pracownika', '$data_wolna', '$powod')";
- 
-
- 
- if (mysqli_query($conn, $sql)) {
-  $_SESSION['komunikat'] = "Dzień wolny dodany!";
-  mysqli_close($conn);
-  header("Location: " . $_SERVER['PHP_SELF']);
-  exit();
-}
-    } else {
-        echo "<p>Wszystkie pola są wymagane.</p>";
-    }
-
-   
-}
-?>
-<h2>Twoje dni wolne</h2><hr>
-<table >
-  <tr class="tabelka_cennik">
-    <th>Powód</th>
-    <th>Data dnia wolnego</th>
-  </tr>
-<?php
- $serwer="localhost";
- $user="root";
- $haslo="";
- $baza="salon";
- $conn=mysqli_connect($serwer,$user,$haslo,$baza);
- 
- if (isset($_SESSION['id'])) {
-  $id_uzytkownika = (int)$_SESSION['id'];
-  $zapytanie = "SELECT id_pracownika FROM users WHERE id = $id_uzytkownika";
-  $wynik = mysqli_query($conn, $zapytanie);
-
-  if ($wynik && mysqli_num_rows($wynik) > 0) {
-      $wiersz = mysqli_fetch_assoc($wynik);
-      $_SESSION['id_pracownika'] = $wiersz['id_pracownika'];
-  } else {
-      $_SESSION['id_pracownika'] = null;
-  }
-}
-if (isset($_SESSION['id_pracownika'])) {
-  $id_pracownika = (int)$_SESSION['id_pracownika'];
-} else {
-  echo "<p>Błąd: brak ID pracownika w sesji.</p>";
-  exit; 
-}
-$kw1=("SELECT * from dni_wolne_pracownik where id_pracownika=$id_pracownika ");
-$skrypt1=mysqli_query($conn,$kw1);
-if (mysqli_num_rows($skrypt1) > 0) {
-  while($row = mysqli_fetch_row($skrypt1)) {
-      echo "<tr><td>".$row[1]."</td><td>"
-          .$row[2] ."</td>
-        </tr>";
-  }
-} else {
-  echo "<tr><td colspan='5'>Brak wpisanego dnia wolnego dla tego pracownika.</td></tr>";
-}
-mysqli_close($conn);
-?>
-
-</table>
-       </main>
+    </main>
     
+   
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br><hr>

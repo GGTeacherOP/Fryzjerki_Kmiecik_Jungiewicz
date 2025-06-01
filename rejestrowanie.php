@@ -31,10 +31,28 @@ session_start();
       <li><a href="punkty.php">Moje punkty lojalnościowe</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
       <?php
-    } elseif ($_SESSION['rola'] == "admin") {
+    } elseif ($_SESSION['rola'] == "szef") {
       ?>
-      <li><a href="sprawdz_rezerwacje.php">Sprawdź rezerwacje</a></li>
+      <li><a href="grafik-admin.php">Sprawdź grafik salonu</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="opinie-admin.php">Sprawdź opinie salonu</a></li>
+      <li><a href="pracownicy-admin.php">Pracownicy</a></li>
+      <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
+      <?php
+    }elseif ($_SESSION['rola'] == "fryzjer") {
+      ?>
+      <li><a href="grafik-pracownik.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
+      <?php
+    }elseif ($_SESSION['rola'] == "sprzataczka") {
+      ?>
+      <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
+      <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
+      <li><a href="logout.php">Wyloguj się</a></li>
+    
       <?php
     }
    
@@ -43,6 +61,8 @@ session_start();
     <li><a href="login.php">Logowanie</a></li>
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
+   
+
     <?php
   }
   ?>
@@ -68,7 +88,7 @@ session_start();
         <br><br>
         
         <label for="haslo">Hasło:</label>
-        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" required>
+        <input type="password" id="haslo" name="haslo" placeholder="podaj haslo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         <br><br>
         <label for="phaslo">Powtórz hasło:</label>
         <input type="password" id="phaslo" name="phaslo" placeholder="powtórz hasło" required>

@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -22,7 +21,6 @@ session_start();
               <ul>
               <li><a href="index.php">Strona główna</a></li>
               <li><a href="cennik.php">Cennik</a></li>
-
               <?php
   if (isset($_SESSION['id'])) {
     if ($_SESSION['rola'] == "klient") {
@@ -76,120 +74,78 @@ session_start();
         </div>
     </header>
     <main class="cennik">
-        <?php
-if (!isset($_SESSION['id'])) {
-    echo "<p>Musisz być zalogowany, aby dodać dzień wolny.</p>";
-    exit();
-}
-?>
-<h2>Dodaj dzień wolny</h2><hr>
-    <form action="" method="post">
-        <label for="data">Data wolna:</label><br>
-        <input type="date" id="data" name="data" required><br><br>
+    <h2>Usługi</h2><hr>
+<table>
+    <tr class="tabelka_cennik">
+        <th>ID usługi</th>
+        <th>Nazwa</th>
+        <th>Cena</th>
+        <th>Czas trwania</th>
+        <th>Kategoria</th>
+       
+        <th>Usuń usluge</th>
+    </tr>
 
-        <label for="powod">Powód:</label><br>
-        <textarea id="powod" name="powod" rows="4" placeholder="Podaj powód..." required></textarea><br><br>
-
-        <input type="submit" value="Dodaj dzień wolny">
-    </form>
 <?php
- if (isset($_SESSION['komunikat'])) {
-  echo '<h2>' . $_SESSION['komunikat'] . '</h2><hr>';
-  unset($_SESSION['komunikat']);
-}
-?>
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $serwer = "localhost";
-    $user = "root";
-    $haslo = "";
-    $baza = "salon";
+$serwer = "localhost";
+$user = "root";
+$haslo = "";
+$baza = "salon";
+$conn = mysqli_connect($serwer, $user, $haslo, $baza);
 
-    $conn = mysqli_connect($serwer, $user, $haslo, $baza);
-    if (!$conn) {
-        die("Błąd połączenia: " . mysqli_connect_error());
-    }
-   
-
-    $id_user = (int)$_SESSION['id'];
-
-      $result = mysqli_query($conn, "SELECT id_pracownika FROM users WHERE id = $id_user LIMIT 1");
-    if (!$result || mysqli_num_rows($result) == 0) {
-        echo "<p>Nie znaleziono powiązanego pracownika dla tego użytkownika.</p>";
-        exit();
-    }
-    $row = mysqli_fetch_assoc($result);
-    $id_pracownika = (int)$row['id_pracownika'];
-
-    $data_wolna = mysqli_real_escape_string($conn, $_POST['data']);
-    $powod = mysqli_real_escape_string($conn, $_POST['powod']);
-
-    // Sprawdza czy data nie jest pusta i ma poprawny format
-    if ($data_wolna && $powod) {
-        $sql = "INSERT INTO dni_wolne (id_pracownika, data_wolna, powod) 
-                VALUES ('$id_pracownika', '$data_wolna', '$powod')";
- 
-
- 
- if (mysqli_query($conn, $sql)) {
-  $_SESSION['komunikat'] = "Dzień wolny dodany!";
-  mysqli_close($conn);
-  header("Location: " . $_SERVER['PHP_SELF']);
-  exit();
-}
-    } else {
-        echo "<p>Wszystkie pola są wymagane.</p>";
-    }
+// Usuwanie usługi
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_uslugi'])) {
+    $id_uslugi = (int)$_POST['id_uslugi'];
 
    
+    $usun = "DELETE FROM uslugi WHERE id = $id_uslugi;";
+    mysqli_query($conn, $usun);
 }
-?>
-<h2>Twoje dni wolne</h2><hr>
-<table >
-  <tr class="tabelka_cennik">
-    <th>Powód</th>
-    <th>Data dnia wolnego</th>
-  </tr>
-<?php
- $serwer="localhost";
- $user="root";
- $haslo="";
- $baza="salon";
- $conn=mysqli_connect($serwer,$user,$haslo,$baza);
- 
- if (isset($_SESSION['id'])) {
-  $id_uzytkownika = (int)$_SESSION['id'];
-  $zapytanie = "SELECT id_pracownika FROM users WHERE id = $id_uzytkownika";
-  $wynik = mysqli_query($conn, $zapytanie);
 
-  if ($wynik && mysqli_num_rows($wynik) > 0) {
-      $wiersz = mysqli_fetch_assoc($wynik);
-      $_SESSION['id_pracownika'] = $wiersz['id_pracownika'];
-  } else {
-      $_SESSION['id_pracownika'] = null;
-  }
+// Wyświetlanie danych z widoku
+$zapytanie = "SELECT * FROM uslugi_admin";
+$wynik = mysqli_query($conn, $zapytanie);
+
+while ($row = mysqli_fetch_row($wynik)) {
+    echo "<tr>
+        <td>$row[0]</td>  <!-- ID uslugi -->
+        <td>$row[1]</td>  <!-- nazwa -->
+        <td>$row[2]</td>  <!-- cena -->
+        <td>$row[3]</td>  <!-- czas_trwania -->
+        <td>$row[4]</td>  <!-- kategoria -->
+        
+        <td>
+            <form method='POST' onsubmit=\"return confirm('Na pewno chcesz usunąć tą usługe?');\">
+                <input type='hidden' name='id_uslugi' value='$row[0]'>
+                <input type='submit' value='Usuń'>
+            </form>
+        </td>
+    </tr>";
 }
-if (isset($_SESSION['id_pracownika'])) {
-  $id_pracownika = (int)$_SESSION['id_pracownika'];
-} else {
-  echo "<p>Błąd: brak ID pracownika w sesji.</p>";
-  exit; 
-}
-$kw1=("SELECT * from dni_wolne_pracownik where id_pracownika=$id_pracownika ");
-$skrypt1=mysqli_query($conn,$kw1);
-if (mysqli_num_rows($skrypt1) > 0) {
-  while($row = mysqli_fetch_row($skrypt1)) {
-      echo "<tr><td>".$row[1]."</td><td>"
-          .$row[2] ."</td>
-        </tr>";
-  }
-} else {
-  echo "<tr><td colspan='5'>Brak wpisanego dnia wolnego dla tego pracownika.</td></tr>";
-}
+
 mysqli_close($conn);
 ?>
+        </table>
+        <h3>Łączna liczba uslug</h3><hr>
+        <?php
+            $serwer="localhost";
+            $user="root";
+            $haslo="";
+            $baza="salon";
+            $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+         
+            $kw1=("SELECT COUNT(id_uslugi) FROM uslugi_admin");
+            $skrypt1=mysqli_query($conn,$kw1);
+            while($row=mysqli_fetch_row($skrypt1))
+            {
+                echo "<p>".$row[0]."
+                </p>";
 
-</table>
+            }
+          
+            ?>
+            
+
        </main>
     
     <footer>
