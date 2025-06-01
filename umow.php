@@ -128,13 +128,19 @@ session_start();
             {
                 echo "<option value='{$row[0]} {$row[1]}'>{$row[0]} {$row[1]}</option>"; 
             }
-         
+         mysqli_close($conn);
         ?>
     </select><br><br>
 
     <button type="submit">Umów się</button>
 </form>
-    
+    <?php
+     $conn=mysqli_connect($serwer,$user,$haslo,$baza);
+    if (isset($_SESSION['komunikat'])) {
+      echo '<h2>' . $_SESSION['komunikat'] . '</h2>';
+      unset($_SESSION['komunikat']);
+    }
+    ?>
       <?php
        $conn=mysqli_connect($serwer,$user,$haslo,$baza);
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -204,10 +210,15 @@ if (mysqli_num_rows($sprawdz) > 0) {
     echo "Ten pracownik jest już zajęty w tym czasie!";
 } else {
     // Zapisz rezerwację
-    mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
-    VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')");
-
-    echo "Rezerwacja zapisana od $start do $end";
+    
+  if (mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
+    VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')")) {
+    $_SESSION['komunikat'] = "Rezerwacja zapisana od $start do $end";
+    mysqli_close($conn);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+  }
+    
 }
        }
 
