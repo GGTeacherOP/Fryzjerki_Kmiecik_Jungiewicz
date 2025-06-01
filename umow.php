@@ -46,7 +46,7 @@ session_start();
       <li><a href="opinie-fryzjer.php">Sprawdź opinie salonu</a></li>
       <li><a href="uslugi-fryzjer.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
-    
+   
       <?php
     }elseif ($_SESSION['rola'] == "admin") {
       ?>
@@ -55,14 +55,14 @@ session_start();
       <li><a href="pracownicy-admin.php">Pracownicy</a></li>
       <li><a href="uslugi-admin.php">Usługi</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
-    
+   
       <?php
     }elseif ($_SESSION['rola'] == "sprzataczka") {
       ?>
       <li><a href="sprzataczka.php">Sprawdź grafik</a></li>
       <li><a href="dni_wolne.php">Dodaj dzien wolny</a></li>
       <li><a href="logout.php">Wyloguj się</a></li>
-    
+   
       <?php
     }
    
@@ -72,7 +72,7 @@ session_start();
     <li><a href="rejestrowanie.php">Rejestracja</a></li>
     <li><a href="login.php">Umów swoją wizytę</a></li>
    
-
+ 
     <?php
   }
   ?>
@@ -86,20 +86,20 @@ session_start();
     <main class="cennik">
      
       <h2>Umów sie na wizyte!</h2><hr>
-      
+     
 <form method="post" action="umow.php">
-
+ 
     <label>Data wizyty:</label><br>
     <input type="date" name="data" required><br><br>
-
+ 
     <label>Godzina wizyty:</label><br>
     <input type="time" name="godzina" required><br><br>
-    
+   
     <label for="kod_rabatowy">Kod rabatowy (opcjonalnie):</label><br>
     <input type="text" name="kod_rabatowy" placeholder="Wpisz kod..."><br><br>
-
+ 
     <label for="usluga">Wybierz usługę:</label>
-    
+   
     <table>
         <?php
             $serwer="localhost";
@@ -112,12 +112,12 @@ session_start();
             while($row=mysqli_fetch_row($skrypt1))
             {
                 echo "<tr><td><input type='radio' id='".$row[1]."' name='usluga' value='".$row[0]."'>
-                      <label for='".$row[1]."'>".$row[1]." - ".$row[2]."</td></tr></label>"; 
+                      <label for='".$row[1]."'>".$row[1]." - ".$row[2]."</td></tr></label>";
             }
            
             ?>
         </table>
-        
+       
     <label>Pracownik:</label><br>
     <select name="id_pracownika">
         <?php
@@ -126,51 +126,45 @@ session_start();
             $skrypt2=mysqli_query($conn,$kw2);
             while($row=mysqli_fetch_row($skrypt2))
             {
-                echo "<option value='{$row[0]} {$row[1]}'>{$row[0]} {$row[1]}</option>"; 
+                echo "<option value='{$row[0]} {$row[1]}'>{$row[0]} {$row[1]}</option>";
             }
          mysqli_close($conn);
         ?>
     </select><br><br>
-
+ 
     <button type="submit">Umów się</button>
 </form>
-    <?php
-     $conn=mysqli_connect($serwer,$user,$haslo,$baza);
-    if (isset($_SESSION['komunikat'])) {
-      echo '<h2>' . $_SESSION['komunikat'] . '</h2>';
-      unset($_SESSION['komunikat']);
-    }
-    ?>
+   
       <?php
        $conn=mysqli_connect($serwer,$user,$haslo,$baza);
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+ 
         $kod_rabatowy = isset($_POST['kod_rabatowy']) ? trim($_POST['kod_rabatowy']) : '';
         $znizka = 0;
-
+ 
     if (!empty($kod_rabatowy)) {
     $dzis = date('Y-m-d');
-    $sql_kod = "SELECT znizka FROM kody_rabatowe 
+    $sql_kod = "SELECT znizka FROM kody_rabatowe
                 WHERE kod = '$kod_rabatowy' AND aktywny = 1 AND data_waznosci >= '$dzis'";
     $wynik_kod = mysqli_query($conn, $sql_kod);
-
+ 
     if (mysqli_num_rows($wynik_kod) > 0) {
         $rabat = mysqli_fetch_assoc($wynik_kod);
         $znizka = $rabat['znizka'];
-        echo "<p style='color:green;'>Zastosowano kod rabatowy: -$znizka%</p>";
+        echo "<h3 style='color:green;'>Zastosowano kod rabatowy: -$znizka%</h3>";
     } else {
-        echo "<p style='color:red;'>Kod rabatowy jest nieprawidłowy lub wygasł.</p>";
+        echo "<h3> style='color:red;'>Kod rabatowy jest nieprawidłowy lub wygasł.</h2>";
     }
 }
-
-
+ 
+ 
         $godzina = $_POST['godzina'];
-      
+     
         $id_usluga = $_POST['usluga'];
         $result_usluga = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = '$id_usluga'");
         $row_usluga = mysqli_fetch_assoc($result_usluga);
-       // pobieranie id_uslugi z tabeli 
-
+       // pobieranie id_uslugi z tabeli
+ 
         $imie_nazwisko = $_POST['id_pracownika'];
         $id_pracownika = $_POST['id_pracownika'];
         $id_user = $_SESSION['id'];
@@ -178,8 +172,8 @@ session_start();
         $result_pracownik = mysqli_query($conn, "SELECT id FROM pracownicy WHERE imie = '$imie' AND nazwisko = '$nazwisko'");
         $row_pracownik = mysqli_fetch_assoc($result_pracownik);
         $id_pracownika = $row_pracownik['id']; //pobieranie id_pracownika
-
-
+ 
+ 
         $data = $_POST['data'];
         $start = $godzina;
         $wynik = mysqli_query($conn, "SELECT czas_trwania FROM uslugi WHERE id = $id_usluga");
@@ -187,43 +181,56 @@ session_start();
         $czas_trwania_time = $row_usluga['czas_trwania'];
         $parts = explode(":", $czas_trwania_time);
         $czas_trwania_minuty = $parts[0] * 60 + $parts[1];
-
+ 
         $end = date("H:i", strtotime($start) + $czas_trwania_minuty * 60);//pobieranie czasu
-
+ 
         $kw4 = mysqli_query($conn, "SELECT imie, nazwisko FROM pracownicy WHERE id = $id_pracownika");
         $p = mysqli_fetch_assoc($kw4);
         $imie = $p['imie'];
         $nazwisko = $p['nazwisko'];
-
-// Sprawdza czy w widoku istnieje kolidująca rezerwacja
+ 
+// Sprawdzenie dostępności pracownika
 $sprawdz = mysqli_query($conn, "
-    SELECT * FROM moje_rezerwacje
-    WHERE imie_stylisty = '$imie'
-      AND nazwisko_stylisty = '$nazwisko'
+    SELECT * FROM rezerwacje
+    WHERE id_pracownika = '$id_pracownika'
       AND data_wizyty = '$data'
       AND (
           ('$start' < godzina_koncowa AND '$end' > godzina_poczatkowa)
       )
 ");
-
-if (mysqli_num_rows($sprawdz) > 0) {
-    echo "Ten pracownik jest już zajęty w tym czasie!";
-} else {
-    // Zapisz rezerwację
-    
-  if (mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
-    VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')")) {
-    $_SESSION['komunikat'] = "Rezerwacja zapisana od $start do $end";
-    mysqli_close($conn);
-    header("Location: " . $_SERVER['PHP_SELF']);
+/// Sprawdzenie daty
+$dzis = date('Y-m-d');
+if ($data < $dzis) {
+    echo "<h3> style='color:red;'>Nie można zapisać się na wizytę w przeszłości!</h3>";
     exit();
-  }
+}else if (mysqli_num_rows($sprawdz) > 0){
+    echo "<h3>Ten pracownik jest już zajęty w tym czasie!</h3>";
+}else if (mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
+    VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')")) {
+    echo "<h3>Rezerwacja zapisana od $start do $end</h3><!DOCTYPE html>
+  <html lang='pl'>
+  <head>
+    <meta charset='UTF-8'>
+    <title>Sukces</title>
+    <script>
+      
+      setTimeout(function() {
+        window.location.href = 'umow.php';
+      }, 8000);
+    </script>
+  </head>
+  <body>
+   
+  </body>
+  </html>";
+   
     
+    }
 }
-       }
-
+       
+ 
 ?>
-
+ 
       <div id="podsumowanie" style="margin-top: 20px; font-weight: bold; color: #333;"></div>
       <?php
       if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -234,20 +241,24 @@ $result_usluga = mysqli_query($conn, "SELECT cena FROM uslugi WHERE id = '$id_us
 $row_cena = mysqli_fetch_assoc($result_usluga);
 $cena = $row_cena['cena'];
 $punkty = floor($cena / 10);
-if (mysqli_num_rows($sprawdz_punkty) > 0) {
+ 
+ 
+if (mysqli_num_rows($sprawdz) > 0){
+    echo "punkty niezmienne!";
+} else if (mysqli_num_rows($sprawdz_punkty) > 0) {
     // Jeśli istnieje - aktualizuje
     mysqli_query($conn, "UPDATE program_lojalnosciowy SET punkty = punkty + $punkty WHERE id_user = $id_user");
-    echo "Zauktualizowano punkty" ;
+    echo "<h3>Zauktualizowano punkty</h3>" ;
 } else {
-    // Jeśli nie istnieje dodaje 
+    // Jeśli nie istnieje dodaje
     mysqli_query($conn, "INSERT INTO program_lojalnosciowy (id_user, punkty) VALUES ($id_user, $punkty)");
-    echo "Dodano punkty";
-
+    echo "<h3>Dodano punkty</h3>";
+ 
 }}
-
+ 
 ?>
     </main>
-    
+   
     <footer>
         <div class="dane_kontaktowe">
           <h1>Kontakt</h1><br><hr>
@@ -270,32 +281,32 @@ if (mysqli_num_rows($sprawdz_punkty) > 0) {
      // Uzyskanie elementów
 const menuButton = document.querySelector('.menu');
 const linki = document.querySelector('.linki');
-
+ 
 // Obsługa kliknięcia na przycisk menu
 menuButton.addEventListener('click', () => {
     linki.classList.toggle('show'); //pokazuje lub ukrywa menu
 });
       </script>
-
+ 
       <script>
 document.querySelector('form').addEventListener('change', function() {
     const data = document.querySelector('input[name="data"]').value;
     const uslugaInput = document.querySelector('input[name="usluga"]:checked');
-
-    // sprawdza czy podano usluge 
+ 
+    // sprawdza czy podano usluge
     if (!data || !uslugaInput) {
         document.getElementById('podsumowanie').innerHTML = "";
         return;
     }
-
-    // Pobieramy tekst 
+ 
+    // Pobieramy tekst
     const uslugaLabel = uslugaInput.nextElementSibling.innerText;
     const [nazwaUslugi, cenaTekst] = uslugaLabel.split(" - ");
     const cena = parseFloat(cenaTekst.replace("zł", "").trim());
-
+ 
     // Obliczamy punkty
     const punkty = Math.floor(cena / 10);
-
+ 
     // Tworzymy tekst podsumowania
     const tekst = `
         <h3> Podsumowanie rezerwacji:</h3>
@@ -304,13 +315,13 @@ document.querySelector('form').addEventListener('change', function() {
         <p> Cena: <strong>${cena} zł</strong></p>
         <p> Punkty lojalnościowe: <strong>${punkty}</strong></p>
     `;
-
-    
+ 
+   
     document.getElementById('podsumowanie').innerHTML = tekst;
-
-  
+ 
+ 
 });
 </script>
-
+ 
 </body>
 </html>
