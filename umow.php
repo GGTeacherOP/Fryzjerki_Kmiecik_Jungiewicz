@@ -201,7 +201,7 @@ $sprawdz = mysqli_query($conn, "
 /// Sprawdzenie daty
 $dzis = date('Y-m-d');
 if ($data < $dzis) {
-    echo "<h3> style='color:red;'>Nie można zapisać się na wizytę w przeszłości!</h3>";
+    echo "<h3>Nie można zapisać się na wizytę w przeszłości!</h3>";
     exit();
 }else if (mysqli_num_rows($sprawdz) > 0){
     echo "<h3>Ten pracownik jest już zajęty w tym czasie!</h3>";

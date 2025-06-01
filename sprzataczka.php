@@ -85,66 +85,38 @@ session_start();
         </div>
     </header>
     <main class="main">
-      <table>
-        <caption>Grafik pracy – Sprzątaczki (Salon Fryzjerski, 19–25 maja 2025)</caption>
-        <thead>
-            <tr>
-                <th>Dzień</th>
-                <th>Data</th>
-                <th>Sprzątaczka 1<br><span class="name">Anna</span></th>
-                <th>Sprzątaczka 2<br><span class="name">Beata</span></th>
-                <th>Sprzątaczka 3<br><span class="name">Celina</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Poniedziałek</td>
-                <td>19.05.2025</td>
-                <td>07:00–09:00<br>Poranne sprzątanie</td>
-                <td>Wolne</td>
-                <td>20:00–22:00<br>Dezynfekcja po zamknięciu</td>
-            </tr>
-            <tr>
-                <td>Wtorek</td>
-                <td>20.05.2025</td>
-                <td>Wolne</td>
-                <td>07:00–09:00<br>Podłogi, kurze</td>
-                <td>20:00–22:00<br>Toalety, narzędzia</td>
-            </tr>
-            <tr>
-                <td>Środa</td>
-                <td>21.05.2025</td>
-                <td>07:00–09:00<br>Ogólne sprzątanie</td>
-                <td>20:00–22:00<br>Mycie luster</td>
-                <td>Wolne</td>
-            </tr>
-            <tr>
-                <td>Czwartek</td>
-                <td>22.05.2025</td>
-                <td>Wolne</td>
-                <td>07:00–09:00<br>Przygotowanie salonu</td>
-                <td>20:00–22:00<br>Dokładna dezynfekcja</td>
-            </tr>
-            <tr>
-                <td>Piątek</td>
-                <td>23.05.2025</td>
-                <td>07:00–09:00<br>Ogólne porządki</td>
-                <td>20:00–22:00<br>Uzupełnienie środków</td>
-                <td>Wolne</td>
-            </tr>
-            <tr>
-                <td>Sobota</td>
-                <td>24.05.2025</td>
-                <td>07:00–09:00<br>Szybkie porządki</td>
-                <td>Wolne</td>
-                <td>15:00–17:00<br>Sprzątanie po klientach</td>
-            </tr>
-            <tr>
-                <td>Niedziela</td>
-                <td>25.05.2025</td>
-                <td colspan="3">Wolne (salon nieczynny)</td>
-            </tr>
-        </tbody>
+     <h2>Grafik</h2><hr>
+    <table>
+       
+    <tr class="tabelka_cennik">
+            <th>Godzina</th>
+            <th>Wtorek</th>
+            <th>Środa</th>
+            <th>Czwartek</th>
+            <th>Piątek</th>
+            <th>Sobota</th>
+            <th>Niedziela</th>
+        </tr>
+
+        <tr>
+            <td>09:00 – 10:00</td>
+            <td>Odkurzanie, mycie podłóg</td>
+            <td>Ścieranie kurzu, dezynfekcja blatów</td>
+            <td>Uzupełnienie środków czystości</td>
+            <td>Odkurzanie, mycie luster</td>
+            <td>Dezynfekcja stanowisk, podłogi</td>
+            <td>Ścieranie kurzu, wyniesienie śmieci</td>
+        </tr>
+
+        <tr>
+            <td>20:00 – 20:30</td>
+            <td>Opróżnianie koszy, mycie toalet</td>
+            <td>Mycie podłóg i drzwi wejściowych</td>
+            <td>Porządkowanie stanowisk, dezynfekcja</td>
+            <td>Wyniesienie śmieci, szybkie odkurzanie</td>
+            <td>Odkurzanie i mopowanie całego salonu</td>
+            <td>Dezynfekcja krzeseł i klamek</td>
+        </tr>
     </table>
 
     </main>

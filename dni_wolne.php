@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $dzis = date('Y-m-d');
     if ($data_wolna < $dzis) {
-    echo "<p><h1>nie mozna ustawic dnia z przeszłości</h1></p>";
+    echo "<h3>nie mozna ustawic dnia z przeszłości</h3>";
      exit();
   }
   if ($data_wolna && $powod) {
@@ -153,9 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   header("Location: " . $_SERVER['PHP_SELF']);
   exit();
 }
-    } else {
-        echo "<p>Wszystkie pola są wymagane.</p>";
-    }
+    } 
 
    
 
