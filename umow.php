@@ -195,14 +195,6 @@ session_start();
         $imie = $p['imie'];
         $nazwisko = $p['nazwisko'];
 
-
-/// Sprawdzenie daty
-$dzis = date('Y-m-d');
-if ($data < $dzis) {
-    echo "<p style='color:red;'>Nie można zapisać się na wizytę w przeszłości!</p>";
-    exit();
-}
-
 // Sprawdzenie dostępności pracownika
 $sprawdz = mysqli_query($conn, "
     SELECT * FROM rezerwacje
@@ -212,21 +204,23 @@ $sprawdz = mysqli_query($conn, "
           ('$start' < godzina_koncowa AND '$end' > godzina_poczatkowa)
       )
 ");
-if (mysqli_num_rows($sprawdz) > 0){
+/// Sprawdzenie daty
+$dzis = date('Y-m-d');
+if ($data < $dzis) {
+    echo "<p style='color:red;'>Nie można zapisać się na wizytę w przeszłości!</p>";
+    exit();
+}else if (mysqli_num_rows($sprawdz) > 0){
     echo "Ten pracownik jest już zajęty w tym czasie!";
-}else {
-    // Zapisz rezerwację
-    
-  if (mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
+}else if (mysqli_query($conn, "INSERT INTO rezerwacje (id_user, id_usluga, id_pracownika, godzina_poczatkowa, godzina_koncowa, data_wizyty)
     VALUES ('$id_user', '$id_usluga', '$id_pracownika', '$start', '$end', '$data')")) {
     $_SESSION['komunikat'] = "Rezerwacja zapisana od $start do $end";
     mysqli_close($conn);
     header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
+    exit();   // Zapisz rezerwację
   }
     
 }
-       }
+       
 
 ?>
 
@@ -241,14 +235,7 @@ $row_cena = mysqli_fetch_assoc($result_usluga);
 $cena = $row_cena['cena'];
 $punkty = floor($cena / 10);
 
-$sprawdz = mysqli_query($conn, "
-    SELECT * FROM rezerwacje
-    WHERE id_pracownika = '$id_pracownika'
-      AND data_wizyty = '$data'
-      AND (
-          ('$start' < godzina_koncowa AND '$end' > godzina_poczatkowa)
-      )
-");
+
 if (mysqli_num_rows($sprawdz) > 0){
     echo "punkty niezmienne!";
 } else if (mysqli_num_rows($sprawdz_punkty) > 0) {
